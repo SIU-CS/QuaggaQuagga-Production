@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- LESS -->
+        <link rel="stylesheet" href=".\style\main.css">
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- data-main attribute tells require.js to load
+             scripts/main.js after require.js loads. -->
+        <script data-main="./js/main" src="./lib/require.js"></script>
+    </head>
+    <body>
+        <div class="JS_Multiselect" name="towns">
+            <div class="JS-multi-topbar">
+                <div class="JS-multi-header-text"></div>
+                <div class="JS-multi-center">
+                    <input class="JS-multi-search-bar" type="text">
+                    <span class="JS-multi-expand" onclick="">
+                        <span class=""><i class="fa fa-chevron-down" aria-hidden="true"></i></span>
+                        <span class="hidden"><i class="fa fa-chevron-up" aria-hidden="true"></i></span>
+                    </span>
+                </div>
+            </div>
+            <div class="JS-multi-body JS-multi-hide">
+                <div class="JS-multi-body-content">
+                    
+                </div>
+            </div>
+            <div class="JS-multi-footer">
+
+            </div>
+        </div>
+    </body>
+</html>
