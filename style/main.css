@@ -1,4 +1,30 @@
-@import "body.css";
-@import "footer.css";
-@import "header.css";
-@import "utility.css";
+/* Specifies the root path */
+.JS_Multiselect {
+  width: 25vw;
+  display: block;
+  background-color: darkorange;
+  margin-top: 20px;
+  padding-top: 10px;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root {
+  padding: 0;
+  overflow: hidden;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root .list-group {
+  margin-bottom: 0;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root .list-group-item {
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group-item .glyphicon {
+  margin-right: 5px;
+}
+.JS_Multiselect .JSM-head {
+  /*
+     * Search CSS
+     */
+}
+.JS_Multiselect .hidden {
+  display: none;
+}
