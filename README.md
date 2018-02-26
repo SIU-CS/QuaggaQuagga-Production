@@ -1,8 +1,8 @@
 # JS-MultiSelect
 A flexible JS multiselect supporting many popular options see on the web
 <hr/>
-Scrum Master: Swathi Kaluvakuri 
-Student Email: swathi.kaluvakuri@siu.edu
+Scrum Master: Swathi Kaluvakuri <br/>
+Student Email: swathi.kaluvakuri@siu.edu <br/> 
 Personal Email: kaluvakuri.swathi@gmail.com 
 <hr/>
 Members:<br/>
