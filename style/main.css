@@ -2,23 +2,30 @@
 .JS_Multiselect {
   width: 25vw;
   display: block;
-  background-color: darkorange;
+  background-color: #f46a4e;
   margin-top: 20px;
   padding-top: 10px;
+  /* Apply to all */
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root {
+.JS_Multiselect .JSM-body {
+  background-color: #f3af5a;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group-root {
   padding: 0;
   overflow: hidden;
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root .list-group {
-  margin-bottom: 0;
-}
-.JS_Multiselect .JSM-body .JSM-list .list-group.list-group-root .list-group-item {
+.JS_Multiselect .JSM-body .JSM-list .list-group-root .list-group-item {
   border-radius: 0;
   border-width: 1px 0 0 0;
+  padding-left: 10%;
+  position: relative;
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group-item .glyphicon {
-  margin-right: 5px;
+.JS_Multiselect .JSM-body .JSM-list .list-group-root .list-group {
+  margin-bottom: 0px;
+}
+.JS_Multiselect .JSM-body .JSM-list .list-group-root .JSM-item-header .drop-icon {
+  float: right;
+  margin-top: 2px;
 }
 .JS_Multiselect .JSM-head {
   /*
@@ -27,4 +34,7 @@
 }
 .JS_Multiselect .hidden {
   display: none;
+}
+.JS_Multiselect * {
+  color: #83b0e6 !important;
 }
