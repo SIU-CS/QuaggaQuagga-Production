@@ -2,7 +2,8 @@
 A flexible JS multiselect supporting many popular options see on the web
 <hr/>
 Scrum Master: Swathi Kaluvakuri 
-Email: kaluvakuri.swathi@gmail.com
+Student Email: swathi.kaluvakuri@siu.edu
+Personal Email: kaluvakuri.swathi@gmail.com 
 <hr/>
 Members:<br/>
 Username: james-wasson, Email: jameswasson1@gmail.com, Student Email: james.wasson@siu.edu
