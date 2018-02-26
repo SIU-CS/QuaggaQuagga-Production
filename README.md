@@ -5,4 +5,4 @@ Scrum Master: Swathi Kaluvakuri
 Email: kaluvakuri.swathi@gmail.com
 <hr/>
 Members:<br/>
-Username: james-wasson, Email: jameswasson1@gmail.com
+Username: james-wasson, Email: jameswasson1@gmail.com, Student EmailL james.wasson@siu.edu
