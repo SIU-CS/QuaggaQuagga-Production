@@ -20,8 +20,7 @@ Personal Email: kaluvakuri.swathi@gmail.com  <br/>
 
 * Username: james-wasson   
 Email: jameswasson1@gmail.com   
-Student Email: james.wasson@siu.edu<br/>
-
+Student Email: james.wasson@siu.edu <br/>
 
 * Username: N3rdizm   
 Email: legograham23@gmail.com   
@@ -34,3 +33,6 @@ Student Email:indranil.roy@siu.edu  <br/>
 * Username: adlevsky   
 Email: adlevsky@gmail.com   
 Student Email: alevsky@siu.edu  
+
+**This is a Quagga**<br/>
+![A QUAGGA](https://github.com/SIU-CS/QuaggaQuagga-Production/blob/master/git-wiki/Quagga.jpg)
