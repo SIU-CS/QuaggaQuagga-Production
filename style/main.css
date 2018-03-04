@@ -26,6 +26,7 @@
   overflow: hidden;
   height: 100%;
   background-color: #1f2833;
+  color: #45a29e;
 }
 .JS_Multiselect .JSM-body .list-group-root .list-group-item {
   border-radius: 0;
@@ -33,9 +34,11 @@
   padding-left: 10%;
   position: relative;
   background-color: inherit;
+  color: inherit;
 }
 .JS_Multiselect .JSM-body .list-group-root .list-group {
   margin-bottom: 0;
+  color: #45a29e;
 }
 .JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon {
   font-family: "FontAwesome";
@@ -68,6 +71,9 @@
 .JS_Multiselect .hidden {
   display: none;
 }
-.JS_Multiselect * {
+.JS_Multiselect *.textColorLighter {
   color: #45a29e !important;
+}
+.JS_Multiselect *.textColorDarker {
+  color: #367e7b !important;
 }

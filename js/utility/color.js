@@ -144,11 +144,26 @@ define(function () {
             rgbA[2] + ")";
     }
 
+    
+    /**
+     * Gets the brightness in lumens for the color,
+     * Note: max is 255, so we will standardize from 0 to 1
+     * @param array rgbA       The Array in fromat [r,g,b]
+     * @return a float from zero to one in lumens
+     */
+    function GetBrightness(rgbA) {
+        if (!rgbA) return;
+        return (0.2126 * rgbA[0] + 
+            0.7152 * rgbA[1] + 
+            0.0722 * rgbA[2])/255// per ITU-R BT.709
+    }
+
     return {
         fadeRgbToWhite: fadeRgbToWhite,
         hslToRgb: hslToRgb,
         rgbToHsl: rgbToHsl,
         RgbStringToArray: RgbStringToArray,
-        RgbArrayToString: RgbArrayToString
+        RgbArrayToString: RgbArrayToString,
+        GetBrightness: GetBrightness
     }
   });

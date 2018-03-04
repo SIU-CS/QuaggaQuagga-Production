@@ -1,4 +1,5 @@
 define(function (require) {
-    require('style/staticColorList');
+    require('style/body/colorIndent');
+    require('style/body/spaceIndent');
     return {};
 });
