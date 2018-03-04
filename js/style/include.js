@@ -1,6 +1,4 @@
 define(function (require) {
-    require('style/dropdown');
-    return {
-        
-    }
+    require('style/staticColorList');
+    return {};
 });

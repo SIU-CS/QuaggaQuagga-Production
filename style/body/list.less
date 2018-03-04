@@ -1,0 +1,32 @@
+.list-group-root {
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    height: 100%;
+    background-color: #1f2833;
+    .list-group-item {
+        border-radius: 0;
+        border-width: 1px 0 0 0;
+        padding-left: 10%;
+        position: relative;
+        background-color: inherit;
+    }
+    .list-group {
+        margin-bottom: 0;
+    }
+    .JSM-item-header {
+        .drop-icon {
+            font-family: "FontAwesome";
+            float: right;
+            margin-bottom: 2px;
+        }
+        // changes the chevron glyphicon
+        .drop-icon:after {
+            content: "\f078";
+        }
+        &.collapsed {
+            .drop-icon:after {
+                content: "\f054" !important;
+            }
+        }
+    }
+}
