@@ -32,8 +32,6 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
             }); 
         } setSpaceIndent("");
 
-
-
         $(window).resize(function(){
             setSpaceIndent("");
         });

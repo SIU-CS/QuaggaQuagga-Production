@@ -37,13 +37,21 @@
   color: inherit;
 }
 .JS_Multiselect .JSM-body .list-group-root .list-group {
+  position: relative;
   margin-bottom: 0;
   color: #45a29e;
 }
+.JS_Multiselect .JSM-body .list-group-root .JSM-item-header {
+  position: relative;
+  padding-right: calc(8% + 15px);
+}
 .JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon {
   font-family: "FontAwesome";
-  float: right;
+  width: 15px;
+  position: absolute;
+  right: 0;
   margin-bottom: 2px;
+  margin-right: 5%;
 }
 .JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon:after {
   content: "\f078";
@@ -75,5 +83,5 @@
   color: #45a29e !important;
 }
 .JS_Multiselect *.textColorDarker {
-  color: #367e7b !important;
+  color: #275a58 !important;
 }

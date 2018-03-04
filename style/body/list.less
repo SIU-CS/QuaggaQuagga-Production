@@ -14,23 +14,28 @@
         color: inherit;
     }
     .list-group {
+        position: relative;
         margin-bottom: 0;
         color:@textColor;
     }
     .JSM-item-header {
+        position: relative;
+        @dropIconWidth: 15px;
+        padding-right: calc(8% +  @dropIconWidth);
         .drop-icon {
             font-family: "FontAwesome";
-            float: right;
+            width:  @dropIconWidth;
+            position: absolute;
+            right: 0;
             margin-bottom: 2px;
+            margin-right: 5%;
         }
         // changes the chevron glyphicon
         .drop-icon:after {
             content: "\f078";
         }
-        &.collapsed {
-            .drop-icon:after {
-                content: "\f054" !important;
-            }
+        &.collapsed .drop-icon:after {
+            content: "\f054" !important;
         }
     }
 }
