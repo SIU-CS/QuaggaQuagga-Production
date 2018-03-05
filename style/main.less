@@ -3,7 +3,7 @@
 @import "./themes/bold.less";
 .JS_Multiselect {
     @import "./variables.less";
-    @import "./body.less";
+    @import "./body/body.less";
     @import "./footer.less";
     @import "./header.less";
     @import "./utility.less";
@@ -14,8 +14,11 @@
     margin-top: 20px;
     padding-top: 10px;
     /* Apply to all */
-    * {
-        color: @textColor !important;
+    *.textColorLighter {
+        color: @textColorBright !important;
+    }
+    *.textColorDarker {
+        color: @textColorDark !important;
     }
 }
 

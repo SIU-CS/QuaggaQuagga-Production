@@ -2,30 +2,74 @@
 .JS_Multiselect {
   width: 25vw;
   display: block;
-  background-color: #f46a4e;
+  background-color: #0b0c10;
   margin-top: 20px;
   padding-top: 10px;
   /* Apply to all */
 }
 .JS_Multiselect .JSM-body {
-  background-color: #f3af5a;
+  max-height: 30vh;
+  margin-bottom: 20px;
+  padding-bottom: 0;
+  overflow: auto;
+  overflow-y: scroll;
+  /* width */
+  /* Track */
+  /* Handle */
+  /* Handle on hover */
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group-root {
-  padding: 0;
+.JS_Multiselect .JSM-body * {
+  font-weight: bold;
+}
+.JS_Multiselect .JSM-body .list-group-root {
+  margin-bottom: 0 !important;
   overflow: hidden;
+  height: 100%;
+  background-color: #1f2833;
+  color: #45a29e;
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group-root .list-group-item {
+.JS_Multiselect .JSM-body .list-group-root .list-group-item {
   border-radius: 0;
   border-width: 1px 0 0 0;
   padding-left: 10%;
   position: relative;
+  background-color: inherit;
+  color: inherit;
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group-root .list-group {
-  margin-bottom: 0px;
+.JS_Multiselect .JSM-body .list-group-root .list-group {
+  position: relative;
+  margin-bottom: 0;
+  color: #45a29e;
 }
-.JS_Multiselect .JSM-body .JSM-list .list-group-root .JSM-item-header .drop-icon {
-  float: right;
-  margin-top: 2px;
+.JS_Multiselect .JSM-body .list-group-root .JSM-item-header {
+  position: relative;
+  padding-right: calc(8% + 15px);
+}
+.JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon {
+  font-family: "FontAwesome";
+  width: 15px;
+  position: absolute;
+  right: 0;
+  margin-bottom: 2px;
+  margin-right: 5%;
+}
+.JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon:after {
+  content: "\f078";
+}
+.JS_Multiselect .JSM-body .list-group-root .JSM-item-header.collapsed .drop-icon:after {
+  content: "\f054" !important;
+}
+.JS_Multiselect .JSM-body::-webkit-scrollbar {
+  width: 8px;
+}
+.JS_Multiselect .JSM-body::-webkit-scrollbar-track {
+  background: #c5c6c7;
+}
+.JS_Multiselect .JSM-body::-webkit-scrollbar-thumb {
+  background: #68b9b6;
+}
+.JS_Multiselect .JSM-body::-webkit-scrollbar-thumb:hover {
+  background: #66fcf1;
 }
 .JS_Multiselect .JSM-head {
   /*
@@ -35,6 +79,9 @@
 .JS_Multiselect .hidden {
   display: none;
 }
-.JS_Multiselect * {
-  color: #83b0e6 !important;
+.JS_Multiselect *.textColorLighter {
+  color: #45a29e !important;
+}
+.JS_Multiselect *.textColorDarker {
+  color: #275a58 !important;
 }

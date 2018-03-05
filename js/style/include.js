@@ -1,6 +1,5 @@
 define(function (require) {
-    require('style/dropdown');
-    return {
-        
-    }
+    require('style/body/colorIndent');
+    require('style/body/spaceIndent');
+    return {};
 });
