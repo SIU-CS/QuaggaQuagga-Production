@@ -25,11 +25,9 @@ function (require) {
     }
 
     function getElementByName(name) {
-        var data = getDataByName(name);
-        if (data != null) {
-            var $ele = $(data.Element);
-            if ($ele.length > 0)
-                return $ele[0];
+        var multi =  cache.getMultiselect(name);
+        if (multi != null) {
+            return multi.Element
         }
         return null;
     }
@@ -46,11 +44,6 @@ function (require) {
         nameList: nameList,
         getDataByName: getDataByName,
         getElementByName: getElementByName,
-        getPathByName: getPathByName,
-        getOptionsByName: getOptionsByName,
-        getDataItemByName: getDataItemByName,
-        getDataItemValueByName: getDataItemValueByName,
-        getDataItemSearchableByName: getDataItemSearchableByName,
-        getDotStringByElement: getDotStringByElement
+        getOptionsByName: getOptionsByName
     }
 });

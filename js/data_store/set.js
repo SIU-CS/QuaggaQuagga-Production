@@ -50,7 +50,6 @@ function (require) {
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
-        setOptionsByName: setOptionsByName,
-        deleteDataItemByName: deleteDataItemByName
+        setOptionsByName: setOptionsByName
     }
 });

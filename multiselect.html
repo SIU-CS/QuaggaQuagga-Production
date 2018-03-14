@@ -17,11 +17,16 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
+        <script>
+            function a() {
+                console.log('aaa');
+            }
+        </script>
     </head>
     <body>
     <div class="container">
         <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns">
+        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="a">
                 <!-- MULTISELECT HEAD -->
                 <div class="JSM-head navbar navbar-default">
                     <span class="JSM-text navbar-brand">Pick Your Contry</span>

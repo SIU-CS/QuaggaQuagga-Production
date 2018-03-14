@@ -1,15 +1,14 @@
 'use strict';
 
-define(['require', 'utils/exists'], function (require) {
+define(['require'], function (require) {
     // dependencies for this file
-    var exists = require('utils/exists');
     var WARN = 'warn';
     var ERROR = 'error';
     var LOG = 'log';
     var INFO = 'info';
     // private function
     function loggerTypeExists(type) {
-        return exists(console) && exists(console[type]) && typeof console[type] == "function";
+        return console != null && console[type] != null && typeof console[type] == "function";
     }
     function tryLog(msg) {
         if (!loggerTypeExists("log"))
@@ -77,7 +76,7 @@ define(['require', 'utils/exists'], function (require) {
         var typeFound = false;
         var success = false;
         // try to find the correct logger
-        if (exists(type)) {
+        if (type != null) {
             typeFound = true;
             switch(type) {
                 case LOG:

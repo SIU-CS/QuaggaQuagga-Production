@@ -11,24 +11,32 @@ function (require) {
     var cache = require('data_store/cache');
     var cacheSet = require('data_store/set');
 
-    // public
-    function newMultiselect(ele) {
-        return newMultiselectSetAll(ele, null, null);
-    }
     function newMultiselectWithOptions(ele, options) {
-        return newMultiselectSetAll(ele, null, options);
+        return newMultiselect(ele, null, options);
     }
     function newMultiselectWithData(ele, data) {
-        return newMultiselectSetAll(ele, data, null);
+        return newMultiselect(ele, data, null);
     }
-    function newMultiselectSetAll(ele, data, options) {
-        var name = getUniqueNameFromEle(ele);
-        var obj = initMultiselectItem(name);
-        cache.addMultiselect(name, obj);
-        if (data != null)
-            cacheSet.replaceDataByName(name, data);
-        if (options != null)
-            cacheSet.setOptionsByName(name, options);
+    function newMultiselect(ele, data, options) {
+        var name = $(ele).prop('name');
+        var ele = $(ele).first();
+        cache.addMultiselect(name, ele, data, options);
+        return name;
+    }
+    // builds a new multiselect item
+    function newMultiselectItem(value, element, searchable, selected) {
+        if (element == null) return false;
+        if (!(element instanceof jquery)) {
+            element = $(element);
+        }
+        if (element.length <= 0) return false;
+        if (value == null || value === "") return false;
+        return {
+            "@value": value,
+            "@element": element,
+            "@searchable": (searchable == null ? "": searchable),
+            "@selected": (selected == null ? false : selected)
+        }
         return name;
     }
 
@@ -36,6 +44,5 @@ function (require) {
         newMultiselect: newMultiselect,
         newMultiselectWithOptions: newMultiselectWithOptions,
         newMultiselectWithData: newMultiselectWithData,
-        newMultiselectSetAll: newMultiselectSetAll
     };
 });

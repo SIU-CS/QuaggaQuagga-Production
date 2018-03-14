@@ -45,7 +45,11 @@ define(['require',
      * @returns {bool} Returns a true false depending on if the data was inserted
      */
     function addMultiselect(name, node, data, settings) {
-        if (typeof node == undefined || node == null || $(node).length <= 0) return false;
+        if (node == null) return false;
+        if (!(node instanceof jquery)) {
+            node = $(node);
+        }
+        if (node.length <= 0) return false;
         if (!hasName(name)) {
             MultiselectList[name] = {
                 Data: data,
@@ -81,15 +85,6 @@ define(['require',
         }
         return true;
     }
-    // used by getUniqueNameNo
-    var uniqueNameNo = 0;
-    /** 
-     * @returns {Number} returns a unique number based on how many time this function has been called
-    */
-    function getUniqueNameNo() {
-        uniqueNameNo += 1;
-        return uniqueNameNo;
-    }
 
     
 
@@ -99,8 +94,5 @@ define(['require',
         addMultiselect: addMultiselect,
         removeMultiselect: removeMultiselect,
         hasName: hasName,
-        setLastActive: setLastActive,
-        getLastActive: getLastActive,
-        getUniqueNameNo: getUniqueNameNo,
     };
 });
