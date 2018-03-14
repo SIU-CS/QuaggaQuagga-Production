@@ -5,29 +5,19 @@ define(['require',
     'data_store/get',
     'data_store/cache', 
     'logger',
-    'utils/object'],
+    'jquery'],
 function (require) {
+    var $, jquery;
+    $ = jquery = require('jquery');
     var cache = require('data_store/cache');
     var getCache = require('data_store/get');
     var logger = require('logger');
-    var objectUtils = require('utils/object');
-    
-    // sets last active to be name specied if name is a object
-    function setLastActive(name) {
-        if (!cache.hasName(name)) {
-            logger.warn("Last Active Multiselect cannot be set. Name: \"" + name + "\" is not registered. Clearning Last Active");
-            cache.setLastActive(null);
-            return false;
-        } else {
-            cache.setLastActive(name);
-            return true;
-        }
-    }
+
     // replaces the whole data object
     function replaceDataByName(name, data) {
         var multi = dataObj.getMultiselect(name);
         if (multi !== null) {
-            multi.data = objectUtils.trimEmptyObjects(data);
+            multi.data = data;
             return true;
         }
         return false;
@@ -37,18 +27,10 @@ function (require) {
     function extendDataItemsByName(name, items, force) {
         var multi = dataObj.getMultiselect(name);
         if (multi !== null) {
-            multi.data = objectUtils.extend(multi.data, items, force);
-            return true;
-        }
-        return false;
-    }
-
-    // accepts a dot string and delete the specifed item
-    function deleteDataItemByName(name, dotString) {
-        var multi = dataObj.getMultiselect(name);
-        if (multi !== null) {
-            var deleteItem = objectUtils.dotStringToObject(dotString, null);
-            multi.data = objectUtils.extend(multi.data, deleteItem, true);
+            if (force)
+                multi.data = $.extend(multi.data, data);
+            else
+                multi.data = $.extend(data, multi.data);
             return true;
         }
         return false;
@@ -59,38 +41,16 @@ function (require) {
         var multi = dataObj.getMultiselect(name);
         if (multi !== null) {
             // will overrnamee any other objects
-            multi.options = objectUtils.extend(multi.options, options, true);
+            multi.options = $.extend(multi.options, options);
             return true;
         }
         return false;
-    }
-
-    function replaceLastActiveData(data) {
-        return setDataByName(getCache.getLastActiveName(), data);
-    }
-
-    function setLastActiveOptions(options) {
-        return getOptionsByName(getCache.getLastActiveName(), options);
-    }
-
-    function extendLastActiveDataItems(items, force) {
-        return extendDataItemsByName(getCache.getLastActiveName(), items, force);
-    }
-
-    function deleteLastActiveDataItem(dotString) {
-        return deleteDataItemByName(getCache.getLastActiveName(), dotString);
     }
 
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
         setOptionsByName: setOptionsByName,
-        deleteDataItemByName: deleteDataItemByName,
-        // last active
-        setLastActive: setLastActive,
-        replaceLastActiveData: replaceLastActiveData,
-        setLastActiveOptions: setLastActiveOptions,
-        extendLastActiveDataItems: extendLastActiveDataItems,
-        deleteLastActiveDataItem: deleteLastActiveDataItem
+        deleteDataItemByName: deleteDataItemByName
     }
 });

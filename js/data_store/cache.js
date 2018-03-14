@@ -50,7 +50,7 @@ define(['require',
             MultiselectList[name] = {
                 Data: data,
                 Settings: settings,
-                Element: $(node)
+                Element: node
             };
             return true;
         }
