@@ -17,10 +17,27 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
+        <script>
+            
+
+                function callme(array, fun) {
+                    var json = {};
+                    for (var i in array) {
+                        
+                        json[fun(i, array[i])] = array[i];
+                        
+                    }
+                    console.log(json);
+                }
+                callme([100, 200, 300], function(index, value) {
+                    return index * value;
+                });
+
+        </script>
     </head>
     <body>
-        <div class="container">
-            <div class="JS_Multiselect container-fluid" name="towns">
+    <div class="container">
+        <div class="JS_Multiselect container-fluid" name="towns">
                 <div class="JSM-head navbar navbar-default">
                     <span class="JSM-text navbar-brand">Pick Your Contry</span>
                     <span class="JSM-search form-group">
@@ -31,47 +48,104 @@
                     <div class="JSM-list">
                         <!-- Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
                         <div class="list-group list-group-root">
-
+                
                             <a href="#item-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                Item 1<span class="drop-icon"></span>
+                                Item 1
+                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                <span class="drop-icon"></span>
                             </a>
                             <div class="list-group collapse" id="item-1">
                                 
                                 <a href="#item-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                    Item 1.1<span class="drop-icon"></span>
+                                    Item 1.1
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    <span class="drop-icon"></span>
                                 </a>
                                 <div class="list-group collapse" id="item-1-1">
-                                    <span class="list-group-item">Item 1.1.1</span>
-                                    <span class="list-group-item">Item 1.1.2</span>
-                                    <span class="list-group-item">Item 1.1.3</span>
+                                    <span class="list-group-item">
+                                    Item 1.1.1
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
+                                    <span class="list-group-item">
+                                    Item 1.1.2
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
+                                    <span class="list-group-item">
+                                        Item 1.1.3
+                                        <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
                                     <a href="#item-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                        Item 1.1<span class="drop-icon"></span>
+                                        Item 1.1
+                                        <input type="checkbox" class='checkbox JSM-checkbox'>
+                                        <span class="drop-icon"></span>
                                     </a>
                                     <div class="list-group collapse" id="item-1-1-1">
-                                        <span class="list-group-item">Item 1.1.1</span>
-                                        <span class="list-group-item">Item 1.1.2</span>
-                                        <span class="list-group-item">Item 1.1.3</span>
+                                        <span class="list-group-item">
+                                        Item 1.1.1
+                                        <input type="checkbox" class='checkbox JSM-checkbox'>
+                                        </span>
+                                        <span class="list-group-item">
+                                        Item 1.1.2
+                                        <input type="checkbox" class='checkbox JSM-checkbox'>
+                                        </span>
+                                        <span class="list-group-item">
+                                        Item 1.1.3
+                                        <input type="checkbox" class='checkbox JSM-checkbox'>
+                                        </span>
                                         <a href="#item-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                            Item 1.1<span class="drop-icon"></span>
+                                            Item 1.1
+                                            <input type="checkbox" class='checkbox JSM-checkbox'>
+                                            <span class="drop-icon"></span>
                                         </a>
                                         <div class="list-group collapse" id="item-1-1-1-1">
-                                            <span class="list-group-item">Item 1.1.1</span>
-                                            <span class="list-group-item">Item 1.1.2</span>
-                                            <span class="list-group-item">Item 1.1.3</span>
+                                            <span class="list-group-item">
+                                            Item 1.1.1
+                                            <input type="checkbox" class='checkbox JSM-checkbox'>
+                                            </span>
+                                            <span class="list-group-item">
+                                                Item 1.1.2
+                                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                            </span>
+                                            <span class="list-group-item">
+                                            Item 1.1.3
+                                            <input type="checkbox" class='checkbox JSM-checkbox'>
+                                            </span>
                                             <a href="#item-1-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                                Item 1.1<span class="drop-icon"></span>
+                                                Item 1.1
+                                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                <span class="drop-icon"></span>
                                             </a>
                                             <div class="list-group collapse" id="item-1-1-1-1-1">
-                                                <span class="list-group-item">Item 1.1.1</span>
-                                                <span class="list-group-item">Item 1.1.2</span>
-                                                <span class="list-group-item">Item 1.1.3</span>
+                                                <span class="list-group-item">
+                                                Item 1.1.1
+                                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                </span>
+                                                <span class="list-group-item">
+                                                Item 1.1.2
+                                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                </span>
+                                                <span class="list-group-item">
+                                                Item 1.1.3
+                                                <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                </span>
                                                 <a href="#item-1-1-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                                    Item 1.1<span class="drop-icon"></span>
+                                                    Item 1.1
+                                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                    <span class="drop-icon"></span>
                                                 </a>
                                                 <div class="list-group collapse" id="item-1-1-1-1-1-1">
-                                                    <span class="list-group-item">Item 1.1.1</span>
-                                                    <span class="list-group-item">Item 1.1.2</span>
-                                                    <span class="list-group-item">Item 1.1.3</span>
+                                                    <span class="list-group-item">
+                                                    Item 1.1.1
+                                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                    </span>
+                                                    <span class="list-group-item">
+                                                    Item 1.1.2
+                                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                    </span>
+                                                    <span class="list-group-item">
+                                                    Item 1.1.3
+                                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -79,23 +153,24 @@
                                 </div>
                                 
                                 <a href="#item-1-2" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                    Item 1.2<span class="drop-icon"></span>
+                                    Item 1.2
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    <span class="drop-icon"></span>
                                 </a>
                                 <div class="list-group collapse" id="item-1-2">
-                                    <span class="list-group-item">Item 1.2.1</span>
-                                    <span class="list-group-item">Item 1.2.2</span>
-                                    <span class="list-group-item">Item 1.2.3</span>
+                                    <span class="list-group-item">
+                                    Item 1.2.1
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
+                                    <span class="list-group-item">
+                                    Item 1.2.2
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
+                                    <span class="list-group-item">
+                                    Item 1.2.3
+                                    <input type="checkbox" class='checkbox JSM-checkbox'>
+                                    </span>
                                 </div>
-                                
-                                <a href="#item-1-3" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                    Item 1.3<span class="drop-icon"></span>
-                                </a>
-                                <div class="list-group collapse" id="item-1-3">
-                                    <span class="list-group-item">Item 1.3.1</span>
-                                    <span class="list-group-item">Item 1.3.2</span>
-                                    <span class="list-group-item">Item 1.3.3</span>
-                                </div>
-                                
                             </div>    
                         </div>
                     </div>
