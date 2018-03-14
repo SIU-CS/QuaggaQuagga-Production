@@ -4,12 +4,12 @@
   display: block;
   background-color: #0b0c10;
   margin-top: 20px;
+  padding: 10px;
   padding-top: 10px;
   /* Apply to all */
 }
 .JS_Multiselect .JSM-body {
   max-height: 30vh;
-  margin-bottom: 20px;
   padding-bottom: 0;
   overflow: auto;
   overflow-y: scroll;
