@@ -36,6 +36,9 @@
   background-color: inherit;
   color: inherit;
 }
+.JS_Multiselect .JSM-body .list-group-root .list-group-item .JSM-checkbox {
+  display: inline;
+}
 .JS_Multiselect .JSM-body .list-group-root .list-group {
   position: relative;
   margin-bottom: 0;
