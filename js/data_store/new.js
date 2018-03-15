@@ -11,17 +11,18 @@ function (require) {
     var cache = require('data_store/cache');
     var cacheSet = require('data_store/set');
 
-    function newMultiselectWithOptions(ele, options) {
-        return newMultiselect(ele, null, options);
+    function newMultiselectWithOptions(ele, options, title) {
+        return newMultiselect(ele, null, options, title);
     }
-    function newMultiselectWithData(ele, data) {
-        return newMultiselect(ele, data, null);
+    function newMultiselectWithData(ele, data, title) {
+        return newMultiselect(ele, data, null, title);
     }
-    function newMultiselect(ele, data, options) {
+    function newMultiselect(ele, data, options, title) {
         var name = $(ele).attr('name');
         if (typeof name === 'undefined' || name == null) return null;
+
         var ele = $(ele).first();
-        if (!cache.addMultiselect(name, ele, data, options)) return null;
+        if (!cache.addMultiselect(name, ele, data, options, title)) return null;
         return name;
     }
     // builds a new multiselect item

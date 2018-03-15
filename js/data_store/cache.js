@@ -44,7 +44,7 @@ define(['require',
      * @param {object} settings the settings to be used by this multiselector
      * @returns {bool} Returns a true false depending on if the data was inserted
      */
-    function addMultiselect(name, node, data, settings) {
+    function addMultiselect(name, node, data, settings, title) {
         if (node == null) return false;
         if (!(node instanceof jquery)) {
             node = $(node);
@@ -54,7 +54,8 @@ define(['require',
             MultiselectList[name] = {
                 Data: data,
                 Settings: settings,
-                Element: node
+                Element: node,
+                Title: title
             };
             return true;
         }

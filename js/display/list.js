@@ -8,7 +8,6 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
     var headCount = 0;
 
     function recurseConvertDataToHTML(data, $parent) {
-        console.log($parent);
         if (!$.isPlainObject(data)) return null;
         for (var name in data) {
             if (dataStoreGet.getMultiselectItemKeys().indexOf(name) >= 0) continue;
@@ -60,9 +59,9 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
         var multiselectData = dataStoreGet.getDataByName(multiselectName);
         var $html = $('<div class="list-group"></div>');
         recurseConvertDataToHTML(multiselectData, $html);
-        console.log($html);
         if ($ele == null) return null;
-            $ele.append($html);
+        
+        $ele.append($html);
 
         return $html;
     }

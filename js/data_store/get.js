@@ -39,6 +39,13 @@ function (require) {
         return null;
     }
 
+    function getTitleByName(name) {
+        var multi =  cache.getMultiselect(name);
+        if (multi !== null)
+            return multi.Title == null ? name : multi.Title;
+        return null; // multiselect doesn't exist
+    }
+
     
     function getMultiselectItemKeys() {
         return ["@value", "@element", "@searchable", "@selected", "@isHeader"]
@@ -50,6 +57,7 @@ function (require) {
         getDataByName: getDataByName,
         getElementByName: getElementByName,
         getSettingsByName: getSettingsByName,
-        getMultiselectItemKeys: getMultiselectItemKeys
+        getMultiselectItemKeys: getMultiselectItemKeys,
+        getTitleByName: getTitleByName
     }
 });
