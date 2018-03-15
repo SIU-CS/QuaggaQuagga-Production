@@ -31,6 +31,7 @@
 .JS_Multiselect .JSM-body .list-group-root > .list-group .list-group-item {
   border-radius: 0;
   border-width: 1px 0 0 0;
+  border-color: #66fcf1;
   padding-left: 10%;
   position: relative;
   background-color: inherit;
@@ -39,10 +40,12 @@
 .JS_Multiselect .JSM-body .list-group-root > .list-group .list-group-item .JSM-checkbox {
   display: inline;
 }
-.JS_Multiselect .JSM-body .list-group-root > .list-group .list-group {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .list-group,
+.JS_Multiselect .JSM-body .list-group-root > .list-group {
   position: relative;
   margin-bottom: 0;
   color: #45a29e;
+  border-radius: 0;
 }
 .JS_Multiselect .JSM-body .list-group-root > .list-group .JSM-item-header {
   position: relative;
