@@ -20,7 +20,7 @@ function (require) {
     function getDataByName(name) {
         var multi =  cache.getMultiselect(name);
         if (multi !== null)
-            return multi.data;
+            return multi.Data;
         return null;
     }
 
@@ -32,11 +32,16 @@ function (require) {
         return null;
     }
 
-    function getOptionsByName(name) {
+    function getSettingsByName(name) {
         var multi =  cache.getMultiselect(name);
         if (multi !== null)
-            return multi.options;
+            return multi.Settings;
         return null;
+    }
+
+    
+    function getMultiselectItemKeys() {
+        return ["@value", "@element", "@searchable", "@selected", "@isHeader"]
     }
 
 
@@ -44,6 +49,7 @@ function (require) {
         nameList: nameList,
         getDataByName: getDataByName,
         getElementByName: getElementByName,
-        getOptionsByName: getOptionsByName
+        getSettingsByName: getSettingsByName,
+        getMultiselectItemKeys: getMultiselectItemKeys
     }
 });

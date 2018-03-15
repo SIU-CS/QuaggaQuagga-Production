@@ -18,31 +18,50 @@ function (require) {
         return newMultiselect(ele, data, null);
     }
     function newMultiselect(ele, data, options) {
-        var name = $(ele).prop('name');
+        var name = $(ele).attr('name');
+        if (typeof name === 'undefined' || name == null) return null;
         var ele = $(ele).first();
-        cache.addMultiselect(name, ele, data, options);
+        if (!cache.addMultiselect(name, ele, data, options)) return null;
         return name;
     }
     // builds a new multiselect item
     function newMultiselectItem(value, element, searchable, selected) {
-        if (element == null) return false;
-        if (!(element instanceof jquery)) {
+        if (!(element instanceof jquery) && element != null) {
             element = $(element);
         }
-        if (element.length <= 0) return false;
+        if (element != null && element.length <= 0 ) return false;
+        
         if (value == null || value === "") return false;
         return {
             "@value": value,
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
-            "@selected": (selected == null ? false : selected)
+            "@selected": (selected == null ? false : selected),
+            "@isHeader": false
         }
-        return name;
+    }
+
+    // builds a new multiselect item
+    function newMultiselectHeader(element, searchable, selected) {
+        if (!(element instanceof jquery) && element != null) {
+            element = $(element);
+            
+        }
+        if (element != null && element.length <= 0 ) return false;
+        
+        return {
+            "@element": element,
+            "@searchable": (searchable == null ? "": searchable),
+            "@selected": (selected == null ? false : selected),
+            "@isHeader": true
+        }
     }
 
     return {
         newMultiselect: newMultiselect,
         newMultiselectWithOptions: newMultiselectWithOptions,
         newMultiselectWithData: newMultiselectWithData,
+        newMultiselectHeader: newMultiselectHeader,
+        newMultiselectItem: newMultiselectItem
     };
 });
