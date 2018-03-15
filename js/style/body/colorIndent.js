@@ -6,7 +6,7 @@ define(['require', 'jquery', 'utility/color', 'utility/nestedDepth'], function(r
     var colorUtil = require('utility/color');
     var nestedDepth = require('utility/nestedDepth');
     $().ready(function() {
-        $(".list-group-root.list-group").each(function(i, e) {
+        $(".list-group-root > .list-group").each(function(i, e) {
             var $ele = $(e);
             var color = $ele.css("background-color");
             var rgbA = colorUtil.RgbStringToArray(color);
