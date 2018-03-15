@@ -13,20 +13,24 @@ define(['require', 'jquery', 'consts', 'data_store/new', 'data_input/load', 'dat
     // for each multiselect on the screen
     $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
         var $this = $(this);
-        var loadType = $this.data('load-type');
-        var loadFunction = $this.data('load');
-        // parse data
+        // get the data items from the list
+        var loadType = $this.data('load-type'); // the type of data the developer is giving
+        var loadFunction = $this.data('load'); // the function to call to get the data
+        var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
+        // parse the data from the above function
         var data = loadData(loadFunction, loadType);
 
-
-        
         // set new data store for multiselect
-        var title = $this.data('title');
-        var name = dataStoreNew.newMultiselectWithData(this, data, title);
+        var name = dataStoreNew.newMultiselectWithData(this, data, null, title);
+        // if we couldn't set a new data store, error here
         if (name == null) return;
+        // empty the element
         $this.empty();
+        // get the basic layout
         $this.html(CONSTS.CONST_LAYOUT());
+        // display the title
         titleDisplay(name);
-        listDisplay(name , $this.find('.list-group-root'));
+        // display the data list
+        listDisplay(name);
     });
 });

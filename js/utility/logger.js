@@ -71,7 +71,7 @@ define(['require'], function (require) {
             }
         }
     }
-    // main function
+    // main log function
     function main(message, type, trace) {
         var typeFound = false;
         var success = false;
