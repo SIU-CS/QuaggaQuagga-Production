@@ -34,12 +34,21 @@
                 `;
                 return $.parseHTML(strHTML.trim());
             }
+            function showParsed() {
+                var s = $("#testForm").serializeArray();
+                console.log(s);
+            }
         </script>
     </head>
     <body>
     <div class="container">
         <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
+        <form id="testForm">
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
+           
+        </form>
+        <input type="button" onclick="showParsed()" value="check form">
+        
     </div>
     </body>
 </html>
