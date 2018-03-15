@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'data_input/liveHTML'],function (require) {
+define(['require', 'jquery', 'data_input/liveHTML', 'data_input/JSON'],function (require) {
     var $, jquery;
     $ = jquery = require('jquery');
 
@@ -7,7 +7,8 @@ define(['require', 'jquery', 'data_input/liveHTML'],function (require) {
      * under the caller Name
      */
     var typeFunctions = {
-        "liveHTML": require('data_input/liveHTML')
+        "liveHTML": require('data_input/liveHTML'),
+        "JSON": require('data_input/JSON')
     };
     
     /**

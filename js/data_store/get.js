@@ -1,4 +1,4 @@
-'use strict';
+    'use strict';
 
 // defines the more advanced error checking getters of the data
 define(['require', 
