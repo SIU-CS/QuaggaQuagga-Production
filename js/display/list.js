@@ -70,7 +70,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
             } else { // else is just a selectable item
                 // string format
                 var eleString = `
-                    <span class="list-group-item" data-searchable="` + searchText + ` data-value="` + value + `">
+                    <span class="list-group-item" data-searchable="` + searchText + `" data-value="` + value + `">
                     ` + name + `
                     <input type="checkbox" class='checkbox JSM-checkbox' ` + (isSelected ? "checked" : "") + ` name="`+ name +`" value="` + value + `">
                     </span>

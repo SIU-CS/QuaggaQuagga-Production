@@ -9,24 +9,48 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     {
         var rv = {};
         for(var name in jsonData) {
-            console.log(name);
             var obj = jsonData[name];
-            var isHeader = false;
-            if(obj.value != null)
-            {
-                isHeader = false;
+            if(typeof obj !='object' || obj == null) continue;
+            // get then delete object attributes here
+            var value = null;
+            if(obj['@value'] != null) {
+                value = obj['@value'];
+                delete obj['@value'];
+            } else if(obj['value'] != null) {
+                value = obj['value'];
+                delete obj['value'];
             }
-            else
-            {
-                isHeader = true;
+            var searchable = "";
+            if(obj['@searchable'] != null) {
+                searchable = obj['@searchable'];
+                delete obj['@searchable'];
+            } else if(obj['searchable'] != null) {
+                searchable = obj['searchable'];
+                delete obj['searchable'];
             }
-            if (isHeader) 
+            var selected = false;
+            if(obj['@selected'] != null) {
+                selected = obj['@selected'] == true || obj['@selected'] == "true";
+                delete obj['@selected'];
+            } else if(obj['selected'] != null) {
+                selected = obj['selected'] == true || obj['selected'] == "true";
+                delete obj['selected'];
+            }
+
+            if(value == null) // is header
             {
-                rv[name]= dataStoreNew.newMultiselectHeader(null, obj.searchable, obj.selected);
+                var header = dataStoreNew.newMultiselectHeader(null, searchable, selected);
+                var children = ProcessJson(obj);
+                if (children != null) {
+                    rv[name] = $.extend(children, header);
+                }
+                
             } else { // is item
-                rv[name] = dataStoreNew.newMultiselectItem(obj.value, null, obj.searchable, obj.selected);
+                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         }
+
+        if ($.isEmptyObject(rv)) return null;
         return rv;
     }
     return function(jsonData) 
@@ -39,7 +63,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 return null;
             }
         }
-        //jsonData = jsonData.clone()
+        jsonData = $.extend(true, {}, jsonData);
         return ProcessJson(jsonData);
     }
 });

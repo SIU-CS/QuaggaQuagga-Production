@@ -23,13 +23,31 @@
                 return {
                     "Item1": {
                         searchable: "value",
-                        selected: false,
-                        value: "1234"
+                        "@selected": false,
+                        selected: {
+                            searchable: "value",
+                            selected: false,
+                            value: "1.1"
+                        }
+
                     },
-                    "Item1": {
+                    "Item2": {
                         "@searchable": "value",
                         "@selected": false,
-                        "@value": "1234"
+                        "Item2.1": {
+                            searchable: "value",
+                            selected: false,
+                            value: "2.1"
+                        }
+                    },
+                    "Item3": {
+                        "@searchable": "value",
+                        "@selected": false,
+                        "Item3.1": {
+                            searchable: "value",
+                            selected: false,
+                            value: "3.1"
+                        }
                     }
                 }
             }
