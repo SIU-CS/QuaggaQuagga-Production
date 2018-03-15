@@ -5,9 +5,51 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
 
-    // private function for recursion
-    function recurseivlyProcessHTML(jqueryHTML) {
-
+    /**
+     * A Private function that recurses over the html list and builds the
+     * Multiselect data cache
+     * @param {Jquery Nodelist} $groupHead The start of the group
+     * @return {Object} The multiselect formatted data in JSON object
+     */
+    function ProcessHTML($groupHead) {
+        // return object
+        var rv = {};
+        // for each child under the head
+        $groupHead.children().each(function() {
+            var $child = $(this);
+            // check is group or just item
+            if ($child.children("ul").length > 0) { // is group
+                // get the group (only sleect first group)
+                var $group = $child.children("ul").first();
+                // get the attributes
+                var name = $child.attr('name');
+                var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
+                var selected = $child.attr('selected') == "true";
+                // make sure name is defined
+                if (typeof name == 'undefined' || name == null) return null;
+                // get the children for this node
+                var children = ProcessHTML($group);
+                // if no children continue
+                if (children == null) return null;
+                // get the group object
+                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected)
+                // extend the group ovject with the children elements
+                rv[name] = $.extend(children, rv[name]);
+                
+            } else { // is item
+                // get attributes from the element
+                var name = $child.attr('name');
+                var value = $child.attr('value');
+                var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
+                var selected = $child.attr('selected') === "true";
+                // make sure the important attribute exist
+                if (typeof name == 'undefined' || name == null) return null;
+                if (typeof value == 'undefined' || value == null) return null;
+                // get the new data item and store under given name
+                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected)
+            }
+        });
+        return rv;
     }
 
     /**
@@ -23,15 +65,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         // clones the list so we don't mess it up
         nodeList = nodeList.clone();
 
-        // test data
-        var data = {};
-        data['item 1'] = dataStoreNew.newMultiselectHeader(null, "search-1", false);
-        data['item 1']['item 1-1'] = dataStoreNew.newMultiselectHeader(null, "search-1-1", false);
-        data['item 1']['item 1-1']['item 1-1-1'] = dataStoreNew.newMultiselectItem("1-1-1", null, "search-1-1-1", false);
-        data['item 1']['item 1-2'] = dataStoreNew.newMultiselectHeader(null, "search-1-2", false);
-        data['item 1']['item 1-2']['item 1-2-1'] = dataStoreNew.newMultiselectItem("1-2-1", null, "search-1-2-1", false);
-        data['item 2'] = dataStoreNew.newMultiselectItem("2", null, "search-2", false);
-
-        return data;
+        // processes the html into a correct data format
+        return ProcessHTML(nodeList);
     }
 });

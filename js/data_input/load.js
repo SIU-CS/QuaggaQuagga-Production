@@ -13,7 +13,7 @@ define(['require', 'jquery', 'data_input/liveHTML'],function (require) {
     /**
      * Calls the load function on the data produced by the data function
      * the developer passed in
-     * @param {String} loadFunction thsi function is called to load the data
+     * @param {String} loadFunction the name of the function to get the data from
      * @param {String} dataType The data type the above function returns
      */
     function load(loadFunction, dataType) {
