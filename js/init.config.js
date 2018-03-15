@@ -21,7 +21,7 @@ define(['require', 'jquery', 'consts', 'data_store/new', 'data_input/load', 'dat
         var data = loadData(loadFunction, loadType);
 
         // set new data store for multiselect
-        var name = dataStoreNew.newMultiselectWithData(this, data, null, title);
+        var name = dataStoreNew.newMultiselect(this, data, null, title);
         // if we couldn't set a new data store, error here
         if (name == null) return;
         // empty the element

@@ -62,7 +62,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                 // add the button
                 $parent.append($item);
                 // set all the inner data for the group
-                recurseConvertDataToHTML(data[name], $group);
+                ConvertDataToHTML(data[name], $group);
                 // add the group
                 $parent.append($group);
                 // set the element portion of the data item
