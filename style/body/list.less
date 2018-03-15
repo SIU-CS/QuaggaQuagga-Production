@@ -1,4 +1,4 @@
-.list-group-root {
+.list-group-root > .list-group {
     margin-bottom: 0 !important;
     overflow: hidden;
     height: 100%;
@@ -8,6 +8,7 @@
     .list-group-item {
         border-radius: 0;
         border-width: 1px 0 0 0;
+        border-color: @highlight;
         padding-left: 10%;
         position: relative;
         background-color: inherit;
@@ -16,10 +17,11 @@
             display: inline;
         }
     }
-    .list-group {
+    .list-group, & {
         position: relative;
         margin-bottom: 0;
         color:@textColor;
+        border-radius: 0;
     }
     .JSM-item-header {
         position: relative;

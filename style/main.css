@@ -4,12 +4,12 @@
   display: block;
   background-color: #0b0c10;
   margin-top: 20px;
+  padding: 10px;
   padding-top: 10px;
   /* Apply to all */
 }
 .JS_Multiselect .JSM-body {
   max-height: 30vh;
-  margin-bottom: 20px;
   padding-bottom: 0;
   overflow: auto;
   overflow-y: scroll;
@@ -21,34 +21,37 @@
 .JS_Multiselect .JSM-body * {
   font-weight: bold;
 }
-.JS_Multiselect .JSM-body .list-group-root {
+.JS_Multiselect .JSM-body .list-group-root > .list-group {
   margin-bottom: 0 !important;
   overflow: hidden;
   height: 100%;
   background-color: #1f2833;
   color: #45a29e;
 }
-.JS_Multiselect .JSM-body .list-group-root .list-group-item {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .list-group-item {
   border-radius: 0;
   border-width: 1px 0 0 0;
+  border-color: #66fcf1;
   padding-left: 10%;
   position: relative;
   background-color: inherit;
   color: inherit;
 }
-.JS_Multiselect .JSM-body .list-group-root .list-group-item .JSM-checkbox {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .list-group-item .JSM-checkbox {
   display: inline;
 }
-.JS_Multiselect .JSM-body .list-group-root .list-group {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .list-group,
+.JS_Multiselect .JSM-body .list-group-root > .list-group {
   position: relative;
   margin-bottom: 0;
   color: #45a29e;
+  border-radius: 0;
 }
-.JS_Multiselect .JSM-body .list-group-root .JSM-item-header {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .JSM-item-header {
   position: relative;
   padding-right: calc(8% + 15px);
 }
-.JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .JSM-item-header .drop-icon {
   font-family: "FontAwesome";
   width: 15px;
   position: absolute;
@@ -56,10 +59,10 @@
   margin-bottom: 2px;
   margin-right: 5%;
 }
-.JS_Multiselect .JSM-body .list-group-root .JSM-item-header .drop-icon:after {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .JSM-item-header .drop-icon:after {
   content: "\f078";
 }
-.JS_Multiselect .JSM-body .list-group-root .JSM-item-header.collapsed .drop-icon:after {
+.JS_Multiselect .JSM-body .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
   content: "\f054" !important;
 }
 .JS_Multiselect .JSM-body::-webkit-scrollbar {

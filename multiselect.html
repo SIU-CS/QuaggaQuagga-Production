@@ -18,161 +18,49 @@
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
         <script>
-            
-
-                function callme(array, fun) {
-                    var json = {};
-                    for (var i in array) {
-                        
-                        json[fun(i, array[i])] = array[i];
-                        
-                    }
-                    console.log(json);
+            function callme(array, fun) {
+                var json = {};
+                for (var i in array) {
+                    
+                    json[fun(i, array[i])] = array[i];
+                    
                 }
-                callme([100, 200, 300], function(index, value) {
-                    return index * value;
-                });
-
+                console.log(json);
+            }
+            callme([100, 200, 300], function(index, value) {
+                return index * value;
+            });
+            // a test function
+            function loadData() {
+                
+                var strHTML = `
+                    <ul>
+                        <li name="Item 1" searchable="search me" selected="false"><ul>
+                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
+                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
+                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li>    
+                            </ul></li>
+                        </ul></li>
+                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
+                    </ul>
+                `;
+                return $.parseHTML(strHTML.trim());
+            }
+            function showParsed() {
+                var s = $("#testForm").serializeArray();
+                console.log(s);
+            }
         </script>
     </head>
     <body>
-        <div class="JS_Multiselect container" name="towns">
-            <div class="JSM-head navbar navbar-default">
-                <span class="JSM-text navbar-brand">Pick Your Contry</span>
-                <span class="JSM-search form-group">
-                    <input class="JSM-searchbar form-control" type="text" placeholder="Search">
-                </span>
-            </div>
-            <div class="JSM-body">
-                <div class="JSM-list">
-                    <!-- Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-                    <div class="list-group list-group-root">             
-                        <a href="#item-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                   
-                            <input type="checkbox" class='checkbox JSM-checkbox'>
-                            Item 1
-                            <span class="drop-icon"></span>
-                        </a>
-                        <div class="list-group collapse" id="item-1">                            
-                            <a href="#item-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                                
-                                <input type="checkbox" class='checkbox JSM-checkbox'>
-                                Item 1.1
-                                <span class="drop-icon"></span>
-                            </a>
-                            <div class="list-group collapse" id="item-1-1">
-                                <span class="list-group-item">                                 
-                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                  Item 1.1.1
-                                </span>
-                                <span class="list-group-item">                                  
-                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                  Item 1.1.2
-                                </span>
-                                <span class="list-group-item">                                    
-                                    <input type="checkbox" class='checkbox JSM-checkbox'>
-                                    Item 1.1.3
-                                </span>
-                                <a href="#item-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                                    
-                                    <input type="checkbox" class='checkbox JSM-checkbox'>
-                                    Item 1.1
-                                    <span class="drop-icon"></span>
-                                </a>
-                                <div class="list-group collapse" id="item-1-1-1">
-                                    <span class="list-group-item">                                     
-                                      <input type="checkbox" class='checkbox JSM-checkbox'>
-                                      Item 1.1.1
-                                    </span>
-                                    <span class="list-group-item">                                     
-                                      <input type="checkbox" class='checkbox JSM-checkbox'>
-                                      Item 1.1.2
-                                    </span>
-                                    <span class="list-group-item">                                     
-                                      <input type="checkbox" class='checkbox JSM-checkbox'>
-                                      Item 1.1.3
-                                    </span>
-                                    <a href="#item-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                                       
-                                        <input type="checkbox" class='checkbox JSM-checkbox'>
-                                        Item 1.1
-                                        <span class="drop-icon"></span>
-                                    </a>
-                                    <div class="list-group collapse" id="item-1-1-1-1">
-                                        <span class="list-group-item">                                         
-                                          <input type="checkbox" class='checkbox JSM-checkbox'>
-                                          Item 1.1.1.1
-                                        </span>
-                                        <span class="list-group-item">                                            
-                                            <input type="checkbox" class='checkbox JSM-checkbox'>
-                                            Item 1.1.1.2
-                                        </span>
-                                        <span class="list-group-item">                                          
-                                          <input type="checkbox" class='checkbox JSM-checkbox'>
-                                          Item 1.1.1.3
-                                        </span>
-                                        <a href="#item-1-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">
-                                            Item 1.1
-                                            <input type="checkbox" class='checkbox JSM-checkbox'>
-                                            <span class="drop-icon"></span>
-                                        </a>
-                                        <div class="list-group collapse" id="item-1-1-1-1-1">
-                                            <span class="list-group-item">                                              
-                                              <input type="checkbox" class='checkbox JSM-checkbox'>
-                                              Item 1.1.1.1.1
-                                            </span>
-                                            <span class="list-group-item">                                             
-                                              <input type="checkbox" class='checkbox JSM-checkbox'>
-                                              Item 1.1.1.1.2
-                                            </span>
-                                            <span class="list-group-item">                                             
-                                              <input type="checkbox" class='checkbox JSM-checkbox'>
-                                              Item 1.1.3
-                                            </span>
-                                            <a href="#item-1-1-1-1-1-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                                               
-                                                <input type="checkbox" class='checkbox JSM-checkbox'>
-                                                Item 1.1
-                                                <span class="drop-icon"></span>
-                                            </a>
-                                            <div class="list-group collapse" id="item-1-1-1-1-1-1">
-                                                <span class="list-group-item">                                               
-                                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                                  Item 1.1.1
-                                                </span>
-                                                <span class="list-group-item">                                                 
-                                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                                  Item 1.1.2
-                                                </span>
-                                                <span class="list-group-item">
-                                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                                  Item 1.1.3
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <a href="#item-1-2" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse">                              
-                                <input type="checkbox" class='checkbox JSM-checkbox'>
-                                Item 1.2
-                                <span class="drop-icon"></span>
-                            </a>
-                            <div class="list-group collapse" id="item-1-2">
-                                <span class="list-group-item">                                 
-                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                  Item 1.2.1
-                                </span>
-                                <span class="list-group-item">                                 
-                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                  Item 1.2.2
-                                </span>
-                                <span class="list-group-item">                          
-                                  <input type="checkbox" class='checkbox JSM-checkbox'>
-                                  Item 1.2.3 
-                                </span>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-              </div>
-            <div class="JSM-footer"></div>
-        </div>
+    <div class="container">
+        <!-- START MULTISELECT -->
+        <form id="testForm">
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
+           
+        </form>
+        <input type="button" onclick="showParsed()" value="check form">
+        
+    </div>
     </body>
 </html>
