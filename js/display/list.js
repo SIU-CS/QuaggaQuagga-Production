@@ -45,8 +45,8 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                 // this is the selectable item (expand button)
                 var itemStr = `
                     <a href="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse" data-searchable="` + searchText + `">
-                        ` + name + `
                         <input type="checkbox" class='checkbox JSM-checkbox' ` + (isSelected ? "checked" : "") + `>
+                        ` + name + `
                         <span class="drop-icon"></span>
                     </a>
                 `;
@@ -71,8 +71,8 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                 // string format
                 var eleString = `
                     <span class="list-group-item" data-searchable="` + searchText + ` data-value="` + value + `">
-                    ` + name + `
                     <input type="checkbox" class='checkbox JSM-checkbox' ` + (isSelected ? "checked" : "") + ` name="`+ name +`" value="` + value + `">
+                    ` + name + `
                     </span>
                 `;
                 // get the jquery element
