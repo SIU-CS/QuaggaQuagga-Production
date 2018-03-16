@@ -84,21 +84,22 @@
             // a test function for HTML input 
             function loadHTML() {
                 
-                var strrHTML = `
+                var HTML = `
                     <ul>
                         <li name="Item 1" searchable="search me" selected="false"><ul>
                             <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
                             <li name="Item 1.2" searchable="search me" selected="false"><ul>
                                 <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li> 
                                 <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
-                                <li name="Item 1.2.2" value="1.2.3" searchable="search me" selected="false"></li>   
+                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
+                                   
                             </ul></li>
                         </ul></li>
                         <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
                     </ul>
                 `;
-                return strrHTML;
-                }
+                return (HTML);
+}
         </script>
     </head>
     <body>
