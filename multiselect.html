@@ -81,14 +81,32 @@
             return array;
             }
         
-
+            // a test function for HTML input 
+            function loadHTML() {
+                
+                var HTML = `
+                    <ul>
+                        <li name="Item 1" searchable="search me" selected="false"><ul>
+                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
+                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
+                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li> 
+                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
+                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
+                                   
+                            </ul></li>
+                        </ul></li>
+                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
+                    </ul>
+                `;
+                return (HTML);
+}
         </script>
     </head>
     <body>
     <div class="container">
         <!-- START MULTISELECT -->
         <form id="testForm">
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadArray" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadHTML" data-title="Pick A Contry"></div>
            
         </form>
         <input type="button" onclick="showParsed()" value="check form">
