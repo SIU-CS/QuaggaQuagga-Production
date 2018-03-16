@@ -63,7 +63,7 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
                 if ($.isPlainObject(cachedSelected[key]) && cachedSelected[key] != null) {
                     var child = cachedSelected[key];
                     setData.setSelectedForItem(child, isChecked);
-                    if (child['@isHeader']) {
+                    if (child['@isHeader']) { // if is header check those under it as well
                         SelectAllUnderSelected(child, isChecked)
                     }
                 }

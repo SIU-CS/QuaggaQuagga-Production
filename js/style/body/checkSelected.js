@@ -36,6 +36,12 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
         // return
         return isAllSelected;
     }
+    /**
+     * Will loop over the data and check any fields that need to be checked based
+     * On the children of that data
+     * @param {String} name the name of the multiselect
+     * @returns {Bool} returns true if success false is failure
+     */
     return function(name) {
         var data = getData.getDataByName(name);
         if (data == null) return false;
