@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array'],function (require) {
+define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_input/HTML'],function (require) {
     var $, jquery;
     $ = jquery = require('jquery');
 
@@ -8,7 +8,8 @@ define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array'],function
      */
     var typeFunctions = {
         "liveHTML": require('data_input/liveHTML'),
-        "array": require('data_input/array')
+        "array": require('data_input/array'),
+        "HTML": require('data_input/HTML')
     };
     
     /**
