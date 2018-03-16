@@ -20,7 +20,8 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             // get the attributes
             var name = $child.attr('name');
             var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
-            var selected = $child.attr('selected') == "true" || $child.attr('selected') == "selected";
+            // this is a special property
+            var selected = $child.attr('selected') != null;
 
             // check is group or just item
             if ($child.children("ul").length > 0) { // is group
