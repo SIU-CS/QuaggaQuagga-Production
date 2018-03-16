@@ -17,14 +17,15 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         // for each child under the head
         $groupHead.children().each(function() {
             var $child = $(this);
+            // get the attributes
+            var name = $child.attr('name');
+            var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
+            var selected = $child.attr('selected') == "true" || $child.attr('selected') == "selected";
+
             // check is group or just item
             if ($child.children("ul").length > 0) { // is group
                 // get the group (only sleect first group)
                 var $group = $child.children("ul").first();
-                // get the attributes
-                var name = $child.attr('name');
-                var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
-                var selected = $child.attr('selected') == "true";
                 // make sure name is defined
                 if (typeof name == 'undefined' || name == null) return null;
                 // get the children for this node
@@ -37,11 +38,8 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 rv[name] = $.extend(children, rv[name]);
                 
             } else { // is item
-                // get attributes from the element
-                var name = $child.attr('name');
+                // get the value for the item
                 var value = $child.attr('value');
-                var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
-                var selected = $child.attr('selected') === "true";
                 // make sure the important attribute exist
                 if (typeof name == 'undefined' || name == null) return null;
                 if (typeof value == 'undefined' || value == null) return null;
