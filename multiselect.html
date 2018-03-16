@@ -20,19 +20,36 @@
         <script>
             // a test function
             function loadData() {
-                
-                var strHTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me" selected="false"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
-                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li>    
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
-                    </ul>
-                `;
-                return $.parseHTML(strHTML.trim());
+                return {
+                    "Item1": {
+                        searchable: "value",
+                        "@selected": false,
+                        selected: {
+                            searchable: "value",
+                            selected: false,
+                            value: "1.1"
+                        }
+
+                    },
+                    "Item2": {
+                        "@searchable": "value",
+                        "@selected": false,
+                        "Item2.1": {
+                            searchable: "value",
+                            selected: false,
+                            value: "2.1"
+                        }
+                    },
+                    "Item3": {
+                        "@searchable": "value",
+                        "@selected": false,
+                        "Item3.1": {
+                            searchable: "value",
+                            selected: false,
+                            value: "3.1"
+                        }
+                    }
+                }
             }
             function showParsed() {
                 var s = $("#testForm").serializeArray();
@@ -106,7 +123,7 @@
     <div class="container">
         <!-- START MULTISELECT -->
         <form id="testForm">
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadHTML" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="JSON" data-load="loadData" data-title="Pick A Contry"></div>
            
         </form>
         <input type="button" onclick="showParsed()" value="check form">
