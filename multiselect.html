@@ -86,14 +86,17 @@
                 
                 var HTML = `
                     <ul>
-                        <li name="Item 1" searchable="search me" selected="false"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
-                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li> 
-                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
-                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
-                                   
-                            </ul></li>
+                        <li name="Item 1" searchable="search me"><ul>
+                            <li name="Item 1.1" value="1.1" searchable="search me" selected></li>
+                            `;
+                    for (var i = 1; i <= 1; i++) {
+                        HTML += `<li name="Item 1.2--` + i*2 + `" searchable="search me" selected><ul>
+                            <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected></li> 
+                            <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected></li> 
+                            <li name="Item 1.2.3" value="1.2.3" searchable="search me" selected></li> 
+                        </ul></li>`;
+                    }
+                    HTML += `
                         </ul></li>
                         <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
                     </ul>

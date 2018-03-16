@@ -1,6 +1,15 @@
 'use strict';
 
-define(['require', 'jquery', 'consts', 'data_store/new', 'data_input/load', 'data_store/get', 'display/list', 'display/title'], function(require) {
+define(['require', 
+        'jquery', 
+        'consts', 
+        'data_store/new', 
+        'data_input/load', 
+        'data_store/get', 
+        'display/list', 
+        'display/title',
+        'style/body/checkSelected'
+    ], function(require) {
     var $, jquery;
     $ = jquery = require('jquery');
     var CONSTS = require('consts');
@@ -9,6 +18,7 @@ define(['require', 'jquery', 'consts', 'data_store/new', 'data_input/load', 'dat
     var loadData = require('data_input/load');
     var listDisplay = require('display/list');
     var titleDisplay = require('display/title');
+    var checkSelected = require('style/body/checkSelected');
 
     // for each multiselect on the screen
     $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
@@ -32,5 +42,7 @@ define(['require', 'jquery', 'consts', 'data_store/new', 'data_input/load', 'dat
         titleDisplay(name);
         // display the data list
         listDisplay(name);
+        // check those selected in the list
+        checkSelected(name);
     });
 });
