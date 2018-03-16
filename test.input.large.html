@@ -18,9 +18,25 @@
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
         <script>
-            // a test function for HTML input 
+            // about 45000 nodes being created here
             function loadData() {
-
+                // 
+                var HTML = `
+                    <ul>
+                        <li name="Item 1" searchable="search me"><ul>`;
+                    for (var i = 0; i <= 300; i++) {
+                        HTML += `<li name="Item 1.` + i + `" searchable="search me" selected><ul>`
+                            for (var ii = 0; ii <= i; ii++) {
+                                HTML += `<li name="Item 1.` + i + `.`+ ii +`" value="1.2.1" searchable="search me" selected></li>`;
+                            }
+                        HTML += `</ul></li>`;
+                    }
+                    HTML += `
+                        </ul></li>
+                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
+                    </ul>
+                `;
+                return (HTML);
             }
         </script>
     </head>
