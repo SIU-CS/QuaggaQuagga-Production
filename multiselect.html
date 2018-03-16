@@ -18,88 +18,10 @@
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
         <script>
-            // a test function
-            function loadData() {
-                
-                var strHTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me" selected="false"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
-                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li>    
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
-                    </ul>
-                `;
-                return $.parseHTML(strHTML.trim());
-            }
             function showParsed() {
                 var s = $("#testForm").serializeArray();
                 console.log(s);
             }
-
-            // a test function for array input
-            function loadArray() {
-            var array = [
-                { // a header
-                    "name": "Item1",
-                    "searchable": "Item1",
-                    "selected": false,
-                    "items": [
-                        { // list of items 
-                            "name": "Item1.1",
-                            "searchable": "Item1.1",
-                            "selected": false,
-                            "value" : "1.1"
-                        },
-                        { // item 1.2 is also a header 
-                            "name": "Item1.2",
-                            "searchable": "Item1.2",
-                            "selected": false,
-                            "items" : [            
-                                   {  // list of items for 1.2
-                                       "name": "Item1.2.1",
-                                       "searchable": "Item1.2.1",
-                                       "selected": false,
-                                       "value" : "1.2.1"
-                                   },
-                                   {
-                                    "name": "Item1.2.2",
-                                       "searchable": "Item1.2.2",
-                                      "selected": false,  
-                                      "value" : "1.2.2" 
-                                   }
-                                      ]
-
-                        }
-                               ]
-
-                },
-
-            ];
-            return array;
-            }
-        
-            // a test function for HTML input 
-            function loadHTML() {
-                
-                var HTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me" selected="false"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me" selected="false"></li>
-                            <li name="Item 1.2" searchable="search me" selected="false"><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected="false"></li> 
-                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
-                                <li name="Item 1.2.2" value="1.2.2" searchable="search me" selected="false"></li> 
-                                   
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected="false"></li>  
-                    </ul>
-                `;
-                return (HTML);
-}
         </script>
     </head>
     <body>
