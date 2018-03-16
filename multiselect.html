@@ -17,22 +17,11 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
         <link rel="stylesheet" href="./style/main.css">
-        <script>
-            function showParsed() {
-                var s = $("#testForm").serializeArray();
-                console.log(s);
-            }
-        </script>
     </head>
     <body>
     <div class="container">
         <!-- START MULTISELECT -->
-        <form id="testForm">
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadHTML" data-title="Pick A Contry"></div>
-           
-        </form>
-        <input type="button" onclick="showParsed()" value="check form">
-        
+        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadHTML" data-title="Pick A Contry"></div>
     </div>
     </body>
 </html>
