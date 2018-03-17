@@ -13,8 +13,9 @@
         position: relative;
         background-color: inherit;
         color: inherit;
+        // Custom Checkbox 
         .JSM-checkbox {
-            -webkit-appearance: none;
+            -webkit-appearance: none; // Default appearance is set to none
             background-color: rgb(210, 240, 128);
 	        border: 2px solid #160308;
 	        box-shadow: 0 3px 3px grey, inset 0px -15px 10px -12px rgba(235, 228, 228, 0.849);
@@ -23,9 +24,14 @@
 	        display: inline-block;
 	        position: relative;
         }
+        // On hover styling 
+        .JSM-checkbox:hover {
+        background-color: rgb(238, 161, 147);
+        }
+        // Checkmark Styling 
         .JSM-checkbox:checked:after {
             content: '\2714';
-            font-size: 15px;
+            font-size: 17px;
             position: relative;
             top: 0px;
             left: 1px;

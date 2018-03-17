@@ -59,9 +59,12 @@
   display: inline-block;
   position: relative;
 }
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
+  background-color: #eea193;
+}
 .JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
   content: '\2714';
-  font-size: 13px;
+  font-size: 17px;
   position: relative;
   top: 0px;
   left: 1px;
