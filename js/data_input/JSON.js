@@ -4,7 +4,8 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
-
+    /*This function is used to process the JSON dat, remove any null keys and also 
+    to distinguish between the special keys(@..)and the normal one*/
     function ProcessJson(jsonData)
     {
         var rv = {};
@@ -41,29 +42,35 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             {
                 var header = dataStoreNew.newMultiselectHeader(null, searchable, selected);
                 var children = ProcessJson(obj);
-                if (children != null) {
+                if (children != null) //It is nested
+                {
                     rv[name] = $.extend(children, header);
                 }
                 
-            } else { // is item
+            } else 
+            { // is item
                 rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         }
 
-        if ($.isEmptyObject(rv)) return null;
+        if ($.isEmptyObject(rv)) 
+            return null;//The ibject is empty
         return rv;
     }
     return function(jsonData) 
     {
-        if(typeof jsonData !='object') {
+        if(typeof jsonData !='object') //Checking whether the data read is object 
+        {
             try {
-                jsonData = $.parseJSON(jsonData);
+                jsonData = $.parseJSON(jsonData);//Ot takes the JSON data nd return the JavaScript value
             } catch(err) {
-                console.warn("Data is not json or json parsable")
+                console.warn("Data is not json or json parsable")//Throw error if data is not JSON format
                 return null;
             }
         }
+        //merge the JSON data within another empty file or making a copy of the JSON data
         jsonData = $.extend(true, {}, jsonData);
+        
         return ProcessJson(jsonData);
     }
 });
