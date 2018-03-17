@@ -43,9 +43,15 @@
                                     {  // list of items for 1.2
                                         "name": "Item 1.2.1",
                                         "searchable": "search me",
-                                        "selected": false,
+                                        "selected": true,
                                         "value" : "1.2.1"
                                     },
+                                    { 
+                                        "name": "Item 1.2.2",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.2"
+                                    }
                                     
                                 ]
                             }
@@ -65,18 +71,26 @@
                 var check = function() {
                     var success = true;
                     // few static test conditions 
-                    //warn if the no. of list groups is less than or greater than 3
-                    if($('.JSM-list .list-group').length != 3) {
+                    //warn if the no. of list groups is less than or greater than 2
+                    if($('.JSM-list .list-group').length > 2) {
                         success = false;
-                        console.warn('Too few/many groups')
+                        console.warn('Too many groups')
                     }
-                    //warn if the no. of list group items is less than or greater than 5
-                    if($('.JSM-list .list-group-item').length != 5) {
+                    if($('.JSM-list .list-group').length < 2) {
                         success = false;
-                        console.warn('Too few/many items')
+                        console.warn('Too few groups')
                     }
-                    //warn if more than one/no checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
+                    //warn if the no. of list group items is greater than 4
+                    if($('.JSM-list .list-group-item').length > 4) {
+                        success = false;
+                        console.warn('Too many items')
+                    }
+                    if($('.JSM-list .list-group-item').length < 4) {
+                        success = false;
+                        console.warn('Too few items')
+                    }
+                    // warn if more than one checkbox is auto selected
+                    if($('.JSM-list .JSM-checkbox:checked').length > 1) {
                         success = false;
                         console.warn('Auto selected not working')
                     }

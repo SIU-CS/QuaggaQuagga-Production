@@ -63,9 +63,25 @@ function (require) {
         return false;
     }
 
+    /**
+     * Sets the selected option for this item and checks the element
+     * @param {Object} item a data item from the cache 
+     * @param {Bool} selected true if selected false otherwise
+     */
+    function setSelectedForItem(item, selected) {
+        if (item == null) return false;
+        // ensure this is a bool
+        selected = selected == true || selected == "true";
+        item['@selected'] = selected;
+        if (item['@element'] != null)
+            item['@element'].find('.JSM-checkbox').prop('checked', selected);
+        return true;
+    }
+
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
-        setOptionsByName: setOptionsByName
+        setOptionsByName: setOptionsByName,
+        setSelectedForItem: setSelectedForItem
     }
 });
