@@ -4,8 +4,11 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
-    /*This function is used to process the JSON dat, remove any null keys and also 
-    to distinguish between the special keys(@..)and the normal one*/
+    /**
+     * This function is used to process the JSON data 
+     * remove any null keys 
+     * to distinguish between the special keys(@..)and the normal one
+    */
     function ProcessJson(jsonData)
     {
         var rv = {};
@@ -57,6 +60,12 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             return null;//The ibject is empty
         return rv;
     }
+    /**
+     * this function takes the JSO data as a parameter
+     * checks whether the data is JSON or not
+     * clone the JSON data
+     * process the JSON data
+    */
     return function(jsonData) 
     {
         if(typeof jsonData !='object') //Checking whether the data read is object 
