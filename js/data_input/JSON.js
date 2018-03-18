@@ -61,7 +61,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         return rv;
     }
     /**
-     * this function takes the JSO data as a parameter
+     * this function takes the JSON data as a parameter
      * checks whether the data is JSON or not
      * clone the JSON data
      * process the JSON data
