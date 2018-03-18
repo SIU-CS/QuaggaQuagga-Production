@@ -53,7 +53,7 @@
   -webkit-appearance: none;
   background-color: #d2f080;
   border: 2px solid #160308;
-  box-shadow: 0 3px 3px grey, inset 0px -15px 10px -12px rgba(235, 228, 228, 0.849);
+  box-shadow: 0 4px 5px grey, inset 0px -15px 10px -12px rgba(235, 228, 228, 0.849);
   padding: 7px;
   border-radius: 3px;
   display: inline-block;
@@ -64,11 +64,11 @@
 }
 .JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
   content: '\2714';
-  font-size: 17px;
-  position: relative;
+  font-size: 15px;
+  position: absolute;
   top: 0px;
-  left: 1px;
-  color: #01070c;
+  left: 0px;
+  color: black;
 }
 .JS_Multiselect .list-group-root > .list-group .list-group,
 .JS_Multiselect .list-group-root > .list-group {
