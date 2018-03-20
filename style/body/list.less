@@ -17,12 +17,14 @@
         .JSM-checkbox {
             -webkit-appearance: none; // Default appearance is set to none
             background-color: rgb(210, 240, 128);
-	        border: 2px solid #160308;
-	        box-shadow: 0 4px 5px grey, inset 0px -15px 10px -12px rgba(235, 228, 228, 0.849);
-	        padding: 7px;
+	        border: 1px solid black;
+            padding: 0;
+            height: 15px;
+            width: 15px;
 	        border-radius: 3px;
 	        display: inline-block;
-	        position: relative;
+            position: relative;
+            margin: 0;
         }
         // On hover styling 
         .JSM-checkbox:hover {
@@ -32,9 +34,10 @@
         .JSM-checkbox:checked:after {
             content: '\2714';
             font-size: 15px;
+            height: 0;
             position: absolute;
-            top: 0px;
-            left: 0px;
+            top: -4px;
+            left: 0;
             color: black;
         }
     }
