@@ -50,28 +50,29 @@
   color: inherit;
 }
 .JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox {
+  font-family: "FontAwesome";
   -webkit-appearance: none;
   background-color: #d2f080;
   border: 1px solid black;
   padding: 0;
-  height: 15px;
-  width: 15px;
+  margin: 0;
+  height: 16px;
+  width: 16px;
   border-radius: 3px;
   display: inline-block;
   position: relative;
-  margin: 0;
+  vertical-align: text-bottom;
 }
 .JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
   background-color: #eea193;
 }
-.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
-  content: '\2714';
-  font-size: 15px;
-  height: 0;
-  position: absolute;
-  top: -4px;
-  left: 0;
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:before {
+  content: '\f00c';
+  font-size: 14px;
+  font-weight: 100;
   color: black;
+  text-align: center;
+  vertical-align: text-top;
 }
 .JS_Multiselect .list-group-root > .list-group .list-group,
 .JS_Multiselect .list-group-root > .list-group {
