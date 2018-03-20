@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'data_store/new'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
@@ -34,7 +34,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 // if no children continue
                 if (children == null) return null;
                 // get the group object
-                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected)
+                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected);
                 // extend the group ovject with the children elements
                 rv[name] = $.extend(children, rv[name]);
                 
@@ -45,7 +45,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 if (typeof name == 'undefined' || name == null) return null;
                 if (typeof value == 'undefined' || value == null) return null;
                 // get the new data item and store under given name
-                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected)
+                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         });
         return rv;
@@ -66,5 +66,5 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
 
         // processes the html into a correct data format
         return ProcessHTML(nodeList);
-    }
+    };
 });

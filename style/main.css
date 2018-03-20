@@ -95,11 +95,6 @@
 .JS_Multiselect .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
   content: "\f054" !important;
 }
-.JS_Multiselect .JSM-head {
-  /*
-     * Search CSS
-     */
-}
 .JS_Multiselect .hidden {
   display: none;
 }

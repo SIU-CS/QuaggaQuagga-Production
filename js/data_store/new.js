@@ -1,11 +1,11 @@
-'use strict';
-
 // defines the consructors for the data object
 define(['require',
     'data_store/cache',
     'data_store/set',
     'jquery'],
 function (require) {
+    'use strict';
+
     var jquery, $;
     jquery = $ = require('jquery');
     var cache = require('data_store/cache');
@@ -23,8 +23,8 @@ function (require) {
         var name = $(ele).attr('name');
         if (typeof name === 'undefined' || name == null) return null;
 
-        var ele = $(ele).first();
-        if (!cache.addMultiselect(name, ele, data, options, title)) return null;
+        var jqueryEle = $(ele).first();
+        if (!cache.addMultiselect(name, jqueryEle, data, options, title)) return null;
         return name;
     }
     /**
@@ -47,7 +47,7 @@ function (require) {
             "@searchable": (searchable == null ? "": searchable),
             "@selected": (selected == null ? false : selected),
             "@isHeader": false
-        }
+        };
     }
 
     /**
@@ -68,7 +68,7 @@ function (require) {
             "@searchable": (searchable == null ? "": searchable),
             "@selected": (selected == null ? false : selected),
             "@isHeader": true
-        }
+        };
     }
 
     return {

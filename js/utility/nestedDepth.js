@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     // returns the depth

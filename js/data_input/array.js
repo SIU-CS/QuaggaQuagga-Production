@@ -1,10 +1,10 @@
-'use strict';
+define(['require', 'jquery', 'data_store/new', 'logger'], function(require) { 
+    'use strict';
 
-define(['require', 'jquery', 'data_store/new', 'logger'], function(require) {
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
-    var logger = require('logger')
+    var logger = require('logger');
 
     /**
      * An internal function that recurses over the input array data and builds 
@@ -17,10 +17,12 @@ define(['require', 'jquery', 'data_store/new', 'logger'], function(require) {
         var rv = {}; // returnvalue
         for (var i in array) { // for every item in the array check 
             if ($.isPlainObject(array[i])) { 
-                if (array[i]['name'] == null) continue;
+                if (array[i]['name'] == null) {
+                    continue;
+                }
                 //get attributes associated with the object 
                 var name = array[i]['name'];
-                var selected = array[i]['selected'] == true || array[i]['selected'] == "true";
+                var selected = array[i]['selected'] === true || array[i]['selected'] === "true";
                 var searchable = array[i]['searchable'];
                 if (searchable == null) 
                 { 
@@ -42,7 +44,7 @@ define(['require', 'jquery', 'data_store/new', 'logger'], function(require) {
                     if (array[i]['value'] == null) continue;
                     var value = array[i]['value']; //get the value 
                     // get the item and store under the given name 
-                    rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected); // returnvalue 
+                    rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
                 }
             }
         }
@@ -50,6 +52,6 @@ define(['require', 'jquery', 'data_store/new', 'logger'], function(require) {
     }
 
    return function(arrayData) {
-        return ProcessArray(arrayData)
+        return ProcessArray(arrayData);
    };
 });

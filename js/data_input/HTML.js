@@ -1,6 +1,6 @@
-'use strict';
+define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/liveHTML'], function(require) {
+    'use strict';
 
-define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/liveHTML'], function(require) { 
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
