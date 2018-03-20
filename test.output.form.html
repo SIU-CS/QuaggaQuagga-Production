@@ -23,18 +23,29 @@
         <script>
             // load the data
             function loadData() {
-                var strHTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me"></li>
-                            <li name="Item 1.2" searchable="search me" selected><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected</li>    
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected></li>  
-                    </ul>
-                `;
+var strHTML = `<ul>
+    <li name="Item 1" searchable="search me"><ul>
+        <li name="Item 1.1" value="1.1" searchable="search me"></li>
+        <li name="Item 1.2" searchable="search me" selected><ul>
+            <li name="Item 1.2.1" value="1.2.1" searchable="search me" checked></li>    
+        </ul></li>
+    </ul></li>
+    <li name="Item 2" value="2" searchable="search me" checked></li>  
+</ul>`;
+                displayInput(strHTML);
                 return strHTML;
+            }
+
+            function displayInput(input) {
+                $("#input").text(input);
+            }
+            function displayOutput(output) {
+                output = JSON.stringify(output, null, 2);
+                $("#output").text(output);
+            }
+            function displayExpectedOutput(output) {
+                output = JSON.stringify(output, null, 2);
+                $("#expected-output").text(output);
             }
 
             $(document).ready(function(){
@@ -53,8 +64,10 @@
                         console.warn('data not loaded properly');
                     }
                     var parsedFormData = $("#testForm").serializeArray();
+                    displayOutput(parsedFormData);
                     console.log("Parsed Data: ", parsedFormData);
                     var expectedOutput = [{ name: "Item 1.2.1", value: "1.2.1"}, {name: "Item 2", value: "2"}];
+                    displayExpectedOutput(expectedOutput)
                     // copy the array so we get good output here
                     console.log("Expected Data: ", expectedOutput.slice());
                     if (parsedFormData.length == expectedOutput.length) {
@@ -76,7 +89,6 @@
                     } else {
                         success = false;
                         console.warn('Too few/many items returning selected. Data:');
-                        console.warn(parsedFormData);
                     }
                     if (success) {
                         $("#success").removeClass('hidden');
@@ -113,10 +125,38 @@
     </div>
 
     <div class="container">
-        <form id="testForm">
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
-        </form>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
+            </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Output:</h2>
+                <pre id="output">
 
+                </pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Selector:</h2>
+                <form id="testForm">
+                    <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+                </form>
+            </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Expected Output:</h2>
+                <pre id="expected-output">
+
+                </pre>
+            </div>
+        </div>
     </div>
+
+
     </body>
 </html>

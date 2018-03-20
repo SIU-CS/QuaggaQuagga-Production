@@ -8,14 +8,17 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/liveHTML'],
     var liveHTML = require('data_input/liveHTML');
 
     return function loadHTML(strHTML) {
+        var html = null;
         try { // try to parse html
-            var html = $.parseHTML(strHTML.trim());
-            // process using liveHTML and return
-            return liveHTML(html);
+            html = $.parseHTML(strHTML.trim());
+            
         } catch (ex) {
             // give some warning to the user
             console.warn("Not a valid HTML");
+            return null;
         }
+        // process using liveHTML and return
+        if (html != null) return liveHTML(html);
         return null;
     };
 });

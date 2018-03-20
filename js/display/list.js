@@ -12,6 +12,19 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
     var headCount = 0;
 
     /**
+     * Returns a string that is a input type check
+     * @param {Bool} checked Sets the input to checked or not
+     */
+    function getCheckboxLayout(checked, name, value) {
+        return `
+        <input type="checkbox" class='checkbox JSM-checkbox' ` +
+        (value != null ? "value=\""+ value +"\"": "") +
+        // returns "on" if no value and a name
+        (value != null && name != null ? "name=\""+ name +"\"": "") +
+        (checked ? "checked=\"checked\"" : "") + `>`;
+    }
+
+    /**
      * This function iterates through a set of data setting the expected values and producing
      * an appendable jquery list
      * @param {JSON object} data Standard JSON data format for this project
@@ -45,9 +58,9 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     // this is the selectable item (expand button)
                     var itemStr = `
                         <a href="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed"
-                                data-toggle="collapse" data-searchable="` + searchText + `">
-                            <input type="checkbox" class='checkbox JSM-checkbox' ` + (isSelected ? "checked" : "") + `>
-                            ` + name + `
+                                data-toggle="collapse" data-searchable="` + searchText + `">` +
+                            getCheckboxLayout(isSelected, name) +
+                            name + `
                             <span class="drop-icon"></span>
                         </a>
                     `;
@@ -71,10 +84,9 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                 } else { // else is just a selectable item
                     // string format
                     var eleString = `
-                        <span class="list-group-item" data-searchable="` + searchText + `" data-value="` + value + `">
-                            <input type="checkbox" class='checkbox JSM-checkbox' ` + (isSelected ? "checked" : "") + 
-                            ` name="`+ name +`" value="` + value + `">
-                            ` + name + `
+                        <span class="list-group-item" data-searchable="` + searchText + `" data-value="` + value + `">` +
+                            getCheckboxLayout(isSelected, name, value) +
+                            name + `
                         </span>
                     `;
                     // get the jquery element

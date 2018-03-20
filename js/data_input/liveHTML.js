@@ -18,17 +18,28 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         $groupHead.children().each(function() {
             var $child = $(this);
             // get the attributes
-            var name = $child.attr('name');
+            var name = $child.attr('name') != null ? $child.attr('name') : $child.attr('title');
             var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
             // this is a special property
-            var selected = $child.attr('selected') != null;
+            console.log($child);
+            var selected = $child.attr('selected') != null || $child.attr('checked') != null;
+            // get the text contents
+            var content = $child.contents()[0] != null ? $child.contents()[0].nodeValue : null;
+            if (content != null) {
+                content = content.trim();
+                if (content == "") content = null;
+            }
+            // define name if not already
+            if (typeof name === 'undefined' || name === null) {
+                if (content != null) name = content;
+                else return null;
+            }
+            
 
             // check is group or just item
             if ($child.children("ul").length > 0) { // is group
                 // get the group (only sleect first group)
                 var $group = $child.children("ul").first();
-                // make sure name is defined
-                if (typeof name == 'undefined' || name == null) return null;
                 // get the children for this node
                 var children = ProcessHTML($group);
                 // if no children continue
@@ -42,9 +53,13 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 // get the value for the item
                 var value = $child.attr('value');
                 // make sure the important attribute exist
-                if (typeof name == 'undefined' || name == null) return null;
-                if (typeof value == 'undefined' || value == null) return null;
+
+                if (typeof value === 'undefined' || value === null) {
+                    // we deffinitly have a name at this point
+                    value = name;
+                }
                 // get the new data item and store under given name
+                console.log(name, selected);
                 rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         });
