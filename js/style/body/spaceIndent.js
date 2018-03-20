@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var nestedDepth = require('utility/nestedDepth');

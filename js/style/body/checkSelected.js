@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'data_store/set'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var getMultiselectorName = require('utility/getMultiselectName');
@@ -47,5 +47,5 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
         if (data == null) return false;
         RecursivelyCheck(data);
         return true;
-    }
+    };
 });

@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'consts'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var CONSTS = require('consts');

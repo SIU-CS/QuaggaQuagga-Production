@@ -58,7 +58,13 @@
                         "value" : "2" 
                     }
                 ];
+                displayInput(array);
                 return array;
+            }
+            function displayInput(input) {
+                if ($.isPlainObject(input) || $.isArray(input))
+                    input = JSON.stringify(input, null, 2);
+                $("#input").text(input);
             }
 
             $(document).ready(function(){
@@ -100,10 +106,22 @@
             <h3>Test Failed! Check Warnings</h3>
         </div>
     </div>
-
     <div class="container">
-        <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
+            </div>
+            
+        <div class="col-md-6">
+            <h2 class="text-center">Output:</h2>
+            <!-- START MULTISELECT -->
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
+        </div>
+        </div>
     </div>
+
     </body>
 </html>

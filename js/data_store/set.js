@@ -1,5 +1,3 @@
-'use strict';
-
 // defines the more advanced error checking getters of the data
 define(['require',
     'data_store/get',
@@ -7,6 +5,8 @@ define(['require',
     'logger',
     'jquery'],
 function (require) {
+    'use strict';
+
     var $, jquery;
     $ = jquery = require('jquery');
     var cache = require('data_store/cache');
@@ -20,7 +20,7 @@ function (require) {
      * @returns {Bool} True if successful, false otherwise
      */
     function replaceDataByName(name, data) {
-        var multi = dataObj.getMultiselect(name);
+        var multi = cache.getMultiselect(name);
         if (multi !== null) {
             multi.data = data;
             return true;
@@ -36,12 +36,12 @@ function (require) {
      * @returns {Bool} True if successful, false otherwise
      */
     function extendDataItemsByName(name, items, force) {
-        var multi = dataObj.getMultiselect(name);
+        var multi = cache.getMultiselect(name);
         if (multi !== null) {
             if (force)
-                multi.data = $.extend(multi.data, data);
+                multi.data = $.extend(multi.data, items);
             else
-                multi.data = $.extend(data, multi.data);
+                multi.data = $.extend(items, multi.data);
             return true;
         }
         return false;
@@ -54,7 +54,7 @@ function (require) {
      * @returns {Bool} True if successful, false otherwise
      */
     function setOptionsByName(name, options) {
-        var multi = dataObj.getMultiselect(name);
+        var multi = cache.getMultiselect(name);
         if (multi !== null) {
             // will overrnamee any other objects
             multi.options = $.extend(multi.options, options);
@@ -83,5 +83,5 @@ function (require) {
         extendDataItemsByName: extendDataItemsByName,
         setOptionsByName: setOptionsByName,
         setSelectedForItem: setSelectedForItem
-    }
+    };
 });
