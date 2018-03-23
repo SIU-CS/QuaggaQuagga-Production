@@ -1,9 +1,10 @@
-define(['require', 'jquery', 'data_store/new'], function(require) {
+define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], function(require) {
     'use strict';
     
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
+    var helper = require('data_input/inputHelper');
     /**
      * This function is used to process the JSON data 
      * remove any null keys 
@@ -15,37 +16,19 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         for(var name in jsonData) {
             if(typeof jsonData[name] =='object' && jsonData[name] != null) 
             {
-                var obj = jsonData[name];
                 // get then delete object attributes here
-                var value = null;
-                if(obj['@value'] != null) {
-                    value = obj['@value'];
-                    delete obj['@value'];
-                } else if(obj['value'] != null) {
-                    value = obj['value'];
-                    delete obj['value'];
-                }
-                var searchable = "";
-                if(obj['@searchable'] != null) {
-                    searchable = obj['@searchable'];
-                    delete obj['@searchable'];
-                } else if(obj['searchable'] != null) {
-                    searchable = obj['searchable'];
-                    delete obj['searchable'];
-                }
-                var selected = false;
-                if(obj['@selected'] != null) {
-                    selected = obj['@selected'] == true || obj['@selected'] == "true";
-                    delete obj['@selected'];
-                } else if(obj['selected'] != null) {
-                    selected = obj['selected'] == true || obj['selected'] == "true";
-                    delete obj['selected'];
-                }
+                var values = helper.getJSONValues(jsonData[name]);
 
-                if(value == null) // is header
+                if(values['@value'] == null) // is header
                 {
-                    var header = dataStoreNew.newMultiselectHeader(null, searchable, selected);
-                    var children = ProcessJson(obj);
+                    var header = dataStoreNew.newMultiselectHeader(
+                        null,
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
+                    var children = ProcessJson(jsonData[name]);
                     if (children != null) //It is nested
                     {
                         rv[name] = $.extend(children, header);
@@ -53,7 +36,14 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                     
                 } else 
                 { // is item
-                    rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
+                    rv[name] = dataStoreNew.newMultiselectItem(
+                        values['@value'], 
+                        null, 
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
                 }
             }
         }

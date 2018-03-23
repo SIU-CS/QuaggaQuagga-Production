@@ -33,20 +33,23 @@ function (require) {
      * @param {Jquery Element} element The element reference to this item
      * @param {String} searchable The searchable text for this item
      * @param {Bool} selected A bool specifing if the item is pre-selected
+     * @param {String} imagePath The path to the image to be displayed with this element
      */
-    function newMultiselectItem(value, element, searchable, selected) {
+    function newMultiselectItem(value, element, searchable, selected, imagePath, iconClass) {
         if (!(element instanceof jquery) && element != null) {
             element = $(element);
         }
         if (element != null && element.length <= 0 ) return false;
-        
+
         if (value == null || value === "") return false;
         return {
             "@value": value,
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
             "@selected": (selected == null ? false : selected),
-            "@isHeader": false
+            "@isHeader": false,
+            "@image": imagePath,
+            "@icon": iconClass
         };
     }
 
@@ -55,11 +58,12 @@ function (require) {
      * @param {Jquery Element} element The element reference to this item
      * @param {String} searchable The searchable text for this item
      * @param {Bool} selected A bool specifing if the item is pre-selected
+     * @param {String} imagePath The path to the image to be displayed with this element
+     * @param {String} iconClass The classes to be attached to the icon tag if no image exists
      */
-    function newMultiselectHeader(element, searchable, selected) {
+    function newMultiselectHeader(element, searchable, selected, imagePath, iconClass) {
         if (!(element instanceof jquery) && element != null) {
             element = $(element);
-            
         }
         if (element != null && element.length <= 0 ) return false;
         
@@ -67,7 +71,9 @@ function (require) {
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
             "@selected": (selected == null ? false : selected),
-            "@isHeader": true
+            "@isHeader": true,
+            "@image": (imagePath == null ? "": imagePath),
+            "@icon": (iconClass == null ? "": iconClass)
         };
     }
 

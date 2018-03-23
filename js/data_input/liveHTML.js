@@ -21,10 +21,13 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             var name = $child.attr('name') != null ? $child.attr('name') : $child.attr('title');
             var searchable = $child.attr('searchable') == null ? "" : $child.attr('searchable');
             // this is a special property
-            console.log($child);
             var selected = $child.attr('selected') != null || $child.attr('checked') != null;
             // get the text contents
             var content = $child.contents()[0] != null ? $child.contents()[0].nodeValue : null;
+
+            // get the images and icons
+            
+
             if (content != null) {
                 content = content.trim();
                 if (content == "") content = null;
@@ -59,7 +62,6 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                     value = name;
                 }
                 // get the new data item and store under given name
-                console.log(name, selected);
                 rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         });
