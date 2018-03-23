@@ -21,14 +21,20 @@
             // a test function
             function loadData() {
                 
-var strHTML = `<ul>
-    <li name="Item 1" searchable="search me"><ul>
-        <li name="Item 1.1" value="1.1" searchable="search me"></li>
-        <li name="Item 1.2" searchable="search me"><ul>
-            <li name="Item 1.2.1" value="1.2.1" searchable="search me"></li>    
-        </ul></li>
-    </ul></li>
-    <li name="Item 2" value="2" searchable="search me" selected></li>  
+var strHTML = `
+<ul>
+    <li name="Item 1" searchable="search me">
+    <img src="./quagga.jpg">
+        <ul>
+            <li name="Item 1.1" value="1.1" searchable="search me"><i class="fa fa-chrome"></i></li>
+            <li name="Item 1.2" searchable="search me" data-icon="fa fa-chrome">
+                <ul>
+                    <li name="Item 1.2.1" value="1.2.1" searchable="search me" data-img="./quagga.jpg"></li>    
+                </ul>
+            </li>
+        </ul>
+    </li>
+    <li name="Item 2" value="2" searchable="search me" selected data-img="./quagga.jpg"><i class="fa fa-chrome"></i></li>  
 </ul>`;
                 displayInput(strHTML);
                 return strHTML;
