@@ -75,7 +75,7 @@ function (require) {
      * @returns {String Array} and array of Item keys
      */
     function getMultiselectItemKeys() {
-        return ["@value", "@element", "@searchable", "@selected", "@isHeader"];
+        return ["@value", "@element", "@searchable", "@selected", "@isHeader", "@icon", "@image"];
     }
 
 
