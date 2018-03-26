@@ -15,6 +15,7 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
         xmlDoc = parser.parseFromString(xmlFile, "text/xml");
         // checks for nodes past the first and treats those as suboptions
         var options = xmlDoc.documentElement.childNodes[0];
+        console.log(options);
         for (var i = 0; i < options.length; i++) {
             var name = options[i].textContent;
             var selected = options.nodeType == "selected";
@@ -30,5 +31,4 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
         }
         return rv;
     }
-
 });
