@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'data_store/get'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreGet = require('data_store/get');

@@ -1,9 +1,9 @@
-'use strict';
-
 // defines the basic getters and setters of the data
 define(['require',
     'jquery',
     'consts'],function (require) {
+    'use strict';
+
     var $, jquery;
     jquery = $ = require('jquery');
     var CONSTS = require('consts');
@@ -12,14 +12,34 @@ define(['require',
     var MultiselectList = {};
 
     /**
+     * Returns true if the name exists in the datbase
+     * @param {String} name the name of multiselector
+     * @returns {Bool} true if the name exists in multiselector, false otherwise
+     */
+    function hasName(name) {
+        
+        if (typeof name == "undefined" ||
+            name == null ||
+            typeof MultiselectList[name] == "undefined" ||
+            MultiselectList[name] == null) 
+        {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Runs a function for each multiselector name
      * @param {Function} func the function to ran for each multiselector name 
      * @returns {Array} An array of outputs sepecifed by the function
      */
     function forEachName(func) {
         var returnArray = [];
-        for (var key in MultiselectList)
-            returnArray.add(func(key));
+        for (var key in MultiselectList) {
+            if (MultiselectList.hasOwnProperty(key))
+                returnArray.add(func(key));
+        }
+            
         return returnArray;
     }
 
@@ -59,7 +79,7 @@ define(['require',
             };
             return true;
         }
-        return false
+        return false;
     }
 
     /**
@@ -68,26 +88,7 @@ define(['require',
      */
     function removeMultiselect(name) {
         delete MultiselectList[name];
-    }
-
-    /**
-     * Returns true if the name exists in the datbase
-     * @param {String} name the name of multiselector
-     * @returns {Bool} true if the name exists in multiselector, false otherwise
-     */
-    function hasName(name) {
-        
-        if (typeof name == "undefined" ||
-            name == null ||
-            typeof MultiselectList[name] == "undefined" ||
-            MultiselectList[name] == null) 
-        {
-            return false;
-        }
-        return true;
-    }
-
-    
+    }  
 
     return {
         forEachName: forEachName,

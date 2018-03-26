@@ -1,6 +1,5 @@
-'use strict';
-
 requirejs(['./require.config'], function () {
+    'use strict';
     requirejs(['jquery'], function ($) {
         $(document).ready(function() {
             requirejs(['init'], function (init) {

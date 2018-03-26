@@ -1,11 +1,11 @@
-'use strict';
-
 define(['require', 'jquery'],function (require) {
+    'use strict';
+
     var $, jquery;
     $ = jquery = require('jquery');
 
     function CONST_OPTIONS() {
-        return { }
+        return { };
     }
 
     function CONST_LAYOUT() {
@@ -18,7 +18,7 @@ define(['require', 'jquery'],function (require) {
             </div>
             <!-- MULTISELECT BODY -->
             <div class="JSM-body">
-                <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
+            <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
                 <div class="JSM-list list-group-root">
                     
                 </div>
@@ -41,5 +41,5 @@ define(['require', 'jquery'],function (require) {
         MULTISELECTOR_ROOT_NAME: MULTISELECTOR_ROOT_NAME,
         GET_ROOT_OBJECT_REF: GET_ROOT_OBJECT_REF,
         CONST_LAYOUT: CONST_LAYOUT
-    }
+    };
 });

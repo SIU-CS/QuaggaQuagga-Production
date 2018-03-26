@@ -23,20 +23,38 @@
         <script>
             // a test function
             function loadData() {
-                
-var strHTML = `<ul>
-    <li name="Item 1" searchable="search me"><ul>
-        <li name="Item 1.1" value="1.1" searchable="search me"></li>
-        <li name="Item 1.2" searchable="search me"><ul>
-            <li name="Item 1.2.1" value="1.2.1" searchable="search me"></li>    
-        </ul></li>
-    </ul></li>
-    <li name="Item 2" value="2" searchable="search me" selected></li>  
-</ul>`;
-                displayInput(strHTML);
-                return strHTML;
+                var json = {
+                    "Item1": {
+                        searchable: "value",
+                        "@selected": false,
+                        selected: {
+                            searchable: "value",
+                            selected: false,
+                            value: "1.1"
+                        }
+                    },
+                    "Item2": {
+                        "@searchable": "value",
+                        "@selected": false,
+                        "Item2.1": {
+                            searchable: "value",
+                            selected: true,
+                            value: "2.1"
+                        }
+                    },
+                    "Item3": {
+                        "@searchable": "value",
+                        "@selected": false,
+                        "Item3.1": {
+                            searchable: "value",
+                            selected: false,
+                            value: "3.1"
+                        }
+                    }
+                }
+                displayInput(json);
+                return json;
             }
-
             function displayInput(input) {
                 if ($.isPlainObject(input) || $.isArray(input))
                     input = JSON.stringify(input, null, 2);
@@ -48,19 +66,19 @@ var strHTML = `<ul>
                     var success = true;
                     // few static test conditions 
                     //warn if the no. of list groups is less than or greater than 3
-                    if($('.JSM-list .list-group').length != 3) {
+                    if($('.JSM-list .list-group').length != 4) {
                         success = false;
                         console.warn('Too few/many groups')
                     }
                     //warn if the no. of list group items is less than or greater than 5
-                    if($('.JSM-list .list-group-item').length != 5) {
+                    if($('.JSM-list .list-group-item').length != 6) {
                         success = false;
                         console.warn('Too few/many items')
                     }
                     //warn if more than one/no checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
+                    if($('.JSM-list .JSM-checkbox:checked').length != 2) {
                         success = false;
-                        console.warn('Auto select not working')
+                        console.warn('Auto selected not working')
                     }
                     if (success) {
                         $("#success").removeClass('hidden');
@@ -82,22 +100,22 @@ var strHTML = `<ul>
             <h3>Test Failed! Check Warnings</h3>
         </div>
     </div>
-
     <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2 class="text-center">Input:</h2>
-                    <pre id="input">
-            
-                    </pre>
-                </div>
-                
+        <div class="row">
             <div class="col-md-6">
-                <h2 class="text-center">Output:</h2>
-                <!-- START MULTISELECT -->
-                <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
             </div>
-            </div>
+            
+        <div class="col-md-6">
+            <h2 class="text-center">Output:</h2>
+            <!-- START MULTISELECT -->
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="JSON" data-load="loadData" data-title="Pick A Contry"></div>
         </div>
+        </div>
+    </div>
+
     </body>
 </html>

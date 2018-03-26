@@ -9,20 +9,25 @@
         border-radius: 0;
         border-width: 1px 0 0 0;
         border-color: @highlight;
-        padding-left: 10%;
+        padding-left: 5%;
         position: relative;
         background-color: inherit;
         color: inherit;
         // Custom Checkbox 
         .JSM-checkbox {
+            font-family: "FontAwesome";
             -webkit-appearance: none; // Default appearance is set to none
             background-color: rgb(210, 240, 128);
-	        border: 2px solid #160308;
-	        box-shadow: 0 4px 5px grey, inset 0px -15px 10px -12px rgba(235, 228, 228, 0.849);
-	        padding: 7px;
+	        border: 1px solid black;
+            padding: 0;
+            margin: 0;
+            margin-right: 10px;
+            height: 16px;
+            width: 16px;
 	        border-radius: 3px;
 	        display: inline-block;
-	        position: relative;
+            position: relative;
+            vertical-align: text-bottom;
         }
         // On hover styling 
         .JSM-checkbox:hover {
@@ -30,12 +35,12 @@
         }
         // Checkmark Styling 
         .JSM-checkbox:checked:after {
-            content: '\2714';
-            font-size: 15px;
-            position: absolute;
-            top: 0px;
-            left: 0px;
+            content: '\f00c';
+            font-size: 14px;
+            font-weight: 100;
             color: black;
+            text-align: center;
+            vertical-align: text-top;
         }
     }
     .list-group, & {

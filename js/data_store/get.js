@@ -1,10 +1,9 @@
-'use strict';
-
 // defines the more advanced error checking getters of the data
 define(['require', 
     'data_store/cache', 
     'jquery'],
 function (require) {
+    'use strict';
     var $, jquery;
     jquery = $ = require('jquery');
     var cache = require('data_store/cache');
@@ -42,7 +41,7 @@ function (require) {
     function getElementByName(name) {
         var multi =  cache.getMultiselect(name);
         if (multi != null) {
-            return multi.Element
+            return multi.Element;
         }
         return null;
     }
@@ -76,7 +75,7 @@ function (require) {
      * @returns {String Array} and array of Item keys
      */
     function getMultiselectItemKeys() {
-        return ["@value", "@element", "@searchable", "@selected", "@isHeader"]
+        return ["@value", "@element", "@searchable", "@selected", "@isHeader"];
     }
 
 
@@ -87,5 +86,5 @@ function (require) {
         getSettingsByName: getSettingsByName,
         getMultiselectItemKeys: getMultiselectItemKeys,
         getTitleByName: getTitleByName
-    }
+    };
 });

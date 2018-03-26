@@ -24,18 +24,22 @@
             // a test function
             function loadData() {
                 
-                var strHTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me"></li>
-                            <li name="Item 1.2" searchable="search me"><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me"></li>    
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected></li>  
-                    </ul>
-                `;
-                return $.parseHTML(strHTML.trim());
+var strHTML = `<ul>
+    <li name="Item 1" searchable="search me"><ul>
+        <li name="Item 1.1" value="1.1" searchable="search me"></li>
+        <li name="Item 1.2" searchable="search me"><ul>
+            <li name="Item 1.2.1" value="1.2.1" searchable="search me"></li>    
+        </ul></li>
+    </ul></li>
+    <li name="Item 2" value="2" searchable="search me" selected></li>  
+</ul>`;
+                var rv = $.parseHTML(strHTML.trim())
+                displayInput(rv);
+                return rv;
+            }
+
+            function displayInput(input) {
+                $("#input").text($(input).prop('outerHTML'));
             }
 
             $(document).ready(function(){
@@ -75,8 +79,20 @@
     </div>
 
     <div class="container">
-        <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
-    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="text-center">Input:</h2>
+                    <pre id="input">
+            
+                    </pre>
+                </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Output:</h2>
+                <!-- START MULTISELECT -->
+                <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
+            </div>
+            </div>
+        </div>
     </body>
 </html>

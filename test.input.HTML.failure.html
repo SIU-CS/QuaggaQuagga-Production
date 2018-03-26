@@ -77,18 +77,18 @@
     </script>
     </head>
     <body>
-    <div style="height: 60px; text-align: center;">
-        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded!</h3>
+        <div style="height: 60px; text-align: center;">
+            <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Succeeded. Something is wrong.</h3>
+            </div>
+            <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Failed!</h3>
+            </div>
         </div>
-        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed! Check Warnings</h3>
-        </div>
-    </div>
 
-    <div class="container">
-        <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
-    </div>
+        <div class="container">
+            <!-- START MULTISELECT -->
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+        </div>
     </body>
 </html>

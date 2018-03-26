@@ -1,6 +1,5 @@
-'use strict';
-
 define(function () {
+    'use strict';
     /**
     * Converts an RGB color value to HSL. Conversion formula
     * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
@@ -13,7 +12,7 @@ define(function () {
     * @return  Array           The HSL representation
     */
     function rgbToHsl(r, g, b){
-        r /= 255, g /= 255, b /= 255;
+        r /= 255; g /= 255; b /= 255;
         var max = Math.max(r, g, b), min = Math.min(r, g, b);
         var h, s, l = (max + min) / 2;
 
@@ -47,18 +46,18 @@ define(function () {
     function hslToRgb(h, s, l){
         var r, g, b;
 
+        function hue2rgb(p, q, t){
+            if(t < 0) t += 1;
+            if(t > 1) t -= 1;
+            if(t < 1/6) return p + (q - p) * 6 * t;
+            if(t < 1/2) return q;
+            if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+            return p;
+        }
+
         if(s == 0){
             r = g = b = l; // achromatic
         }else{
-            function hue2rgb(p, q, t){
-                if(t < 0) t += 1;
-                if(t > 1) t -= 1;
-                if(t < 1/6) return p + (q - p) * 6 * t;
-                if(t < 1/2) return q;
-                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                return p;
-            }
-
             var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             var p = 2 * l - q;
             r = hue2rgb(p, q, h + 1/3);
@@ -85,10 +84,10 @@ define(function () {
     * @return  2D Array        The RGB representation of the fade, length steps + 1
     */
     function fadeRgbToWhite(r, g, b, steps) {
-        var fadeArray = [[r, g, b]]
+        var fadeArray = [[r, g, b]];
         var hsl = rgbToHsl(r, g, b);
-        var reduce = (1 - hsl[2])/(steps) // the step size for the lightness
-        for (var i = 0; i < steps; i++) {
+        var reduce = (1 - hsl[2])/(steps); // the step size for the lightness
+        for (var i = 0; i < steps; i += 1) {
             var l = hsl[2] + (reduce * (i + 1));
             fadeArray.push(hslToRgb(hsl[0], hsl[1], l));
         }
@@ -108,15 +107,15 @@ define(function () {
     * @return  2D Array        The RGB representation of the fade, length steps + 1
     */
    function fadeRgb(r, g, b, steps) {
-    var fadeArray = [[r, g, b]]
-    var hsl = rgbToHsl(r, g, b);
-    var reduce = (1 - hsl[2])/(steps) // the step size for the lightness
-    for (var i = 0; i < steps; i++) {
-        var l = hsl[2] + (reduce * (i + 1));
-        fadeArray.push(hslToRgb(hsl[0], hsl[1], l));
+        var fadeArray = [[r, g, b]];
+        var hsl = rgbToHsl(r, g, b);
+        var reduce = (1 - hsl[2])/(steps); // the step size for the lightness
+        for (var i = 0; i < steps; i += 1) {
+            var l = hsl[2] + (reduce * (i + 1));
+            fadeArray.push(hslToRgb(hsl[0], hsl[1], l));
+        }
+        return fadeArray;
     }
-    return fadeArray;
-}
 
     /**
      * Converts a string to a simple rgb array format
@@ -155,7 +154,7 @@ define(function () {
         if (!rgbA) return;
         return (0.2126 * rgbA[0] + 
             0.7152 * rgbA[1] + 
-            0.0722 * rgbA[2])/255// per ITU-R BT.709
+            0.0722 * rgbA[2])/255; // per ITU-R BT.709
     }
 
     return {
@@ -165,5 +164,5 @@ define(function () {
         RgbStringToArray: RgbStringToArray,
         RgbArrayToString: RgbArrayToString,
         GetBrightness: GetBrightness
-    }
+    };
   });

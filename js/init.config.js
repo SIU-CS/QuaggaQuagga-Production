@@ -1,5 +1,3 @@
-'use strict';
-
 define(['require', 
         'jquery', 
         'consts', 
@@ -10,6 +8,8 @@ define(['require',
         'display/title',
         'style/body/checkSelected'
     ], function(require) {
+    'use strict';
+
     var $, jquery;
     $ = jquery = require('jquery');
     var CONSTS = require('consts');
