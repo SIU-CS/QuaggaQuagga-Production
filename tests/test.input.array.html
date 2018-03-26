@@ -4,14 +4,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
-        <script data-main="./js/main" src="./lib/require.js"></script>
-        <script>
-
-        </script>
-        <!-- JQuery -->
-        <script src="./lib/jquery-3.3.1.min.js"></script>
+        <script data-main="./main.test" src="../lib/require.js"></script>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -19,41 +16,50 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
-        <link rel="stylesheet" href="./style/main.css">
+        <link rel="stylesheet" href="../style/main.css">
         <script>
             // a test function
             function loadData() {
-                var json = {
-                    "Item1": {
-                        searchable: "value",
-                        "@selected": false,
-                        selected: {
-                            searchable: "value",
-                            selected: false,
-                            value: "1.1"
-                        }
+                var array = [
+                    { // a header
+                        "name": "Item 1",
+                        "searchable": "search me",
+                        "selected": false,
+                        "image": "./quagga.jpg",
+                        "icon": "fa fa-chrome",
+                        "items": [
+                            { // list of items 
+                                "name": "Item 1.1",
+                                "searchable": "search me",
+                                "selected": false,
+                                "value" : "1.1",
+                                "icon": "fa fa-chrome"
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item 1.2",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item 1.2.1",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            }
+                        ]
                     },
-                    "Item2": {
-                        "@searchable": "value",
-                        "@selected": false,
-                        "Item2.1": {
-                            searchable: "value",
-                            selected: true,
-                            value: "2.1"
-                        }
-                    },
-                    "Item3": {
-                        "@searchable": "value",
-                        "@selected": false,
-                        "Item3.1": {
-                            searchable: "value",
-                            selected: false,
-                            value: "3.1"
-                        }
+                    {
+                        "name": "Item 2",
+                        "searchable": "search me",
+                        "selected": true,  
+                        "value" : "2" 
                     }
-                }
-                displayInput(json);
-                return json;
+                ];
+                displayInput(array);
+                return array;
             }
             function displayInput(input) {
                 if ($.isPlainObject(input) || $.isArray(input))
@@ -66,17 +72,17 @@
                     var success = true;
                     // few static test conditions 
                     //warn if the no. of list groups is less than or greater than 3
-                    if($('.JSM-list .list-group').length != 4) {
+                    if($('.JSM-list .list-group').length != 3) {
                         success = false;
                         console.warn('Too few/many groups')
                     }
                     //warn if the no. of list group items is less than or greater than 5
-                    if($('.JSM-list .list-group-item').length != 6) {
+                    if($('.JSM-list .list-group-item').length != 5) {
                         success = false;
                         console.warn('Too few/many items')
                     }
                     //warn if more than one/no checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length != 2) {
+                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
                         success = false;
                         console.warn('Auto selected not working')
                     }
@@ -112,7 +118,7 @@
         <div class="col-md-6">
             <h2 class="text-center">Output:</h2>
             <!-- START MULTISELECT -->
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="JSON" data-load="loadData" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
         </div>
         </div>
     </div>

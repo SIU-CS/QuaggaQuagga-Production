@@ -1,10 +1,11 @@
-define(['require', 'jquery', 'data_store/new', 'logger'], function(require) { 
+define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper'], function(require) { 
     'use strict';
 
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
     var logger = require('logger');
+    var helper = require('data_input/inputHelper');
 
     /**
      * An internal function that recurses over the input array data and builds 
@@ -16,35 +17,40 @@ define(['require', 'jquery', 'data_store/new', 'logger'], function(require) {
         if(!$.isArray(array)) return null; // if the input is not an array 
         var rv = {}; // returnvalue
         for (var i in array) { // for every item in the array check 
-            if ($.isPlainObject(array[i])) { 
-                if (array[i]['name'] == null) {
-                    continue;
-                }
-                //get attributes associated with the object 
-                var name = array[i]['name'];
-                var selected = array[i]['selected'] === true || array[i]['selected'] === "true";
-                var searchable = array[i]['searchable'];
-                if (searchable == null) 
-                { 
-                    searchable = '';
-                }
-                var isHeader = false; //initialize isHeader to false 
-                //  If an array has items and items length is greater than 0 , it is a header else it is an item
-                if ($.isArray(array[i]['items']) && array[i]['items'].length > 0) {
-                    isHeader = true;
-                }
+            if ($.isPlainObject(array[i])) {
 
-                if (isHeader) { // is header
-                    var header = dataStoreNew.newMultiselectHeader(null, searchable, selected);
-                    // We know it's an array; just double cheking  
-                    header = $.extend(ProcessArray(array[i]['items']), header);
+                //get attributes associated with the object
+                var name = helper.getAttributeFromJSON('name', array[i], true);
+                if (name == null) continue;
+
+                var items = helper.getAttributeFromJSON('items', array[i], true);
+
+                var values = helper.getJSONValues(array[i]);
+
+                //  If items length is greater than 0 , it is a header else it is an item
+                if ($.isArray(items) && items.length > 0) { // is header
+                    var header = dataStoreNew.newMultiselectHeader(
+                        null, 
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
+                    // Recursive processing
+                    header = $.extend(ProcessArray(items), header);
                     rv[name] = header; 
 
                 } else { // is item
-                    if (array[i]['value'] == null) continue;
-                    var value = array[i]['value']; //get the value 
+                    if (values['@value'] == null) continue;
                     // get the item and store under the given name 
-                    rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
+                    rv[name] = dataStoreNew.newMultiselectItem(
+                        values['@value'], 
+                        null, 
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
                 }
             }
         }
