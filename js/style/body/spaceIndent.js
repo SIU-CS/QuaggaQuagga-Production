@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var nestedDepth = require('utility/nestedDepth');
@@ -23,7 +23,7 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
          * @param String baseSelector, the string that will be search for whe trying to set the indent
          */
         function setSpaceIndent(baseSelector) {
-            $(baseSelector + ".list-group-root.list-group").each(function(i, e) {
+            $(baseSelector + ".list-group-root > .list-group").each(function(i, e) {
                 var $ele = $(e);
                 
                 var maxDepth = nestedDepth($ele, ".list-group");
