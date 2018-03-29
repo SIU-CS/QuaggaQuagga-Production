@@ -6,19 +6,10 @@ define(['require',
         'data_store/get', 
         'display/list', 
         'display/title',
-        'style/body/checkSelected'
-    ], function(require) {
+        'style/style.config'
+    ], function(require, $, CONSTS, dataStoreNew, loadData, dataStoreGet, listDisplay, titleDisplay, styleConfig) {
     'use strict';
-
-    var $, jquery;
-    $ = jquery = require('jquery');
-    var CONSTS = require('consts');
-    var dataStoreNew = require('data_store/new');
-    var dataStoreGet = require('data_store/get');
-    var loadData = require('data_input/load');
-    var listDisplay = require('display/list');
-    var titleDisplay = require('display/title');
-    var checkSelected = require('style/body/checkSelected');
+    var jquery = $;
 
     // for each multiselect on the screen
     $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
@@ -43,6 +34,6 @@ define(['require',
         // display the data list
         listDisplay(name);
         // check those selected in the list
-        checkSelected(name);
+        styleConfig($this);
     });
 });

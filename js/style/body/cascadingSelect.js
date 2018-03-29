@@ -50,7 +50,11 @@ define(['require',
         return null;
     }
 
-    $(document).ready(function() {
+    /**
+     * Sets the on click event for the multiselect
+     * @param {jquery element} $multiselect the targeted multiselect  
+     */
+    function registerCheckboxClick($multiselect) {
         var key = ".JSM-checkbox";
         $(key).click(function(event) {
             event.stopPropagation(); // keep the drop down from expanding
@@ -74,5 +78,7 @@ define(['require',
             // checks the whole dataset for those needing to be sleected/deselected
             checkSelected(multiselectName);
         });
-    });
+    }
+
+    return registerCheckboxClick;
 });
