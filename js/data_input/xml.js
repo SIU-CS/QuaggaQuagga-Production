@@ -12,7 +12,7 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
             var child = $(this);
             var name = child.children("name").first().text();
             var searchable = child.children("searchable").first().text();
-            var selected = child.children("selected").first().text() == "true";
+            var selected = child.children("selected").first().text() === "true";
             var iconClass = child.children("icon").first().text();
             var imagePath = child.children("image").first().text();
 
