@@ -20,12 +20,12 @@ function(require, CONSTS, $, cascadingSelect, checkSelected, colorIndent, spaceI
     /**
      * Handles the style part of the multiselect, selecting the apprpriate styles
      * For each based upon optons/multiselect type
-     * @param {jquery element} $multiselect the targeted multiselect
+     * @param {jquery element} name the targeted multiselect
      */
-    function handler($multiselect) {
+    function handler($multiselect, name) {
         setDefaultMultiselectType($multiselect);
         cascadingSelect($multiselect);
-        checkSelected($multiselect);
+        checkSelected(name);
         colorIndent($multiselect);
         spaceIndent($multiselect);
     }

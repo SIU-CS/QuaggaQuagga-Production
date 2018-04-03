@@ -86,7 +86,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
         // for each multislect name in the data
         for (var name in data) {
             // ensure the name is not part of the multislectItemKeys (i.e. @searchable)
-            if (dataStoreGet.getMultiselectItemKeys().indexOf(name) <= 0 && data[name] != null) 
+            if (data[name] != null) 
             {
                 var $ele;
                 // gets the value if it is a header
@@ -130,7 +130,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     // add the button
                     $parent.append($ele);
                     // set all the inner data for the group
-                    ConvertDataToHTML(data[name], $group);
+                    ConvertDataToHTML(data[name]['@children'], $group);
                     // add the group
                     $parent.append($group);
                     // set the element portion of the data item

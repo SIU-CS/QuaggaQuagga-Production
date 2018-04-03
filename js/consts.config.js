@@ -42,6 +42,9 @@ define(['require', 'jquery'],function (require) {
         return window[MULTISELECTOR_ROOT_NAME()];
     }
     
+    if(typeof window[MULTISELECTOR_ROOT_NAME()] == 'undefined' || window[MULTISELECTOR_ROOT_NAME()] == null)
+            window[MULTISELECTOR_ROOT_NAME()] = {};
+    
     return {
         CONST_OPTIONS: CONST_OPTIONS,
         MULTISELECTOR_ROOT_NAME: MULTISELECTOR_ROOT_NAME,

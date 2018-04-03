@@ -6,8 +6,10 @@ define(['require',
         'data_store/get', 
         'display/list', 
         'display/title',
-        'style/style.config'
-    ], function(require, $, CONSTS, dataStoreNew, loadData, dataStoreGet, listDisplay, titleDisplay, styleConfig) {
+        'style/style.config',
+        'data_output/interface'
+    ], function(require, $, CONSTS, dataStoreNew, loadData,
+         dataStoreGet, listDisplay, titleDisplay, styleConfig, outputModule) {
     'use strict';
     var jquery = $;
 
@@ -34,6 +36,6 @@ define(['require',
         // display the data list
         listDisplay(name);
         // check those selected in the list
-        styleConfig($this);
+        styleConfig($this, name);
     });
 });
