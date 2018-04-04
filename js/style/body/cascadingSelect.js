@@ -20,7 +20,7 @@ define(['require',
                 var child = cachedSelected[key];
                 setData.setSelectedForItem(child, isChecked);
                 if (child['@isHeader']) { // if is header check those under it as well
-                    SelectAllUnderSelected(child, isChecked);
+                    SelectAllUnderSelected(child['@children'], isChecked);
                 }
             }
         }
@@ -42,7 +42,7 @@ define(['require',
                 }
                 // if we have a header, try to recursivly call
                 if (data['@isHeader'] == true) {
-                    var find = FindSelectedData(data, callingElement);
+                    var find = FindSelectedData(data['@children'], callingElement);
                     if (find != null) return find;
                 }
             }
@@ -50,9 +50,13 @@ define(['require',
         return null;
     }
 
-    $(document).ready(function() {
+    /**
+     * Sets the on click event for the multiselect
+     * @param {jquery element} $multiselect the targeted multiselect  
+     */
+    function registerCheckboxClick($multiselect) {
         var key = ".JSM-checkbox";
-        $(key).click(function(event) {
+        $multiselect.find(key).click(function(event) {
             event.stopPropagation(); // keep the drop down from expanding
             // find the item
             var $cbox = $(this);
@@ -62,6 +66,7 @@ define(['require',
             var isChecked = $cbox.is(':checked');
             // get the multiselect name from the item under it
             var multiselectName = getMultiselectorName.byChildElement($cbox);
+
             if (multiselectName == null) return;
             // get the multiselect data
             var cachedData = getData.getDataByName(multiselectName);
@@ -70,9 +75,11 @@ define(['require',
             // sets the selected property in the data cache
             setData.setSelectedForItem(selectedElement, isChecked);
             // selects or deselectes all those under the selected element
-            SelectAllUnderSelected(selectedElement, isChecked);
+            SelectAllUnderSelected(selectedElement['@children'], isChecked);
             // checks the whole dataset for those needing to be sleected/deselected
             checkSelected(multiselectName);
         });
-    });
+    }
+
+    return registerCheckboxClick;
 });

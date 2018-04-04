@@ -31,7 +31,8 @@ define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], functi
                     var children = ProcessJson(jsonData[name]);
                     if (children != null) //It is nested
                     {
-                        rv[name] = $.extend(children, header);
+                        header['@children'] = children;
+                        rv[name] = header;
                     }
                     
                 } else 

@@ -12,6 +12,7 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
      * @param {Object} cachedData the multiselect data
      */
     function RecursivelyCheck(cachedData) {
+        
         // if no data return
         if (cachedData == null) return true;
         // a bool checking if all the children are selected
@@ -22,7 +23,7 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
                 var child = cachedData[key];
                 // if the element is a header, use recursion
                 if (child['@isHeader']) {
-                    if (!RecursivelyCheck(child)) {
+                    if (!RecursivelyCheck(child['@children'])) {
                         isAllSelected = false;
                         setData.setSelectedForItem(child, false);
                     } else {

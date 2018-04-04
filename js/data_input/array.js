@@ -37,7 +37,7 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper
                         values['@icon']
                     );
                     // Recursive processing
-                    header = $.extend(ProcessArray(items), header);
+                    header['@children'] = ProcessArray(items);
                     rv[name] = header; 
 
                 } else { // is item
