@@ -1,8 +1,8 @@
 'use strict';
 
-define(['require', 'jquery'], function(require) {
-    var $, jquery;
+define(['require', 'jquery', 'data_store/get'], function(require) {
     jquery = $ = require('jquery');
+    var get = require('data_store/get');
 
 
     // This is not my code, I used someone else's fuzzy searching algorithm, all credit goes to him
@@ -72,7 +72,7 @@ define(['require', 'jquery'], function(require) {
         // return rendered string if we have a match for every char
         if (patternIdx === pattern.length) {
             // if the string is an exact match with pattern, totalScore should be maxed
-            totalScore = (compareString === pattern) ? Infinity : totalScore;
+            totalScore = compareString === pattern ? Infinity : totalScore;
             return { rendered: result.join(''), score: totalScore };
         }
 
@@ -118,7 +118,7 @@ define(['require', 'jquery'], function(require) {
                     str = opts.extract(element);
                 }
                 var rendered = fuzzy.match(pattern, str, opts);
-                if (rendered != null) {
+                if (rendered !== null) {
                     prev[prev.length] = {
                         string: rendered.rendered
                         , score: rendered.score
@@ -139,7 +139,17 @@ define(['require', 'jquery'], function(require) {
             });
     };
 
+    $(document).ready(function () {
+        var timeout;
+        $(".JSM-searchbar").on("keyup", function () {
+            var userInput = $(".JSM-searchbar").val();
+            var results = fuzzy.filter(userInput, $(".JSM-list"))
 
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(function () {
+                fuzzy.simpleFilter(userInput, $(".JSM-list"));
+        }, 500);
+    });
 }());
 
 
