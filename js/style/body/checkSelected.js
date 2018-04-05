@@ -9,10 +9,9 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
 
     /**
      * Goes through the multiselect and selects/deselects those that need to be based on their children
-     * @param {Object} cachedData the multiselect data
+     * @param {Array} cachedData the multiselect data
      */
     function RecursivelyCheck(cachedData) {
-        
         // if no data return
         if (cachedData == null) return true;
         // a bool checking if all the children are selected

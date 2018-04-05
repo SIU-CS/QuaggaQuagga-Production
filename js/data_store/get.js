@@ -29,7 +29,7 @@ function (require) {
         var multi =  cache.getMultiselect(name);
         if (multi !== null)
             // returns a copy of the data
-            return $.extend({}, multi.Data);
+            return multi.Data;
         return null;
     }
 
