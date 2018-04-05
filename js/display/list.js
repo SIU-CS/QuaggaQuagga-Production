@@ -1,5 +1,5 @@
 /**
- * Procudes the displayed list for the data in the multiselect
+ * Produces the displayed list for the data in the multiselect
  */
 define(['require', 'jquery', 'data_store/get'], function(require) {
     'use strict';
