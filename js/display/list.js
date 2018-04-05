@@ -1,77 +1,14 @@
 /**
  * Produces the displayed list for the data in the multiselect
  */
-define(['require', 'jquery', 'data_store/get'], function(require) {
+define(['require', 'jquery', 'data_store/get', 'display/displayHelper'], 
+function(require, $, dataStoreGet, displayHelper) {
     'use strict';
     
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var dataStoreGet = require('data_store/get');
+    var jquery = $;
 
     // variables ensuring unique head ids
     var headCount = 0;
-
-    /**
-     * Returns a string that is a input type check
-     * @param {Bool} checked Sets the input to checked or not
-     * @param {String} name The name of the input
-     * @param {*} value The value for the input field
-     */
-    function getCheckboxLayout(checked, name, value) {
-        return `
-        <input type="checkbox" class='checkbox JSM-checkbox' ` +
-        (value != null ? "value=\""+ value +"\"": "") +
-        // returns "on" if no value and a name
-        (value != null && name != null ? "name=\""+ name +"\"": "") +
-        (checked ? "checked=\"checked\"" : "") + `>`;
-    }
-
-    /**
-     * Checks if a url holds a viable image
-     * @param {String} url The image URL
-     * @param {Function} callback Returns true if ir loaded fine, false otherwise
-     */
-    function imageExists(url, callback) {
-        var img = new Image();
-        img.onload = function() { callback(true); };
-        img.onerror = function() { callback(false); };
-        img.src = url;
-     }
-
-    /**
-     * Gets the icon/image element and returns it in a callback function
-     * Retuns null if no image/icon exists
-     * @param {String} imagePath the path to the image
-     * @param {String} icon the class to be applied to a icon tag
-     * @param {Jquery Element} $elementP The parent element ot append the icon class to 
-     */
-    function displayIconImage(imagePath, icon, $elementP) {
-        var $display = $elementP.find('.JSM-itemImage');
-        if ($display.length <= 0) return;
-        
-        var displayIcon = function() {
-            if ($.type(icon) == "string" && icon != "") {
-                $display.empty();
-                $display.append($('<i class="'+ icon +'" aria-hidden="true"></i>'));
-            }
-            return null;
-        };
-        if ($.type(imagePath) == "string" && imagePath != "") {
-            imageExists(imagePath, function(exists) {
-                if (exists) {
-                    var $imgEle = $('<img src="'+imagePath+'">');
-                    $display.empty();
-                    $display.append($imgEle);
-                } else {
-                    console.warn('Error displaying Image: "'+ imagePath +'", will fall back to Icon if exists...');
-                    displayIcon();
-                }
-            });
-
-        } else {
-            displayIcon();
-        }
-    }
 
     /**
      * This function iterates through a set of data setting the expected values and producing
@@ -89,26 +26,14 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
             if (data[i] != null) 
             {
                 var item = data[i];
-                // gets the name for the data item
-                var name = item["@name"];
-                if (name == "") continue;
 
                 var $ele;
-                // gets the value if it is a header
-                var isHeader = item["@isHeader"] == null ? false : item["@isHeader"];
-                // the value for the data item
-                var value = (item["@value"] == null ? "" : item["@value"]).trim();
-                // extra searchable text
-                var searchText = item["@searchable"] == null ? "" : item["@searchable"];
-                // check if the data is already selected
-                var isSelected = item["@selected"] == null ? false : item["@selected"];
-                // gets the icon
-                var icon = item["@icon"] == null ? "" : item["@icon"];
-                // gets the image
-                var image = item["@image"] == null ? "" : item["@image"];
+                
+                var displayData = displayHelper.getDisplayData(item);
+                if(displayData == null) continue;
                 
                 // if we have a header
-                if (isHeader) {
+                if (displayData.isHeader) {
                     // get the new group id
                     var groupId = "JSM-GroupID-" + headCount;
                     // update the unique count by 1
@@ -116,10 +41,10 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     // this is the selectable item (expand button)
                     var itemStr = `
                         <a href="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed"
-                                data-toggle="collapse" data-searchable="` + searchText + `">` +
-                            getCheckboxLayout(isSelected, name) +
+                                data-toggle="collapse" data-searchable="` + displayData.searchable + `">` +
+                                displayHelper.getCheckboxLayout(displayData.selected, displayData.name) +
                             '<span class="JSM-itemImage"></span>' +
-                            name + `
+                            displayData.name + `
                             <span class="drop-icon"></span>
                         </a>
                     `;
@@ -143,11 +68,11 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                 } else { // else is just a selectable item
                     // string format
                     var eleString = `
-                        <span class="list-group-item" data-searchable="` + searchText + 
-                            `" data-value="` + value + `">` +
-                            getCheckboxLayout(isSelected, name, value) +
+                        <span class="list-group-item" data-searchable="` + displayData.searchable + 
+                            `" data-value="` + displayData.value + `">` +
+                            displayHelper.getCheckboxLayout(displayData.selected, displayData.name, displayData.value) +
                             '<span class="JSM-itemImage"></span>' +
-                            name + `
+                            displayData.name + `
                         </span>
                     `;
                     // get the jquery element
@@ -158,7 +83,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     item["@element"] = $ele;
                 }
                 // finds the icon and sets it
-                displayIconImage(image, icon, $ele);
+                displayHelper.displayImageOrIcon(displayData.image, displayData.icon, $ele);
             }
         }
     }
@@ -167,10 +92,9 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
      * @param {String} multiselectName Name of the multiselect with data
      * @returns {Jquery HTML elements} A html list, but does already append it to the element
      */
-    function listFunction(multiselectName) {
+    function listFunction($ele, multiselectName) {
         // gets the multiselect data and elements
         var multiselectData = dataStoreGet.getDataByName(multiselectName);
-        var $ele = dataStoreGet.getElementByName(multiselectName);
         // finds the root of the list so we can append to it
         var $listRoot = $ele.find('.list-group-root').first();
         if ($listRoot == null || $listRoot.length <= 0) return null;

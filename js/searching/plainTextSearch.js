@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'data_store/get'], function (require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var get = require('data_store/get');
@@ -32,9 +32,9 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
         }).show();
 
     };
-    $(document).ready(function () {
+    return function ($ele) {
         var timeout;
-        $(".JSM-searchbar").on("keyup", function () {
+        $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
             var userInput = $(".JSM-searchbar").val();
             window.clearTimeout(timeout);
             timeout = window.setTimeout(function () {
@@ -42,5 +42,5 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
             }, 500);
 
         });
-    });
+    };
 });
