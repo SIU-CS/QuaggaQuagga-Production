@@ -22,8 +22,7 @@ function (require) {
     function newMultiselect(ele, data, options, title) {
         var name = $(ele).attr('name');
         if (typeof name === 'undefined' || name == null) return null;
-
-        if (data == null) data = {};
+        if (data == null) data = [];
 
         var jqueryEle = $(ele).first();
         if (!cache.addMultiselect(name, jqueryEle, data, options, title)) return null;
@@ -31,20 +30,22 @@ function (require) {
     }
     /**
      * Builds a new multiselect item so we don't miss any fields
+     * @param {String} name the name of the item in the multiselect
      * @param {*} value the value to be placed into the multiselect
      * @param {Jquery Element} element The element reference to this item
      * @param {String} searchable The searchable text for this item
      * @param {Bool} selected A bool specifing if the item is pre-selected
      * @param {String} imagePath The path to the image to be displayed with this element
      */
-    function newMultiselectItem(value, element, searchable, selected, imagePath, iconClass) {
+    function newMultiselectItem(name, value, element, searchable, selected, imagePath, iconClass) {
         if (!(element instanceof jquery) && element != null) {
             element = $(element);
         }
-        if (element != null && element.length <= 0 ) return false;
+        if (element != null && element.length <= 0 ) return null;
 
-        if (value == null || value === "") return false;
+        if (value == null || value === "") return null;
         return {
+            "@name": name,
             "@value": value,
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
@@ -57,26 +58,30 @@ function (require) {
 
     /**
      * Builds a new multiselect header item so we don't miss any fields
+     * @param {String} name the name of the header in the multiselect
+     * @param {Array} children an array of objects that are the children for this item
      * @param {Jquery Element} element The element reference to this item
      * @param {String} searchable The searchable text for this item
      * @param {Bool} selected A bool specifing if the item is pre-selected
      * @param {String} imagePath The path to the image to be displayed with this element
      * @param {String} iconClass The classes to be attached to the icon tag if no image exists
      */
-    function newMultiselectHeader(element, searchable, selected, imagePath, iconClass) {
+    function newMultiselectHeader(name, children, element, searchable, selected, imagePath, iconClass) {
         if (!(element instanceof jquery) && element != null) {
             element = $(element);
         }
-        if (element != null && element.length <= 0 ) return false;
+        if (element != null && element.length <= 0 ) return null;
+        if (!$.isArray(children) || children.length <= 0) return null;
         
         return {
+            "@name": name,
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
             "@selected": (selected == null ? false : selected),
             "@isHeader": true,
             "@image": (imagePath == null ? "": imagePath),
             "@icon": (iconClass == null ? "": iconClass),
-            "@children": {}
+            "@children": children
         };
     }
 

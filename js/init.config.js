@@ -22,7 +22,6 @@ define(['require',
         var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
         // parse the data from the above function
         var data = loadData(loadFunction, loadType);
-
         // set new data store for multiselect
         var name = dataStoreNew.newMultiselect(this, data, null, title);
         // if we couldn't set a new data store, error here

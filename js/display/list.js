@@ -76,31 +76,36 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
     /**
      * This function iterates through a set of data setting the expected values and producing
      * an appendable jquery list
-     * @param {JSON object} data Standard JSON data format for this project
+     * @param {Array} data Standard data format for this project
      * @param {jquery element} $parent A jquery element that will be appended to and searched from
      * @returns jquery nodelist that is formated against the multiselect data
      */
     function ConvertDataToHTML(data, $parent) {
-        // if data is not an object
-        if (!$.isPlainObject(data)) return null;
+        // if data is not an array
+        if (!$.isArray(data)) return null;
         // for each multislect name in the data
-        for (var name in data) {
+        for (var i in data) {
             // ensure the name is not part of the multislectItemKeys (i.e. @searchable)
-            if (data[name] != null) 
+            if (data[i] != null) 
             {
+                var item = data[i];
+                // gets the name for the data item
+                var name = item["@name"];
+                if (name == "") continue;
+
                 var $ele;
                 // gets the value if it is a header
-                var isHeader = data[name]["@isHeader"] == null ? false : data[name]["@isHeader"];
+                var isHeader = item["@isHeader"] == null ? false : item["@isHeader"];
                 // the value for the data item
-                var value = (data[name]["@value"] == null ? "" : data[name]["@value"]).trim();
+                var value = (item["@value"] == null ? "" : item["@value"]).trim();
                 // extra searchable text
-                var searchText = data[name]["@searchable"] == null ? "" : data[name]["@searchable"];
+                var searchText = item["@searchable"] == null ? "" : item["@searchable"];
                 // check if the data is already selected
-                var isSelected = data[name]["@selected"] == null ? false : data[name]["@selected"];
+                var isSelected = item["@selected"] == null ? false : item["@selected"];
                 // gets the icon
-                var icon = data[name]["@icon"] == null ? "" : data[name]["@icon"];
+                var icon = item["@icon"] == null ? "" : item["@icon"];
                 // gets the image
-                var image = data[name]["@image"] == null ? "" : data[name]["@image"];
+                var image = item["@image"] == null ? "" : item["@image"];
                 
                 // if we have a header
                 if (isHeader) {
@@ -130,11 +135,11 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     // add the button
                     $parent.append($ele);
                     // set all the inner data for the group
-                    ConvertDataToHTML(data[name]['@children'], $group);
+                    ConvertDataToHTML(item['@children'], $group);
                     // add the group
                     $parent.append($group);
                     // set the element portion of the data item
-                    data[name]["@element"] = $ele;
+                    item["@element"] = $ele;
                 } else { // else is just a selectable item
                     // string format
                     var eleString = `
@@ -150,7 +155,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
                     // add it to the parent element
                     $parent.append($ele);
                     // set the element portion in the data cache
-                    data[name]["@element"] = $ele;
+                    item["@element"] = $ele;
                 }
                 // finds the icon and sets it
                 displayIconImage(image, icon, $ele);
