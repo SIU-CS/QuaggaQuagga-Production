@@ -23,6 +23,8 @@ function (require) {
         var name = $(ele).attr('name');
         if (typeof name === 'undefined' || name == null) return null;
 
+        if (data == null) data = {};
+
         var jqueryEle = $(ele).first();
         if (!cache.addMultiselect(name, jqueryEle, data, options, title)) return null;
         return name;
@@ -73,7 +75,8 @@ function (require) {
             "@selected": (selected == null ? false : selected),
             "@isHeader": true,
             "@image": (imagePath == null ? "": imagePath),
-            "@icon": (iconClass == null ? "": iconClass)
+            "@icon": (iconClass == null ? "": iconClass),
+            "@children": {}
         };
     }
 

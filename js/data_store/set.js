@@ -53,7 +53,7 @@ function (require) {
      * @param {Object} options The new optiosn to replace the old
      * @returns {Bool} True if successful, false otherwise
      */
-    function setOptionsByName(name, options) {
+    function setSettingsByName(name, options) {
         var multi = cache.getMultiselect(name);
         if (multi !== null) {
             // will overrnamee any other objects
@@ -81,7 +81,7 @@ function (require) {
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
-        setOptionsByName: setOptionsByName,
+        setSettingsByName: setSettingsByName,
         setSelectedForItem: setSelectedForItem
     };
 });

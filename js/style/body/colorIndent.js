@@ -24,9 +24,12 @@ define(['require', 'jquery', 'utility/color', 'utility/nestedDepth'], function(r
             setColorRecursivly($e, colorArray, colorI + 1);
         });
     }
-
-    $().ready(function() {
-        $(".list-group-root > .list-group").each(function(i, e) {
+    /**
+     * sets the color fade for the multiselect
+     * @param {jquery element} $multiselect the multiselect targeted  
+     */
+    function setColor($multiselect) {
+        $multiselect.find(".list-group-root > .list-group").each(function(i, e) {
             var $ele = $(e);
             var color = $ele.css("background-color");
             var rgbA = colorUtil.RgbStringToArray(color);
@@ -35,5 +38,6 @@ define(['require', 'jquery', 'utility/color', 'utility/nestedDepth'], function(r
             $ele.css("background-color", colorUtil.RgbArrayToString(fadeArray[0]));
             setColorRecursivly($ele, fadeArray, 1);
         });
-    });
+    }
+    return setColor;
 });

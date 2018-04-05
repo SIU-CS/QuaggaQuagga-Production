@@ -52,9 +52,11 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 // if no children continue
                 if (children == null) return null;
                 // get the group object
-                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected, imagePath, iconClass);
+                var header = dataStoreNew.newMultiselectHeader(null, searchable, selected, imagePath, iconClass);
                 // extend the group ovject with the children elements
-                rv[name] = $.extend(children, rv[name]);
+                header['@children'] = children;
+
+                rv[name] = header;
                 
             } else { // is item
                 // get the value for the item

@@ -1,13 +1,36 @@
 
 /* Specifies the root path */
-@import "./themes/bold.less";
+
 .JS_Multiselect {
+    @import "./themes/bold.less";
     @import "./variables.less";
-    @import "./body/body.less";
-    @import "./body/list.less";
-    @import "./footer.less";
-    @import "./header.less";
     @import "./utility.less";
+    @import "./shared/body/body.less";
+    @import "./shared/body/list.less";
+    @import "./shared/footer.less";
+    @import "./shared/header.less";
+
+    &.singleColumn {
+        @import "./singleColumn/body/body.less";
+        @import "./singleColumn/body/list.less";
+        @import "./singleColumn/footer.less";
+        @import "./singleColumn/header.less";
+    }
+
+    &.multiColumn {
+        @import "./multiColumn/body/body.less";
+        @import "./multiColumn/body/list.less";
+        @import "./multiColumn/footer.less";
+        @import "./multiColumn/header.less";
+    }
+
+    &.popoverSelect {
+        @import "./popoverSelect/body/body.less";
+        @import "./popoverSelect/body/list.less";
+        @import "./popoverSelect/footer.less";
+        @import "./popoverSelect/header.less";
+    }
+
 
     width: 25vw;
     display: block;
@@ -23,6 +46,7 @@
     *.textColorDarker {
         color: @textColorDark !important;
     }
+
 }
 
 

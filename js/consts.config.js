@@ -30,16 +30,27 @@ define(['require', 'jquery'],function (require) {
     function MULTISELECTOR_ROOT_NAME() {
         return "JS_Multiselect";
     }
+    function MULTISELECTOR_STYLE_TYPES() {
+        return ['singleColumn', 'multiColumn', 'popoverSelect'];
+    }
+    function DEFAULT_MULTISELECTOR_STYLE_TYPE() {
+        return 'singleColumn';
+    }
     function GET_ROOT_OBJECT_REF() {
         if(typeof window[MULTISELECTOR_ROOT_NAME()] == 'undefined' || window[MULTISELECTOR_ROOT_NAME()] == null)
             window[MULTISELECTOR_ROOT_NAME()] = {};
         return window[MULTISELECTOR_ROOT_NAME()];
     }
     
+    if(typeof window[MULTISELECTOR_ROOT_NAME()] == 'undefined' || window[MULTISELECTOR_ROOT_NAME()] == null)
+            window[MULTISELECTOR_ROOT_NAME()] = {};
+    
     return {
         CONST_OPTIONS: CONST_OPTIONS,
         MULTISELECTOR_ROOT_NAME: MULTISELECTOR_ROOT_NAME,
         GET_ROOT_OBJECT_REF: GET_ROOT_OBJECT_REF,
-        CONST_LAYOUT: CONST_LAYOUT
+        CONST_LAYOUT: CONST_LAYOUT,
+        MULTISELECTOR_STYLE_TYPES: MULTISELECTOR_STYLE_TYPES,
+        DEFAULT_MULTISELECTOR_STYLE_TYPE: DEFAULT_MULTISELECTOR_STYLE_TYPE
     };
 });
