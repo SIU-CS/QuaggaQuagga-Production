@@ -1,6 +1,5 @@
 /* Specifies the root path */
 .JS_Multiselect {
-  width: 25vw;
   width: 100%;
   display: block;
   background-color: #0b0c10;
@@ -122,7 +121,7 @@
 }
 .JS_Multiselect.multiColumn .JSM-body {
   max-height: 30vh;
-  max-height: 130px;
+  width: 100%;
   padding-bottom: 0;
   overflow: auto;
   overflow-y: scroll;
@@ -147,15 +146,17 @@
   background: #66fcf1;
 }
 .JS_Multiselect.multiColumn .list-group-root > .list-group {
-  -webkit-column-count: 3;
+  margin-right: auto;
+  margin-left: auto;
+  -webkit-column-count: 1;
   -webkit-column-gap: 10px;
   -webkit-column-fill: balance;
   -webkit-column-width: auto;
-  -moz-column-count: 3;
+  -moz-column-count: 1;
   -moz-column-gap: 10px;
   -moz-column-fill: balance;
   -moz-column-width: auto;
-  column-count: 3;
+  column-count: 1;
   column-gap: 10px;
   column-fill: balance;
   column-width: auto;

@@ -1,5 +1,5 @@
 define(['require',
-        'jquery', 
+        'jquery'
     ], 
 function(require, $) {
     'use strict';
@@ -15,47 +15,86 @@ function(require, $) {
         var $jsmList = $jsmBody.find(".JSM-list");
         var $jsmFirstGroup = $jsmList.children(".list-group");
         var currentNumColumns = -1;
-        var switchTimer = null;
 
         var maxColumns = settings['numColumns'] = $.isNumeric(settings['numColumns']) ? settings['numColumns'] : 3;
         if (maxColumns <= 0) maxColumns = 3;
 
-        function toggleCSS() {
-            console.log("a")
-            var visableItems = $jsmList.find(".list-group-item:visible");
-            var maxHeight = $jsmBody.css('max-height').replace('px', '');
-            var estimateHeight = 0;
-            visableItems.each(function() {
-                estimateHeight += $(this).outerHeight(); 
-            });
-            var currentNumColumns = Math.ceil(estimateHeight/maxHeight);
-            console.log(currentNumColumns);
-
-            if (currentNumColumns > maxColumns) currentNumColumns = maxColumns;
-            if (currentNumColumns < 1) currentNumColumns = 1;
-
-            var columnsCSS = currentNumColumns;
-            $jsmFirstGroup.css({
-                '-webkit-column-count': columnsCSS,
-                'moz-column-count': columnsCSS,
-                'column-count': columnsCSS
-            });
-
+        function toggleSpace(numVisibleItems, itemHeight) {
             // adds and removes space as needed to keep the list balanced
-            var spacerHeight =  Math.floor(estimateHeight/visableItems.length);
             var numCurrSpace = $jsmFirstGroup.children(".JSM-spacer").length;
-            var neededSpace = currentNumColumns - visableItems.length % currentNumColumns - numCurrSpace;
-            if (neededSpace + numCurrSpace == currentNumColumns) neededSpace = -numCurrSpace;
-            if (neededSpace > 0)
+
+            var totalNeededSpaces = currentNumColumns - (numVisibleItems % currentNumColumns);
+            var neededSpace = totalNeededSpaces - numCurrSpace;
+            
+            if (totalNeededSpaces == currentNumColumns) neededSpace = -numCurrSpace;
+
+            if (neededSpace > 0) {
                 for(var i = 0; i < neededSpace; i += 1) {
-                    $jsmFirstGroup.append('<div class="JSM-spacer" style="height: '+spacerHeight+'px"></div>');
+                    $jsmFirstGroup.append('<div class="JSM-spacer"></div>');
                 }
-            else if (neededSpace < 0)
-                $jsmFirstGroup.children(".JSM-spacer").slice(0,-neededSpace).remove();
+            } else if (neededSpace < 0) {
+                var $removal = $jsmFirstGroup.children(".JSM-spacer").slice(0,-neededSpace);
+                $removal.animate({
+                        height: "0",
+                    }, 400,
+                    function() {
+                        $removal.remove();
+                    }
+                );
+            }
+            $jsmFirstGroup.children(".JSM-spacer").animate({
+                    height: itemHeight + "px",
+                }, 400
+            );
         }
-        
-        $jsmList.find(".list-group").on('shown.bs.collapse', toggleCSS);
-        $jsmList.find(".list-group").on('hidden.bs.collapse', toggleCSS);
+
+        function getVisibleLength($selectedItem) {
+            var targetGroupLength = 0;
+            if ($selectedItem != null) {
+                var targetGroup = $($selectedItem.data('target'));
+                if ($selectedItem.hasClass('collapsed')) {
+                    targetGroupLength = targetGroup.children('.list-group-item').length;
+                } else {
+                    targetGroupLength = -targetGroup.children('.list-group-item').length;
+                }
+            }
+            return $jsmList.find(".list-group:visible").children('.list-group-item').length + targetGroupLength;
+        }
+
+        function toggleCSS($selectedItem) {
+            var itemHeight = Math.ceil(
+                $jsmList.find(".list-group:visible").children('.list-group-item').first().outerHeight()
+            );
+            var numVisItems = getVisibleLength($selectedItem);
+
+            var maxHeight = $jsmBody.css('max-height').replace('px', '');
+            var currHeight = itemHeight * numVisItems;
+
+            if (settings['dynamicColumns'] === true || settings['dynamicColumns'] === "true") {
+                currentNumColumns = Math.ceil(currHeight/maxHeight);
+                if (currentNumColumns > maxColumns) currentNumColumns = maxColumns;
+                if (currentNumColumns < 1) currentNumColumns = 1;
+            } else {
+                currentNumColumns = maxColumns;
+            }
+            if ($jsmFirstGroup.css('column-count') != currentNumColumns) {
+                $jsmFirstGroup.css({
+                    '-webkit-column-count': currentNumColumns,
+                    'moz-column-count': currentNumColumns,
+                    'column-count': currentNumColumns
+                });
+            }
+
+            $jsmFirstGroup.animate({
+                    width: (100/maxColumns * currentNumColumns) + "%",
+                }, 200
+            );
+            toggleSpace(numVisItems, itemHeight);
+        }
+
+        $jsmFirstGroup.on("click", ".JSM-item-header", function(e) {
+            toggleCSS($(this));
+        });
         toggleCSS();
     }
     

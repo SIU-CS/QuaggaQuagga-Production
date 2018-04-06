@@ -4,19 +4,23 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../style/main.css">
         <!-- JQuery -->
-        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
         <script data-main="./main.test" src="../lib/require.js"></script>
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
         <script>
             function loadSettings() {
                 return {
@@ -24,7 +28,9 @@
                         type: "text"
                     },
                     display: {
-                        type: "multiColumn"
+                        type: "multiColumn",
+                        numColumns: 3,
+                        dynamicColumns: false
                     }
                 }
             }
@@ -59,13 +65,6 @@
                                     
                                 ]
                             },
-                            { // list of items 
-                                "name": "Item 1.3",
-                                "searchable": "search me",
-                                "selected": false,
-                                "value" : "1.1",
-                                "icon": "fa fa-chrome"
-                            },
                             { // item 1.2 is also a header 
                                 "name": "Item 1.4",
                                 "searchable": "search me",
@@ -79,13 +78,6 @@
                                     },
                                     
                                 ]
-                            },
-                            { // list of items 
-                                "name": "Item 1.6",
-                                "searchable": "search me",
-                                "selected": false,
-                                "value" : "1.1",
-                                "icon": "fa fa-chrome"
                             },
                             { // item 1.2 is also a header 
                                 "name": "Item 1.7",
@@ -110,135 +102,14 @@
                         "value" : "2" 
                     }
                 ];
-                displayInput(array);
+               
                 return array;
             }
-            function displayInput(input) {
-                if ($.isPlainObject(input) || $.isArray(input))
-                    input = JSON.stringify(input, null, 2);
-                $("#input").text(input);
-            }
-
-            $(document).ready(function(){
-                var check = function() {
-                    var success = true;
-                    // few static test conditions 
-                    //warn if the no. of list groups is less than or greater than 3
-                    if($('.JSM-list .list-group').length != 3) {
-                        success = false;
-                        console.warn('Too few/many groups')
-                    }
-                    //warn if the no. of list group items is less than or greater than 5
-                    if($('.JSM-list .list-group-item').length != 5) {
-                        success = false;
-                        console.warn('Too few/many items')
-                    }
-                    //warn if more than one/no checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
-                        success = false;
-                        console.warn('Auto selected not working')
-                    }
-                    if (success) {
-                        $("#success").removeClass('hidden');
-                    } else {
-                        $("#failure").removeClass('hidden');
-                    }
-                };
-                // wait for the info to load
-                setTimeout(check, 200);
-            });
     </script>
     </head>
     <body>
-    <div style="height: 60px; text-align: center;">
-        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded!</h3>
-        </div>
-        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed! Check Warnings</h3>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <!--<div class="col-md-6">
-                <h2 class="text-center">Input:</h2>
-                <pre id="input">
-        
-                </pre>
-            </div>-->
-            
-        <!--<div class="col-md-6 container-fluid">
-            <h2 class="text-center">Output:</h2>
-             START MULTISELECT
-            <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
-        </div>-->
 
     <div class="JS_Multiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
-        <!-- MULTISELECT HEADER -->
-        <div class="JSM-head navbar navbar-default">
-           <span class="JSM-title navbar-brand">Pick A Contry</span>
-           <span class="JSM-search form-group">
-           <input class="JSM-searchbar form-control" type="text" placeholder="Search">
-           </span>
-        </div>
-        <!-- MULTISELECT BODY -->
-        <div class="JSM-body">
-           <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-           <div class="JSM-list list-group-root">
-              <div class="list-group" style="background-color: rgb(31, 40, 51);">
-                 <a href="#JSM-GroupID-0" class="list-group-item JSM-item-header collapsableIcon" data-toggle="collapse" data-searchable="search me" aria-expanded="true">
-                 <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"><img src="./quagga.jpg"></span>Item 1
-                 <span class="drop-icon"></span>
-                 </a>
-                 <div class="list-group textColorDarker collapse in" id="JSM-GroupID-0" style="background-color: rgb(122, 145, 174); margin-left: 34px;" aria-expanded="true">
-                    <span class="list-group-item" data-searchable="search me" data-value="1.1">
-                    <input type="checkbox" class="checkbox JSM-checkbox" value="1.1" name="Item 1.1"><span class="JSM-itemImage"><i class="fa fa-chrome" aria-hidden="true"></i></span>Item 1.1
-                    </span>
-                    <a href="#JSM-GroupID-1" class="list-group-item JSM-item-header collapsableIcon" data-toggle="collapse" data-searchable="search me" aria-expanded="true">
-                    <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"></span>Item 1.2
-                    <span class="drop-icon"></span>
-                    </a>
-                    <div class="list-group textColorDarker collapse in" id="JSM-GroupID-1" style="background-color: rgb(255, 255, 255); margin-left: 34px;" aria-expanded="true">
-                       <span class="list-group-item" data-searchable="search me" data-value="1.2.1">
-                       <input type="checkbox" class="checkbox JSM-checkbox" value="1.2.1" name="Item 1.2.1"><span class="JSM-itemImage"></span>Item 1.2.1
-                       </span>
-                    </div>
-                    <span class="list-group-item" data-searchable="search me" data-value="1.1">
-                    <input type="checkbox" class="checkbox JSM-checkbox" value="1.1" name="Item 1.3"><span class="JSM-itemImage"><i class="fa fa-chrome" aria-hidden="true"></i></span>Item 1.3
-                    </span>
-                    <a href="#JSM-GroupID-2" class="list-group-item JSM-item-header collapsableIcon" data-toggle="collapse" data-searchable="search me" aria-expanded="true">
-                    <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"></span>Item 1.4
-                    <span class="drop-icon"></span>
-                    </a>
-                    <div class="list-group textColorDarker collapse in" id="JSM-GroupID-2" style="background-color: rgb(255, 255, 255); margin-left: 34px;" aria-expanded="true">
-                       <span class="list-group-item" data-searchable="search me" data-value="1.2.1">
-                       <input type="checkbox" class="checkbox JSM-checkbox" value="1.2.1" name="Item 1.2.1"><span class="JSM-itemImage"></span>Item 1.2.1
-                       </span>
-                    </div>
-                    <span class="list-group-item" data-searchable="search me" data-value="1.1">
-                    <input type="checkbox" class="checkbox JSM-checkbox" value="1.1" name="Item 1.6"><span class="JSM-itemImage"><i class="fa fa-chrome" aria-hidden="true"></i></span>Item 1.6
-                    </span>
-                    <a href="#JSM-GroupID-3" class="list-group-item JSM-item-header collapsableIcon" data-toggle="collapse" data-searchable="search me" aria-expanded="true">
-                    <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"></span>Item 1.7
-                    <span class="drop-icon"></span>
-                    </a>
-                    <div class="list-group textColorDarker collapse in" id="JSM-GroupID-3" style="background-color: rgb(255, 255, 255); margin-left: 34px;" aria-expanded="true">
-                       <span class="list-group-item" data-searchable="search me" data-value="1.2.1">
-                       <input type="checkbox" class="checkbox JSM-checkbox" value="1.2.1" name="Item 1.2.1"><span class="JSM-itemImage"></span>Item 1.2.1
-                       </span>
-                    </div>
-                 </div>
-                 <span class="list-group-item" data-searchable="search me" data-value="2">
-                 <input type="checkbox" class="checkbox JSM-checkbox" value="2" name="Item 2" checked="checked"><span class="JSM-itemImage"></span>Item 2
-                 </span>
-              </div>
-           </div>
-        </div>
-        <!-- MULTISELECT FOOTER -->
-        <div class="JSM-footer"></div>
-     </div>
     </div>
-</div>
-        
     </body>
 </html>
