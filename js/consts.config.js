@@ -38,7 +38,7 @@ define(['require', 'jquery'],function (require) {
             <!-- MULTISELECT BODY -->
             <div class="JSM-body">
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-                <div class="JSM-list list-group-root">
+                <div class="JSM-list list-group-root collapse">
                     
                 </div>
             </div>
