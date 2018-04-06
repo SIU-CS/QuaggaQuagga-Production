@@ -98,30 +98,37 @@
     </script>
     </head>
     <body>
-    <div style="height: 60px; text-align: center;">
-        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded!</h3>
-        </div>
-        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed! Check Warnings</h3>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="text-center">Input:</h2>
-                <pre id="input">
-        
-                </pre>
-            </div>
-            
-        <div class="col-md-6 container-fluid">
-            <h2 class="text-center">Output:</h2>
-            <!-- START MULTISELECT -->
-            <div class="JS_Multiselect popoverSelect" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
-        </div>
-        </div>
-    </div>
+            <div class="JS_Multiselect popoverSelect" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"><!-- MULTISELECT HEADER -->
+                <div class="JSM-head navbar navbar-default">
+                    <span class="JSM-title navbar-brand">Pick A Contry</span>
+                    <span class="JSM-search form-group">
+                        <input class="JSM-searchbar form-control" type="text" placeholder="Search">
+                    </span>
+                </div>
+                <!-- MULTISELECT BODY -->
+                <div class="JSM-body collapse">
+                <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
+                    <div class="JSM-list list-group-root">
+                        
+                    <div class="list-group" style="background-color: rgb(31, 40, 51);"><a href="#JSM-GroupID-0" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse" data-searchable="search me">
+            <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"><img src="./quagga.jpg"></span>Item 1
+                                <span class="drop-icon"></span>
+                            </a><div class="list-group collapse textColorDarker" id="JSM-GroupID-0" style="background-color: rgb(122, 145, 174); margin-left: 19px;">
+                            <span class="list-group-item" data-searchable="search me" data-value="1.1">
+            <input type="checkbox" class="checkbox JSM-checkbox" value="1.1" name="Item 1.1"><span class="JSM-itemImage"><i class="fa fa-chrome" aria-hidden="true"></i></span>Item 1.1
+                            </span><a href="#JSM-GroupID-1" class="list-group-item JSM-item-header collapsableIcon collapsed" data-toggle="collapse" data-searchable="search me">
+            <input type="checkbox" class="checkbox JSM-checkbox"><span class="JSM-itemImage"></span>Item 1.2
+                                <span class="drop-icon"></span>
+                            </a><div class="list-group collapse textColorDarker" id="JSM-GroupID-1" style="background-color: rgb(255, 255, 255); margin-left: 19px;">
+                            <span class="list-group-item" data-searchable="search me" data-value="1.2.1">
+            <input type="checkbox" class="checkbox JSM-checkbox" value="1.2.1" name="Item 1.2.1"><span class="JSM-itemImage"></span>Item 1.2.1
+                            </span></div></div><span class="list-group-item" data-searchable="search me" data-value="2">
+            <input type="checkbox" class="checkbox JSM-checkbox" value="2" name="Item 2" checked="checked"><span class="JSM-itemImage"></span>Item 2
+                            </span></div></div>
+                </div>
+                <!-- MULTISELECT FOOTER -->
+                <div class="JSM-footer"></div></div>
+    
 
     </body>
 </html>

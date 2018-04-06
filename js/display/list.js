@@ -166,6 +166,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
         // gets the multiselect data and elements
         var multiselectData = dataStoreGet.getDataByName(multiselectName);
         var $ele = dataStoreGet.getElementByName(multiselectName);
+        onsearchDo($ele);
         // finds the root of the list so we can append to it
         var $listRoot = $ele.find('.list-group-root').first();
         if ($listRoot == null || $listRoot.length <= 0) return null;
@@ -178,5 +179,12 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
         // return the list item (non-null) to the caller
         return $html;
     }
+
+    function onsearchDo($ele) {
+        $ele.find(".JSM-head .JSM-search .JSM-searchbar").on('input', function() {
+            $('.JSM-body').collapse()
+        });
+    }
+
     return listFunction;
 });
