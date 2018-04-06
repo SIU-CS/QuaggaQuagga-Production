@@ -1,11 +1,13 @@
 define(['require',
         'consts',
-        'jquery', 
+        'jquery',
+        'style/multicolumn',
         'style/body/cascadingSelect', 
         'style/body/checkSelected', 
         'style/body/colorIndent', 
-        'style/body/spaceIndent'], 
-function(require, CONSTS, $, cascadingSelect, checkSelected, colorIndent, spaceIndent) {
+        'style/body/spaceIndent',
+        'data_store/get'], 
+function(require, CONSTS, $, multicolumnStyle, cascadingSelect, checkSelected, colorIndent, spaceIndent, getData) {
     'use strict';
     var jquery = $;
 
@@ -28,6 +30,13 @@ function(require, CONSTS, $, cascadingSelect, checkSelected, colorIndent, spaceI
         checkSelected(name);
         colorIndent($multiselect);
         spaceIndent($multiselect);
+
+        var displaySettings = getData.getSettingByName("display", name);
+
+        if (displaySettings.type == "multiColumn") {
+            multicolumnStyle($multiselect, displaySettings);
+        }
+
     }
 
     return handler;

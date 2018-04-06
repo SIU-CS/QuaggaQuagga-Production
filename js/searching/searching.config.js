@@ -15,21 +15,11 @@ function(require, getData, $, fuzzySearch, textSearch) {
      */
     function handler(name) {
         var $ele = getData.getElementByName(name);
-        var settings = getData.getSettingsByName(name);
-        if (settings == null) settings = {};
-        if (settings.search == null || !$.isPlainObject(settings.search) || !settings.hasOwnProperty("search")) {
-            settings.search = {
-                "type": "text"
-            };
-        }
-        if (!settings.search.hasOwnProperty("type"))
-        {
-            settings.search.type = "text";
-        }
+        var searchSettings = getData.getSettingByName("search", name);
 
         if ($ele == null) return;
 
-        if (settings.search.type == "fuzzy") {
+        if (searchSettings.type == "fuzzy") {
             fuzzySearch($ele);
         } else {
             textSearch($ele);

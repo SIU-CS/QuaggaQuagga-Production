@@ -12,7 +12,6 @@
             init: './init.config',
             consts: './consts.config',
             lib: '../lib',
-            styleI: './style/include',
             "jquery": '../lib/jquery-3.3.1.min',
             "utility": './utility',
             "logger": './utility/logger'

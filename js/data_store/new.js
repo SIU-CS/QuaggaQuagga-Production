@@ -2,14 +2,13 @@
 define(['require',
     'data_store/cache',
     'data_store/set',
+    'consts',
     'jquery'],
-function (require) {
+function (require, cache, cacheSet, CONSTS) {
     'use strict';
 
     var jquery, $;
     jquery = $ = require('jquery');
-    var cache = require('data_store/cache');
-    var cacheSet = require('data_store/set');
 
     /**
      * Sets a new multiselect in the cache with these fields
@@ -23,6 +22,8 @@ function (require) {
         var name = $(ele).attr('name');
         if (typeof name === 'undefined' || name == null) return null;
         if (data == null) data = [];
+        if (!$.isPlainObject(options)) options = {};
+        options = $.extend(CONSTS.CONST_OPTIONS(), options);
 
         var jqueryEle = $(ele).first();
         if (!cache.addMultiselect(name, jqueryEle, data, options, title)) return null;

@@ -1,6 +1,6 @@
 /* Specifies the root path */
 .JS_Multiselect {
-  width: 25vw;
+  width: 100%;
   display: block;
   background-color: #0b0c10;
   margin-top: 20px;
@@ -121,6 +121,7 @@
 }
 .JS_Multiselect.multiColumn .JSM-body {
   max-height: 30vh;
+  width: 100%;
   padding-bottom: 0;
   overflow: auto;
   overflow-y: scroll;
@@ -145,7 +146,20 @@
   background: #66fcf1;
 }
 .JS_Multiselect.multiColumn .list-group-root > .list-group {
-  margin-bottom: 0 !important;
+  margin-right: auto;
+  margin-left: auto;
+  -webkit-column-count: 1;
+  -webkit-column-gap: 10px;
+  -webkit-column-fill: balance;
+  -webkit-column-width: auto;
+  -moz-column-count: 1;
+  -moz-column-gap: 10px;
+  -moz-column-fill: balance;
+  -moz-column-width: auto;
+  column-count: 1;
+  column-gap: 10px;
+  column-fill: balance;
+  column-width: auto;
   overflow: hidden;
   height: 100%;
   background-color: #1f2833;
@@ -159,6 +173,7 @@
   position: relative;
   background-color: inherit;
   color: inherit;
+  display: block;
 }
 .JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-checkbox {
   font-family: "FontAwesome";

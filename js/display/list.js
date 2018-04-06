@@ -40,7 +40,7 @@ function(require, $, dataStoreGet, displayHelper) {
                     headCount += 1;
                     // this is the selectable item (expand button)
                     var itemStr = `
-                        <a href="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed"
+                        <a href="#" data-target="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed"
                                 data-toggle="collapse" data-searchable="` + displayData.searchable + `">` +
                                 displayHelper.getCheckboxLayout(displayData.selected, displayData.name) +
                             '<span class="JSM-itemImage"></span>' +
@@ -100,7 +100,7 @@ function(require, $, dataStoreGet, displayHelper) {
         var $listRoot = $ele.find('.list-group-root').first();
         if ($listRoot == null || $listRoot.length <= 0) return null;
         // this is the starting node we are appending to
-        var $html = $('<div class="list-group"></div>');
+        var $html = $('<div class="list-group in"></div>');
         // recursivly append data to the html node list
         ConvertDataToHTML(multiselectData, $html);
         // add the list items to the list root
