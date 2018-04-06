@@ -1,12 +1,10 @@
 // defines the basic getters and setters of the data
 define(['require',
     'jquery',
-    'consts'],function (require) {
+    'consts'],function (require, $, CONSTS) {
     'use strict';
 
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var CONSTS = require('consts');
+    var jquery = $;
 
     // cached data
     var MultiselectList = {};
@@ -60,7 +58,7 @@ define(['require',
      * Note: will not delete previous multiselectors
      * @param {String} name the name of the new multiselector 
      * @param {Element} node the living page node for the element
-     * @param {object} data The object to add under the name of the multiselector
+     * @param {Array} data The data to add under the name of the multiselector
      * @param {object} settings the settings to be used by this multiselector
      * @returns {bool} Returns a true false depending on if the data was inserted
      */

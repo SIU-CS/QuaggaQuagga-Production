@@ -13,7 +13,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
      */
     function ProcessHTML($groupHead) {
         // return object
-        var rv = {};
+        var rv = [];
         // for each child under the head
         $groupHead.children("li").each(function() {
             var $child = $(this);
@@ -52,9 +52,16 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                 // if no children continue
                 if (children == null) return null;
                 // get the group object
-                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected, imagePath, iconClass);
-                // extend the group ovject with the children elements
-                rv[name] = $.extend(children, rv[name]);
+                var header = dataStoreNew.newMultiselectHeader(
+                    name,
+                    children,
+                    null, 
+                    searchable, 
+                    selected, 
+                    imagePath, 
+                    iconClass
+                );
+                rv.push(header);
                 
             } else { // is item
                 // get the value for the item
@@ -66,7 +73,17 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
                     value = name;
                 }
                 // get the new data item and store under given name
-                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected, imagePath, iconClass);
+                var item = dataStoreNew.newMultiselectItem(
+                    name,
+                    value, 
+                    null, 
+                    searchable, 
+                    selected, 
+                    imagePath, 
+                    iconClass
+                );
+                if (item == null) return;
+                rv.push(item);
             }
         });
         return rv;

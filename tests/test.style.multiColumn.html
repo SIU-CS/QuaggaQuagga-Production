@@ -18,6 +18,16 @@
         <!-- LESS -->
         <link rel="stylesheet" href="../style/main.css">
         <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "text"
+                    },
+                    display: {
+                        type: "multiColumn"
+                    }
+                }
+            }
             // a test function
             function loadData() {
                 var array = [
@@ -118,7 +128,7 @@
         <div class="col-md-6 container-fluid">
             <h2 class="text-center">Output:</h2>
             <!-- START MULTISELECT -->
-            <div class="JS_Multiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
         </div>
         </div>
     </div>
