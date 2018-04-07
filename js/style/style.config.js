@@ -2,12 +2,13 @@ define(['require',
         'consts',
         'jquery',
         'style/multicolumn',
+        'style/popover',
         'style/body/cascadingSelect', 
         'style/body/checkSelected', 
         'style/body/colorIndent', 
         'style/body/spaceIndent',
         'data_store/get'], 
-function(require, CONSTS, $, multicolumnStyle, cascadingSelect, checkSelected, colorIndent, spaceIndent, getData) {
+function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, checkSelected, colorIndent, spaceIndent, getData) {
     'use strict';
     var jquery = $;
 
@@ -32,9 +33,10 @@ function(require, CONSTS, $, multicolumnStyle, cascadingSelect, checkSelected, c
         spaceIndent($multiselect);
 
         var displaySettings = getData.getSettingByName("display", name);
-
-        if (displaySettings.type == "multiColumn") {
+        if (displaySettings.type === "multiColumn") {
             multicolumnStyle($multiselect, displaySettings);
+        } else if (displaySettings.type === "popover") {
+            popoverStyle(name, $multiselect, displaySettings);
         }
 
     }
