@@ -8,7 +8,8 @@ define(['require',
         'style/body/colorIndent', 
         'style/body/spaceIndent',
         'data_store/get'], 
-function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, checkSelected, colorIndent, spaceIndent, getData) {
+function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, 
+    checkSelected, colorIndent, spaceIndent, getData) {
     'use strict';
     var jquery = $;
 

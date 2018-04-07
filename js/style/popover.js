@@ -5,13 +5,13 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
     var itemNum = 0;
 
     function showHideHandler($multiselect, $popDisplay, onClose) {
-        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar")
+        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar");
         $searchBar.on("focus", function() {
             $popDisplay.empty();
             $popDisplay.collapse("hide");
             $multiselect.find(".JSM-list.collapse").collapse("show");
         });
-        var $close = $multiselect.find(".JSM-head .JSM-closePopList")
+        var $close = $multiselect.find(".JSM-head .JSM-closePopList");
         $close.on("click", function() {
             $multiselect.find(".JSM-list.collapse").collapse("hide");
             $popDisplay.collapse("show");
@@ -22,7 +22,8 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
         $popDisplay.append(
             '<span style="background-color:white; margin-right: 20px;">'+
                 item["@name"] +
-                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" aria-hidden="true"></span>' +
+                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" aria-hidden="true">'+
+                '</span>' +
             '</span>'
         );
 
@@ -40,13 +41,15 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
 
     function displaySelectedInPopover(data, popup) {
         for(var i in data){
-            var item = data[i];
-            if (item["@selected"]) {
-                if (popup != null)
-                    popup(item);
-            }
-            else if (item["@isHeader"]){
-                displaySelectedInPopover(item["@children"], popup);
+            if ($.isPlainObject(data[i])) {
+                var item = data[i];
+                if (item["@selected"]) {
+                    if (popup != null)
+                        popup(item);
+                }
+                else if (item["@isHeader"]){
+                    displaySelectedInPopover(item["@children"], popup);
+                }
             }
         }
     }
