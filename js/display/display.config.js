@@ -25,18 +25,7 @@ function(require, CONSTS, getData, $, displayList, displayTitle) {
      */
     function handler(name) {
         var $ele = getData.getElementByName(name);
-        var settings = getData.getSettingsByName(name);
-
-        if (settings == null) settings = {};
-        if (settings.display == null || !$.isPlainObject(settings.display) || !settings.hasOwnProperty("display")) {
-            settings.display = {
-                "type": "singleColumn"
-            };
-        }
-        if (!settings.display.hasOwnProperty("type"))
-        {
-            settings.display.type = "singleColumn";
-        }
+        var displaySettings = getData.getSettingByName("display", name);
 
         if ($ele == null) return;
 
@@ -45,11 +34,11 @@ function(require, CONSTS, getData, $, displayList, displayTitle) {
 
         removeDisplayClasses($ele);
 
-        if (settings.display.type == "popover") {
+        if (displaySettings.type == "popover") {
             // get the basic layout
             $ele.html(CONSTS.CONST_POPOVER_LAYOUT());
             $ele.addClass("popoverSelect");
-        } else if (settings.display.type == "multiColumn") {
+        } else if (displaySettings.type == "multiColumn") {
             $ele.html(CONSTS.CONST_MULTICOLUMN_LAYOUT());
             $ele.addClass("multiColumn");
         } else {
