@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
+define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(require, $, getData, setData) {
     'use strict';
     
     var jquery = $;
@@ -35,12 +35,12 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
             var Item = item;
             var selector = '#JSM-closePopover-'+itemNum;
             $(".JSM-body " + selector).on("click", function() {
-                if(Item['@element'] != null) {
-                    Item['@element'].find(".JSM-checkbox").prop('checked', false);
-                }
-                $(selector).parent().remove();
+                setData.setSelectedForItem(Item, false, true);
+                $(this).parent().remove();
             });
         }());
+
+        itemNum += 1;
     }
 
     // Display selected items as Popovers
