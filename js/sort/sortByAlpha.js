@@ -20,7 +20,7 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
             if (data[i] != null) {
                 if (data[i]['@isHeader']) {
                     fun(data[i]);
-                    forEachHeader(data[i]['@children']);
+                    forEachHeader(data[i]['@children'], fun);
                 }
             }
         }

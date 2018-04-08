@@ -16,13 +16,16 @@ function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
      */
     function handler(name) {
         var sortSettings = getData.getSettingByName("sort", name);
+        console.log(sortSettings);
+        if (sortSettings != null) {
 
-        if (sortSettings.type == "numeric") {
-            sortByNumeric(name);
-        } else if(sortSettings.type == "custom") {
-            sortByCustom(name, userFunction);
-        } else { // default is alpha
-            sortByAlpha(name);
+            if (sortSettings.type == "numeric") {
+                sortByNumeric(name);
+            } else if(sortSettings.type == "custom") {
+                sortByCustom(name, sortSettings['sortDefine']);
+            } else { // default is alpha
+                sortByAlpha(name);
+            }
         }
     }
 
