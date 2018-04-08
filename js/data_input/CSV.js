@@ -44,7 +44,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     var NUM_ATTRIBUTES = 6;
 
     function ProcessCSV(data) {
-        var rv = {}; // returnvalue
+        var rv = []; // returnvalue
 
         // loop
         for(var i =0; i <data.length; i++){
@@ -59,27 +59,28 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             if (data[i].length > NUM_ATTRIBUTES) { // is header
                 var nestedItems = data[i][NUM_ATTRIBUTES];
                 var header = dataStoreNew.newMultiselectHeader(
+                    name,
+                    ProcessCSV(nestedItems),
                     null,    
                     searchable, 
                     selected, 
                     image, 
                     icon
                 );
-                // Recursive processing
-                header = $.extend(ProcessCSV(nestedItems), header);
-                rv[name] = header; 
+                rv.push(header); 
 
             } else { // is item
                 if (name == null) continue;
                 // get the item and store under the given name 
-                rv[name] = dataStoreNew.newMultiselectItem(
+                rv.push(dataStoreNew.newMultiselectItem(
+                    name,
                     value, 
                     null, 
                     searchable, 
                     selected, 
                     image, 
                     icon
-                );
+                ));
             }
         }
         // noop
