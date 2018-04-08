@@ -5,7 +5,14 @@ define(['require', 'jquery'],function (require) {
     $ = jquery = require('jquery');
 
     function CONST_OPTIONS() {
-        return { };
+        return { 
+            search: {
+                type: "text"
+            },
+            display: {
+                type: "singleColumn"
+            }
+         };
     }
 
     function CONST_SINGLECOLUMN_LAYOUT() {
@@ -33,12 +40,15 @@ define(['require', 'jquery'],function (require) {
                 <span class="JSM-title navbar-brand"></span>
                 <span class="JSM-search form-group">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
+                    <span class="fa fa-times JSM-closePopList" aria-hidden="true"></span>
                 </span>
             </div>
             <!-- MULTISELECT BODY -->
             <div class="JSM-body">
+                <div class="JSM-popoverDisplay collapse in">
+                </div>
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-                <div class="JSM-list list-group-root">
+                <div class="JSM-list list-group-root collapse">
                     
                 </div>
             </div>

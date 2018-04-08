@@ -1,5 +1,20 @@
 .list-group-root > .list-group {
-    margin-bottom: 0 !important;
+    margin-right: auto;
+    margin-left: auto;
+
+    -webkit-column-count: 1;
+    -webkit-column-gap: 10px;
+    -webkit-column-fill: balance;
+    -webkit-column-width: auto;
+    -moz-column-count: 1;
+    -moz-column-gap: 10px;
+    -moz-column-fill: balance;
+    -moz-column-width: auto;
+    column-count: 1;
+    column-gap: 10px;
+    column-fill: balance;
+    column-width: auto;
+
     overflow: hidden;
     height: 100%;
     background-color: @lightBackground;
@@ -13,6 +28,8 @@
         position: relative;
         background-color: inherit;
         color: inherit;
+        display: block;
+
         // Custom Checkbox 
         .JSM-checkbox {
             font-family: "FontAwesome";
