@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
     <head>
         <!-- Required meta tags -->
@@ -18,63 +18,49 @@
         <!-- LESS -->
         <link rel="stylesheet" href="../style/main.css">
         <script>
-            function loadSettings() {
-                return {
-                    search: {
-                        type: "text"
-                    },
-                    display: {
-                        type: "singleColumn"
-                    }
-                }
-            }
             // a test function
             function loadData() {
-                var array = [
-                    { // a header
-                        "name": "Item 1",
-                        "searchable": "search me",
-                        "selected": false,
-                        "image": "./quagga.jpg",
-                        "icon": "fa fa-chrome",
-                        "items": [
-                            { // list of items 
-                                "name": "Item 1.1",
-                                "searchable": "search me",
-                                "selected": false,
-                                "value" : "1.1",
-                                "icon": "fa fa-chrome"
-                            },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.2",
-                                "searchable": "search me",
-                                "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "name": "Item 2",
-                        "searchable": "search me",
-                        "selected": true,  
-                        "value" : "2" 
-                    }
-                ];
-                displayInput(array);
-                return array;
+                var xml = `
+                <data>
+                     <item>
+                          <name>Item 1</name>
+                          <searchable>Item 1</searchable>
+                          <selected>false</selected>
+                          <icon>fa faIconClasses</icon>
+                          <item>
+                                  <name>Item 1.1</name>
+                                  <value>Item 1.1</value>
+                                  <searchable>Item 1.1</searchable>
+                                  <selected>true</selected>
+                                  <image>Path/ToImage3</image>
+                          </item>
+                          <item>
+                                  <name>Item 1.2</name>
+                                  <searchable>Item 1.2</searchable>
+                                  <selected>false</selected>
+                                  <item>
+                                          <name>Item 1.2.1</name>
+                                          <value>Item 1.2.1</value>
+                                          <searchable>Item 1.2.1</searchable>
+                                          <selected>false</selected>
+                                  </item>
+                          </item>
+                     </item>
+                     <item>
+                          <name>Item 2</name>
+                          <value>Item 2</value>
+                          <searchable>Item 2</searchable>
+                          <selected>false</selected>
+                     </item>
+               </data>
+
+`;
+                var rv = $.parseXML(xml.trim())
+                displayInput(xml);
+                return xml;
             }
             function displayInput(input) {
-                if ($.isPlainObject(input) || $.isArray(input))
-                    input = JSON.stringify(input, null, 2);
-                $("#input").text(input);
+                $("#input").text($(input).prop('outerHTML'));
             }
 
             $(document).ready(function(){
@@ -125,10 +111,10 @@
                 </pre>
             </div>
             
-        <div class="col-md-6 container-fluid">
+        <div class="col-md-6">
             <h2 class="text-center">Output:</h2>
             <!-- START MULTISELECT -->
-            <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="XML" data-load="loadData" data-title="Pick A Country"></div>
         </div>
         </div>
     </div>

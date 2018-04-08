@@ -12,7 +12,7 @@ define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], functi
     */
     function ProcessJson(jsonData)
     {
-        var rv = {};
+        var rv = [];
         for(var name in jsonData) {
             if(typeof jsonData[name] =='object' && jsonData[name] != null) 
             {
@@ -21,23 +21,22 @@ define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], functi
 
                 if(values['@value'] == null) // is header
                 {
+                    var children = ProcessJson(jsonData[name]);
+                    if (children == null) continue;
                     var header = dataStoreNew.newMultiselectHeader(
+                        name,
+                        children,
                         null,
                         values['@searchable'], 
                         values['@selected'], 
                         values['@image'], 
                         values['@icon']
                     );
-                    var children = ProcessJson(jsonData[name]);
-                    if (children != null) //It is nested
-                    {
-                        header['@children'] = children;
-                        rv[name] = header;
-                    }
-                    
+                    rv.push(header);             
                 } else 
                 { // is item
-                    rv[name] = dataStoreNew.newMultiselectItem(
+                    var item = dataStoreNew.newMultiselectItem(
+                        name,
                         values['@value'], 
                         null, 
                         values['@searchable'], 
@@ -45,12 +44,11 @@ define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], functi
                         values['@image'], 
                         values['@icon']
                     );
+                    if (item == null) continue;
+                    rv.push(item);
                 }
             }
         }
-
-        if ($.isEmptyObject(rv)) 
-            return null;//The ibject is empty
         return rv;
     }
     /**
