@@ -1,15 +1,30 @@
-'use strict';
-
 // defines the basic getters and setters of the data
 define(['require',
     'jquery',
-    'consts'],function (require) {
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var CONSTS = require('consts');
+    'consts'],function (require, $, CONSTS) {
+    'use strict';
+
+    var jquery = $;
 
     // cached data
     var MultiselectList = {};
+
+    /**
+     * Returns true if the name exists in the datbase
+     * @param {String} name the name of multiselector
+     * @returns {Bool} true if the name exists in multiselector, false otherwise
+     */
+    function hasName(name) {
+        
+        if (typeof name == "undefined" ||
+            name == null ||
+            typeof MultiselectList[name] == "undefined" ||
+            MultiselectList[name] == null) 
+        {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Runs a function for each multiselector name
@@ -18,8 +33,11 @@ define(['require',
      */
     function forEachName(func) {
         var returnArray = [];
-        for (var key in MultiselectList)
-            returnArray.add(func(key));
+        for (var key in MultiselectList) {
+            if (MultiselectList.hasOwnProperty(key))
+                returnArray.add(func(key));
+        }
+            
         return returnArray;
     }
 
@@ -40,7 +58,7 @@ define(['require',
      * Note: will not delete previous multiselectors
      * @param {String} name the name of the new multiselector 
      * @param {Element} node the living page node for the element
-     * @param {object} data The object to add under the name of the multiselector
+     * @param {Array} data The data to add under the name of the multiselector
      * @param {object} settings the settings to be used by this multiselector
      * @returns {bool} Returns a true false depending on if the data was inserted
      */
@@ -59,7 +77,7 @@ define(['require',
             };
             return true;
         }
-        return false
+        return false;
     }
 
     /**
@@ -68,26 +86,7 @@ define(['require',
      */
     function removeMultiselect(name) {
         delete MultiselectList[name];
-    }
-
-    /**
-     * Returns true if the name exists in the datbase
-     * @param {String} name the name of multiselector
-     * @returns {Bool} true if the name exists in multiselector, false otherwise
-     */
-    function hasName(name) {
-        
-        if (typeof name == "undefined" ||
-            name == null ||
-            typeof MultiselectList[name] == "undefined" ||
-            MultiselectList[name] == null) 
-        {
-            return false;
-        }
-        return true;
-    }
-
-    
+    }  
 
     return {
         forEachName: forEachName,

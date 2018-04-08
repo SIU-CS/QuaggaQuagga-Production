@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'data_store/get'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreGet = require('data_store/get');
@@ -10,9 +10,7 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
      * The find the title-header and adds it to the element
      * @param {String} multiName The name of the multiselect
      */
-    return function(multiName) {
-        var $ele = dataStoreGet.getElementByName(multiName);
-        if ($ele == null) return;
+    return function($ele, multiName) {
         var title = dataStoreGet.getTitleByName(multiName);
         if (title == null) return;
         $ele.find(".JSM-head .JSM-title").text(title);

@@ -4,14 +4,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
-        <script data-main="./js/main" src="./lib/require.js"></script>
-        <script>
-
-        </script>
-        <!-- JQuery -->
-        <script src="./lib/jquery-3.3.1.min.js"></script>
+        <script data-main="./main.test" src="../lib/require.js"></script>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -19,7 +16,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
-        <link rel="stylesheet" href="./style/main.css">
+        <link rel="stylesheet" href="../style/main.css">
         <script>
             // a test function
             function loadData() {
@@ -35,23 +32,35 @@
                         <li name="Item 2" value="2" searchable="search me" selected></li>  
                     </ul>
                 `;
-                return $.parseHTML(strHTML.trim());
+                return strHTML;
             }
 
             $(document).ready(function(){
                 var check = function() {
                     var success = true;
-                    if($('.JSM-list .list-group').length != 3) {
+                    // few static test conditions 
+                    //warn if the no. of list groups is less than or greater than 2
+                    if($('.JSM-list .list-group').length > 2) {
                         success = false;
-                        console.warn('Too few/many groups')
+                        console.warn('Too many groups')
                     }
-                    if($('.JSM-list .list-group-item').length != 5) {
+                    if($('.JSM-list .list-group').length < 2) {
                         success = false;
-                        console.warn('Too few/many items')
+                        console.warn('Too few groups')
                     }
-                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
+                    ///warn if the no. of list group items is greater than 4
+                    if($('.JSM-list .list-group-item').length > 4) {
                         success = false;
-                        console.warn('Auto selected not working')
+                        console.warn('Too many items')
+                    }
+                    if($('.JSM-list .list-group-item').length < 4) {
+                        success = false;
+                        console.warn('Too few items')
+                    }
+                    //warn if more than one/no checkbox is auto selected
+                    if($('.JSM-list .JSM-checkbox:checked').length > 1) {
+                        success = false;
+                        console.warn('Auto select not working')
                     }
                     if (success) {
                         $("#success").removeClass('hidden');
@@ -65,18 +74,18 @@
     </script>
     </head>
     <body>
-    <div style="height: 60px; text-align: center;">
-        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded!</h3>
+        <div style="height: 60px; text-align: center;">
+            <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Succeeded. Something is wrong.</h3>
+            </div>
+            <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Failed!</h3>
+            </div>
         </div>
-        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed! Check Warnings</h3>
-        </div>
-    </div>
 
-    <div class="container">
-        <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="liveHTML" data-load="loadData" data-title="Pick A Contry"></div>
-    </div>
+        <div class="container">
+            <!-- START MULTISELECT -->
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+        </div>
     </body>
 </html>

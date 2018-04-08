@@ -1,10 +1,9 @@
-    'use strict';
-
 // defines the more advanced error checking getters of the data
 define(['require', 
     'data_store/cache', 
     'jquery'],
 function (require) {
+    'use strict';
     var $, jquery;
     jquery = $ = require('jquery');
     var cache = require('data_store/cache');
@@ -30,7 +29,7 @@ function (require) {
         var multi =  cache.getMultiselect(name);
         if (multi !== null)
             // returns a copy of the data
-            return $.extend({}, multi.Data);
+            return multi.Data;
         return null;
     }
 
@@ -42,7 +41,7 @@ function (require) {
     function getElementByName(name) {
         var multi =  cache.getMultiselect(name);
         if (multi != null) {
-            return multi.Element
+            return multi.Element;
         }
         return null;
     }
@@ -52,11 +51,33 @@ function (require) {
      * @param {String} name
      * @returns {JSON Object} the settings associated with the multiselect
      */
-    function getSettingsByName(name) {
+    function getSettingsByMultiselectName(name) {
         var multi =  cache.getMultiselect(name);
-        if (multi !== null)
+        if (multi !== null) {
+            if (multi.Settings == null || !$.isPlainObject(multi.Settings)) {
+                multi.Settings = {};
+            }
             return multi.Settings;
-        return null;
+        }
+        console.warn("An error occured getting settings, multiselect not loaded");
+        return {};
+    }
+
+    /**
+     * Gets the settings for the multiselect specified by the name
+     * @param {String} settingName
+     * @param {String} multiName
+     * @returns {JSON Object} the settings associated with the multiselect
+     */
+    function getSettingByName(settingName, multiName) {
+        var settings =  getSettingsByMultiselectName(multiName);
+        if (!settings.hasOwnProperty(settingName) || 
+            settings[settingName] == null || 
+            !$.isPlainObject(settings[settingName])
+        ){
+            settings[settingName] = {};
+        }
+        return settings[settingName];
     }
 
     /**
@@ -76,7 +97,7 @@ function (require) {
      * @returns {String Array} and array of Item keys
      */
     function getMultiselectItemKeys() {
-        return ["@value", "@element", "@searchable", "@selected", "@isHeader"]
+        return ["@value", "@element", "@searchable", "@selected", "@isHeader", "@icon", "@image"];
     }
 
 
@@ -84,8 +105,9 @@ function (require) {
         nameList: nameList,
         getDataByName: getDataByName,
         getElementByName: getElementByName,
-        getSettingsByName: getSettingsByName,
+        getSettingsByMultiselectName: getSettingsByMultiselectName,
+        getSettingByName: getSettingByName,
         getMultiselectItemKeys: getMultiselectItemKeys,
         getTitleByName: getTitleByName
-    }
+    };
 });

@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require'], function (require) {
+    'use strict';
+
     // dependencies for this file
     var WARN = 'warn';
     var ERROR = 'error';
@@ -111,9 +111,9 @@ define(['require'], function (require) {
     }
     return {
         logType: main,
-        log: function(msg, trace) { main(msg, LOG, trace) },
-        warn: function(msg, trace) { main(msg, WARN, trace) },
-        error: function(msg, trace) { main(msg, ERROR, trace) },
-        info: function(msg, trace) { main(msg, INFO, trace) }
+        log: function(msg, trace) { main(msg, LOG, trace); },
+        warn: function(msg, trace) { main(msg, WARN, trace); },
+        error: function(msg, trace) { main(msg, ERROR, trace); },
+        info: function(msg, trace) { main(msg, INFO, trace); }
     }
 });

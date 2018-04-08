@@ -1,5 +1,6 @@
-
-define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_input/HTML', 'data_input/JSON'],function (require) {
+define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_input/HTML', 'data_input/JSON', 'data_input/xml'],function (require) {
+    'use strict';
+    
     var $, jquery;
     $ = jquery = require('jquery');
 
@@ -11,7 +12,8 @@ define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_in
         "liveHTML": require('data_input/liveHTML'),
         "JSON": require('data_input/JSON'),
         "array": require('data_input/array'),
-        "HTML": require('data_input/HTML')
+        "HTML": require('data_input/HTML'),
+        "xml": require('data_input/xml')
     };
     
     /**
@@ -26,8 +28,8 @@ define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_in
         // determines if we can get the data from the elements passed in
         if (typeFunctions[dataType] == null ||
             window[loadFunction] == null ||
-            !jQuery.isFunction(typeFunctions[dataType]) ||
-            !jQuery.isFunction(window[loadFunction])) return null;
+            !jquery.isFunction(typeFunctions[dataType]) ||
+            !jquery.isFunction(window[loadFunction])) return null;
         // gets the developers data
         var devData = window[loadFunction]();
         if (devData == null) return null;

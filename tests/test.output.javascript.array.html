@@ -4,14 +4,11 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
-        <script data-main="./js/main" src="./lib/require.js"></script>
-        <script>
-
-        </script>
-        <!-- JQuery -->
-        <script src="./lib/jquery-3.3.1.min.js"></script>
+        <script data-main="./main.test" src="../lib/require.js"></script>
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -19,22 +16,33 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <!-- LESS -->
-        <link rel="stylesheet" href="./style/main.css">
+        <link rel="stylesheet" href="../style/main.css">
         <script>
             // load the data
             function loadData() {
-                var strHTML = `
-                    <ul>
-                        <li name="Item 1" searchable="search me"><ul>
-                            <li name="Item 1.1" value="1.1" searchable="search me"></li>
-                            <li name="Item 1.2" searchable="search me" selected><ul>
-                                <li name="Item 1.2.1" value="1.2.1" searchable="search me" selected</li>    
-                            </ul></li>
-                        </ul></li>
-                        <li name="Item 2" value="2" searchable="search me" selected></li>  
-                    </ul>
-                `;
+var strHTML = `<ul>
+    <li name="Item 1" searchable="search me"><ul>
+        <li name="Item 1.1" value="1.1" searchable="search me"></li>
+        <li name="Item 1.2" searchable="search me" selected><ul>
+            <li name="Item 1.2.1" value="1.2.1" searchable="search me" checked></li>    
+        </ul></li>
+    </ul></li>
+    <li name="Item 2" value="2" searchable="search me" checked></li>  
+</ul>`;
+                displayInput(strHTML);
                 return strHTML;
+            }
+
+            function displayInput(input) {
+                $("#input").text(input);
+            }
+            function displayOutput(output) {
+                output = JSON.stringify(output, null, 2);
+                $("#output").text(output);
+            }
+            function displayExpectedOutput(output) {
+                output = JSON.stringify(output, null, 2);
+                $("#expected-output").text(output);
             }
 
             $(document).ready(function(){
@@ -52,16 +60,27 @@
                         success = false;
                         console.warn('data not loaded properly');
                     }
-                    var parsedFormData = $("#testForm").serializeArray();
-                    console.log("Parsed Data: ", parsedFormData);
-                    var expectedOutput = [{ name: "Item 1.2.1", value: "1.2.1"}, {name: "Item 2", value: "2"}];
+                    var parsedData = JS_Multiselect.GetData.flatArray('towns');
+                    displayOutput(parsedData);
+                    console.log("Parsed Data: ", parsedData);
+                    var expectedOutput = [
+                        {
+                            "name": "Item 1.2.1",
+                            "value": "1.2.1"
+                        },
+                        {
+                            "name": "Item 2",
+                            "value": "2"
+                        }
+                    ];
+                    displayExpectedOutput(expectedOutput)
                     // copy the array so we get good output here
                     console.log("Expected Data: ", expectedOutput.slice());
-                    if (parsedFormData.length == expectedOutput.length) {
-                        for (var f in parsedFormData) {
+                    if (parsedData.length == expectedOutput.length) {
+                        for (var f in parsedData) {
                             var found = false;
                             for (var e in expectedOutput) {
-                                if (hasSameProps(expectedOutput[e], parsedFormData[f])){
+                                if (hasSameProps(expectedOutput[e], parsedData[f])){
                                     found = true;
                                     // remove that output so we can't use it twice
                                     expectedOutput.splice(e, 1);
@@ -76,7 +95,6 @@
                     } else {
                         success = false;
                         console.warn('Too few/many items returning selected. Data:');
-                        console.warn(parsedFormData);
                     }
                     if (success) {
                         $("#success").removeClass('hidden');
@@ -113,10 +131,38 @@
     </div>
 
     <div class="container">
-        <form id="testForm">
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
-        </form>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
+            </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Output:</h2>
+                <pre id="output">
 
+                </pre>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Selector:</h2>
+                <form id="testForm">
+                    <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+                </form>
+            </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Expected Output:</h2>
+                <pre id="expected-output">
+
+                </pre>
+            </div>
+        </div>
     </div>
+
+
     </body>
 </html>

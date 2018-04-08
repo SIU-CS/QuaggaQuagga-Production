@@ -1,6 +1,6 @@
-'use strict';
-
 define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'data_store/set'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var getMultiselectorName = require('utility/getMultiselectName');
@@ -9,7 +9,7 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
 
     /**
      * Goes through the multiselect and selects/deselects those that need to be based on their children
-     * @param {Object} cachedData the multiselect data
+     * @param {Array} cachedData the multiselect data
      */
     function RecursivelyCheck(cachedData) {
         // if no data return
@@ -22,7 +22,7 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
                 var child = cachedData[key];
                 // if the element is a header, use recursion
                 if (child['@isHeader']) {
-                    if (!RecursivelyCheck(child)) {
+                    if (!RecursivelyCheck(child['@children'])) {
                         isAllSelected = false;
                         setData.setSelectedForItem(child, false);
                     } else {
@@ -47,5 +47,5 @@ define(['require', 'jquery', 'utility/getMultiselectName', 'data_store/get', 'da
         if (data == null) return false;
         RecursivelyCheck(data);
         return true;
-    }
+    };
 });

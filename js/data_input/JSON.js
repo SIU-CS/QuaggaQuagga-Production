@@ -1,9 +1,10 @@
-'use strict';
-
-define(['require', 'jquery', 'data_store/new'], function(require) {
+define(['require', 'jquery', 'data_store/new', 'data_input/inputHelper'], function(require) {
+    'use strict';
+    
     var $, jquery;
     jquery = $ = require('jquery');
     var dataStoreNew = require('data_store/new');
+    var helper = require('data_input/inputHelper');
     /**
      * This function is used to process the JSON data 
      * remove any null keys 
@@ -11,53 +12,43 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
     */
     function ProcessJson(jsonData)
     {
-        var rv = {};
+        var rv = [];
         for(var name in jsonData) {
-            var obj = jsonData[name];
-            if(typeof obj !='object' || obj == null) continue;
-            // get then delete object attributes here
-            var value = null;
-            if(obj['@value'] != null) {
-                value = obj['@value'];
-                delete obj['@value'];
-            } else if(obj['value'] != null) {
-                value = obj['value'];
-                delete obj['value'];
-            }
-            var searchable = "";
-            if(obj['@searchable'] != null) {
-                searchable = obj['@searchable'];
-                delete obj['@searchable'];
-            } else if(obj['searchable'] != null) {
-                searchable = obj['searchable'];
-                delete obj['searchable'];
-            }
-            var selected = false;
-            if(obj['@selected'] != null) {
-                selected = obj['@selected'] == true || obj['@selected'] == "true";
-                delete obj['@selected'];
-            } else if(obj['selected'] != null) {
-                selected = obj['selected'] == true || obj['selected'] == "true";
-                delete obj['selected'];
-            }
-
-            if(value == null) // is header
+            if(typeof jsonData[name] =='object' && jsonData[name] != null) 
             {
-                var header = dataStoreNew.newMultiselectHeader(null, searchable, selected);
-                var children = ProcessJson(obj);
-                if (children != null) //It is nested
+                // get then delete object attributes here
+                var values = helper.getJSONValues(jsonData[name]);
+
+                if(values['@value'] == null) // is header
                 {
-                    rv[name] = $.extend(children, header);
+                    var children = ProcessJson(jsonData[name]);
+                    if (children == null) continue;
+                    var header = dataStoreNew.newMultiselectHeader(
+                        name,
+                        children,
+                        null,
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
+                    rv.push(header);             
+                } else 
+                { // is item
+                    var item = dataStoreNew.newMultiselectItem(
+                        name,
+                        values['@value'], 
+                        null, 
+                        values['@searchable'], 
+                        values['@selected'], 
+                        values['@image'], 
+                        values['@icon']
+                    );
+                    if (item == null) continue;
+                    rv.push(item);
                 }
-                
-            } else 
-            { // is item
-                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected);
             }
         }
-
-        if ($.isEmptyObject(rv)) 
-            return null;//The ibject is empty
         return rv;
     }
     /**
@@ -73,7 +64,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
             try {
                 jsonData = $.parseJSON(jsonData);//Ot takes the JSON data nd return the JavaScript value
             } catch(err) {
-                console.warn("Data is not json or json parsable")//Throw error if data is not JSON format
+                console.warn("Data is not json or json parsable"); //Throw error if data is not JSON format
                 return null;
             }
         }
@@ -81,5 +72,5 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         jsonData = $.extend(true, {}, jsonData);
         
         return ProcessJson(jsonData);
-    }
+    };
 });
