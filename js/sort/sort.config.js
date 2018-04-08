@@ -1,10 +1,11 @@
 define(['require',
         'data_store/get',
         'jquery', 
-        'searching/fuzzySearch', 
-        'searching/plainTextSearch'
+        'sort/sortByAlpha', 
+        'sort/sortByNumeric',
+        'sort/sortByCustom', 
     ], 
-function(require, getData, $, SortByNumeric, SortByUser, SortByAlphabatical) {
+function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
     'use strict';
     var jquery = $;
 
@@ -14,15 +15,14 @@ function(require, getData, $, SortByNumeric, SortByUser, SortByAlphabatical) {
      * @param {jquery element} $multiselect the targeted multiselect
      */
     function handler(name) {
-        var $ele = getData.getElementByName(name);
-        var searchSettings = getData.getSettingByName("search", name);
+        var sortSettings = getData.getSettingByName("sort", name);
 
-        if ($ele == null) return;
-
-        if (searchSettings.type == "fuzzy") {
-            fuzzySearch($ele);
-        } else {
-            textSearch($ele);
+        if (sortSettings.type == "numeric") {
+            sortByNumeric(name);
+        } else if(sortSettings.type == "custom") {
+            sortByCustom(name, userFunction);
+        } else { // default is alpha
+            sortByAlpha(name);
         }
     }
 
