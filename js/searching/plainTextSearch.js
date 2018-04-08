@@ -18,8 +18,8 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
         $el.children(".list-group-item").hide();
 
         $el.children(".list-group-item").filter(function () {
-            var text = $(this).prop("value").text();
-            var searchableText = $(this).prop("data-searchable").text();
+            var text = $(this).attr("data-value").text();
+            var searchableText = $(this).attr("data-searchable").text();
             if (isCaseSensitive) {
                 text = text.toLowerCase();
                 searchableText = searchableText.toLowerCase();

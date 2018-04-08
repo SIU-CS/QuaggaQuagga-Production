@@ -2,6 +2,8 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
     'use strict';
     var jquery = $;
 
+
+
     // This is not my code, I used someone else's fuzzy searching algorithm, all credit goes to him
     // The source is https://github.com/mattyork/fuzzy/blob/master/lib/fuzzy.js
 
@@ -116,7 +118,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
                         string: rendered.rendered,
                         score: rendered.score,
                         index: idx,
-                        original: element,
+                        original: element
                     };
                 }
                 return prev;
@@ -134,13 +136,19 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
 
     return function ($ele) {
         var timeout;
-        $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-                var userInput = $(".JSM-searchbar").val();
-                var results = fuzzy.filter(userInput, $(".JSM-list"));
 
-                window.clearTimeout(timeout);
-                timeout = window.setTimeout(function () {
-                    fuzzy.simpleFilter(userInput, $(".JSM-list"));
+        $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
+            var userInput = $(".JSM-searchbar").val();
+            var listSearchData = $(".JSM-list").children("list-group-item").find("data-value");
+            var results = fuzzy.filter(userInput, listSearchData);
+            for (match in results) {
+                
+            }
+
+
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(function () {
+                fuzzy.simpleFilter(userInput, listSearchData);
             }, 500);
         });
     };
