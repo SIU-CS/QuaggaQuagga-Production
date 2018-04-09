@@ -25,9 +25,9 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
     function Popup(item, $popDisplay){
         $popDisplay.append(
         // Popover Basic style
-            '<span style="background-color:rgb(238, 161, 147); margin-right: 20px; display: inline-block; height: 30px; align:center; border-style: outset">'+
+            '<span style="background-color:rgb(238, 161, 147);margin-right: 20px; display: inline-block; height: 35px; border-style: outset; border-radius: 10px; padding: 5px;">'+
                 item["@name"] +
-                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" aria-hidden="true"></span>' +
+                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
             '</span>'
         );
     
