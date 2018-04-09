@@ -1,5 +1,5 @@
-define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
-    function (require, $, getData, showHideItems) {
+define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
+    function (require, $, getData, searchHelper) {
     'use strict';
 
     var jquery = $;
@@ -134,44 +134,13 @@ define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
                 if (compare) return compare;
                 return a.index - b.index;
             });
-    };
+        };
 
-    var fuzzySearch = function (data, str, isCaseSensitive) {
-        var returnVisible = false;
-        for (var i in data) {
-            if (data[i] != null) {
-                var item = data[i];
-
-                var name = item['@name'];
-                var searchable = item['@searchable'];
-                if (!isCaseSensitive) {
-                    name = name.toLowerCase();
-                    searchable = searchable.toLowerCase();
-                }
-
-
-                // if input is not empty, and the input matches an entry in the multiselect, show the item and its children
-                if (!str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null)) {
-                    showHideItems.showItem(item);
-                    showHideItems.showAllChildren(item);
-                    returnVisible = true;
-                } else {
-                    if (item['@isHeader']) {
-                        var isAnyVisible = fuzzySearch(item['@children'], str, isCaseSensitive);
-                        if (isAnyVisible) {
-                            returnVisible = true;
-                            showHideItems.showItem(item);
-                        } else {
-                            showHideItems.hideItem(item);
-                        }
-                    } else {
-                        showHideItems.hideItem(item);
-                    }
-                }
-            }
-        }
-        return returnVisible;
-    };
+        var fuzzySearch = function (data, str, isCaseSensitive) {
+            searchHelper.searchByFunction(function (name, searchable) {
+                return !str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null);
+            }, data, isCaseSensitive);
+         };
 
         return function (multiName, $ele, settings) {
             var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
