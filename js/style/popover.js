@@ -16,6 +16,7 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
         $close.on("click", function() {
         // Hide list when ClosePoplist is clicked and show the selected items as popovers
             $multiselect.find(".JSM-list.collapse").collapse("hide");
+            $popDisplay.empty();
             $popDisplay.collapse("show");
             if (onClose != null) onClose();
         });
@@ -24,7 +25,7 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
     function Popup(item, $popDisplay){
         $popDisplay.append(
         // Popover Basic style
-            '<span style="background-color:white; margin-right: 20px;">'+
+            '<span style="background-color:rgb(238, 161, 147); margin-right: 20px; display: inline-block; height: 30px; align:center; border-style: outset">'+
                 item["@name"] +
                 '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" aria-hidden="true"></span>' +
             '</span>'

@@ -10,6 +10,7 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
 
     // sets the color for all list groups
     function setIndentRecursivly($ele, indent) {
+        console.log($ele);
         $ele.children(".list-group").each(function (i, e) {
             var $e = $(e);
             $e.css("margin-left", indent);
@@ -22,7 +23,7 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
      * @param {Jquery element} $multiselect the multiselect 
      */
     function setSpaceIndent($multiselect) {
-        $multiselect.find(".list-group-root > .list-group").each(function(i, e) {
+        $multiselect.find(".list-group-root").children(".list-group").each(function(i, e) {
             var $ele = $(e);
             
             var maxDepth = nestedDepth($ele, ".list-group");
