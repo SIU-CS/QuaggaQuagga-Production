@@ -18,13 +18,17 @@ function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
         var sortSettings = getData.getSettingByName("sort", name);
         console.log(sortSettings);
         if (sortSettings != null) {
+            var isReverse = (sortSettings.reverse === true || sortSettings.reverse === "true");
 
-            if (sortSettings.type == "numeric") {
-                sortByNumeric(name);
-            } else if(sortSettings.type == "custom") {
-                sortByCustom(name, sortSettings['sortDefine']);
+            if(sortSettings.type == "custom") {
+                if ($.isFunction(sortSettings['sortDefine'])) {
+                    sortByCustom(name, sortSettings['sortDefine'], isReverse);
+                } else {
+                    console.warn("custom for was not passed a fuction, refer to documentation");
+                }
             } else { // default is alpha
-                sortByAlpha(name);
+                
+                sortByAlpha(name, isReverse);
             }
         }
     }
