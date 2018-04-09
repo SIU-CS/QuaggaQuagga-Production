@@ -8,11 +8,11 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
     This functon uses the custom sorting technique defined by the user
     We have defined isReverse to sort the data reversely as defined
     */
-    function customSort(array, isReverse) 
+    function customSort(array, customSortFunction, isReverse) 
     {
         array.sort(function(A, B) 
         {
-           var value = customSortFution(A, B);
+           var value = customSortFunction(A['@name'], B['@name']);
            if (isReverse) return -value;//Revrese sorting
            return value;
         });
@@ -30,7 +30,7 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
                 if (data[i]['@isHeader'])//If data is a header
                 {
                     fun(data[i]);
-                    forEachHeader(data[i]['@children']);//Go inside the header and sort it
+                    forEachHeader(data[i]['@children'], fun);//Go inside the header and sort it
                 }
             }
         }
@@ -38,13 +38,13 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
     /*
     Get the data from the multiselect in the form of an array
     */
-    function handler(multiName, customSortFution, isReverse) 
+    function handler(multiName, customSortFunction, isReverse) 
     {
         var data = get.getDataByName(multiName);
-        alphaSort(data); // data is an array by defintion
+        customSort(data, customSortFunction, isReverse); // data is an array by defintion
         forEachHeader(data, function(header) 
         {
-            customSort(header['@children'], customSortFution, isReverse);
+            customSort(header['@children'], customSortFunction, isReverse);
         });
     }
     return handler;//Return thr sorted multielect

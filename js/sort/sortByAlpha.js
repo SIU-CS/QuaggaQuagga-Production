@@ -5,7 +5,8 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
     jquery = $ = require('jquery');
     var get = require('data_store/get');
     /*
-    This functon compares the data and sort it
+    This functon compares the data and sort it alphabtically
+     We have defined isReverse to sort the data in reverse alphabetical order
     */
     function alphaSort(array, isReverse) 
     {
@@ -46,7 +47,7 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
     function handler(multiName, isReverse) 
     {
         var data = get.getDataByName(multiName);
-        alphaSort(data); // data is an array by defintion
+        alphaSort(data, isReverse); // data is an array by defintion
         forEachHeader(data, function(header) 
         {
             alphaSort(header['@children'], isReverse);

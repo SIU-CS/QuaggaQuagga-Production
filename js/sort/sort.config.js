@@ -2,10 +2,9 @@ define(['require',
         'data_store/get',
         'jquery', 
         'sort/sortByAlpha', 
-        'sort/sortByNumeric',
         'sort/sortByCustom', 
     ], 
-function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
+function(require, getData, $, sortByAlpha, sortByCustom) {
     'use strict';
     var jquery = $;
 
@@ -16,7 +15,7 @@ function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
      */
     function handler(name) {
         var sortSettings = getData.getSettingByName("sort", name);
-        console.log(sortSettings);
+
         if (sortSettings != null) {
             var isReverse = (sortSettings.reverse === true || sortSettings.reverse === "true");
 
@@ -24,7 +23,7 @@ function(require, getData, $, sortByAlpha, sortByNumeric, sortByCustom) {
                 if ($.isFunction(sortSettings['sortDefine'])) {
                     sortByCustom(name, sortSettings['sortDefine'], isReverse);
                 } else {
-                    console.warn("custom for was not passed a fuction, refer to documentation");
+                    console.warn("custom for was not passed a function, refer to documentation");
                 }
             } else { // default is alpha
                 
