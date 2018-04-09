@@ -1,44 +1,56 @@
-define(['require', 'jquery', 'data_store/get'], function (require) {
+define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
+    function (require, $, getData, showHideItems) {
     'use strict';
     
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var get = require('data_store/get');
+    var jquery = $;
 
-    var plainTextSearch = function (selectionEl, str, isCaseSensitive) {
-        if (typeof isCaseSensitive == 'undefined')
-            isCaseSensitive = true;
-        if (isCaseSensitive)
-            str = str.toLowerCase();
+    var plainTextSearch = function (data, str, isCaseSensitive) {
+        var returnVisible = false;
+        for (var i in data) {
+            if (data[i] !== null) {
+                var item = data[i];
 
-        var $el = $(selectionEl);
+                var name = item['@name'];
+                var searchable = item['@searchable'];
+                if (!isCaseSensitive) {
+                    name = name.toLowerCase();
+                    searchable = searchable.toLowerCase();
+                }
 
-        $el.children(".list-group-item");
-        $el.val('');
-        $el.children(".list-group-item").hide();
-
-        $el.children(".list-group-item").filter(function () {
-            var text = $(this).attr("data-value").text();
-            var searchableText = $(this).attr("data-searchable").text();
-            if (isCaseSensitive) {
-                text = text.toLowerCase();
-                searchableText = searchableText.toLowerCase();
+                // if input is not empty, and the input matches an entry in the multiselect, show the item and its children
+                if (!str.trim() || str.indexOf(name) > -1 || str.indexOf(searchable) > -1) {
+                    returnVisible = true;
+                    showHideItems.showItem(item);
+                    showHideItems.showAllChildren(item);
+                } else {
+                    if (item['@isHeader']) {
+                        // recursively performs the plain text search on the child items to check if they are visible
+                        var isAnyVisible = plainTextSearch(item['@children'], str, isCaseSensitive);
+                        if (isAnyVisible) {
+                            showHideItems.showItem(item);
+                            returnVisible = true;
+                        } else {
+                            showHideItems.hideItem(item);
+                        }
+                    } else {
+                        showHideItems.hideItem(item);
+                    }
+                }
             }
-
-            if (text.indexOf(str) > -1 || searchableText.indexOf(str) > -1)
-                return true;
-
-            return false;
-        }).show();
-
+        }
+        return returnVisible;
     };
-    return function ($ele) {
+    return function (multiName, $ele, settings) {
+        var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
         var timeout;
         $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-            var userInput = $(".JSM-searchbar").val();
             window.clearTimeout(timeout);
             timeout = window.setTimeout(function () {
-                plainTextSearch($(".JSM-list"), userInput, true);
+                var data = getData.getDataByName(multiName);
+                var str = $('.JSM-searchbar').val();
+                if (!isCaseSensitive)
+                    str = str.toLowerCase();
+                plainTextSearch(data, str, isCaseSensitive);
             }, 500);
 
         });

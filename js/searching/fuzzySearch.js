@@ -1,5 +1,7 @@
-define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
+define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
+    function (require, $, getData, showHideItems) {
     'use strict';
+
     var jquery = $;
 
 
@@ -42,7 +44,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
             post = opts.post || '',
             // String to compare against. This might be a lowercase version of the
             // raw string
-            compareString = opts.caseSensitive && str || str.toLowerCase(),
+            compareString = opts.caseSensitive && str || str.toString().toLowerCase(),
             ch;
 
         pattern = opts.caseSensitive && pattern || pattern.toLowerCase();
@@ -134,22 +136,56 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
             });
     };
 
-    return function ($ele) {
-        var timeout;
+    var fuzzySearch = function (data, str, isCaseSensitive) {
+        var returnVisible = false;
+        for (var i in data) {
+            if (data[i] != null) {
+                var item = data[i];
 
-        $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-            var userInput = $(".JSM-searchbar").val();
-            var listSearchData = $(".JSM-list").children("list-group-item").find("data-value");
-            var results = fuzzy.filter(userInput, listSearchData);
-            for (match in results) {
-                
+                var name = item['@name'];
+                var searchable = item['@searchable'];
+                if (!isCaseSensitive) {
+                    name = name.toLowerCase();
+                    searchable = searchable.toLowerCase();
+                }
+
+
+                // if input is not empty, and the input matches an entry in the multiselect, show the item and its children
+                if (!str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null)) {
+                    showHideItems.showItem(item);
+                    showHideItems.showAllChildren(item);
+                    returnVisible = true;
+                } else {
+                    if (item['@isHeader']) {
+                        var isAnyVisible = fuzzySearch(item['@children'], str, isCaseSensitive);
+                        if (isAnyVisible) {
+                            returnVisible = true;
+                            showHideItems.showItem(item);
+                        } else {
+                            showHideItems.hideItem(item);
+                        }
+                    } else {
+                        showHideItems.hideItem(item);
+                    }
+                }
             }
-
-
-            window.clearTimeout(timeout);
-            timeout = window.setTimeout(function () {
-                fuzzy.simpleFilter(userInput, listSearchData);
-            }, 500);
-        });
+        }
+        return returnVisible;
     };
+
+        return function (multiName, $ele, settings) {
+            var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
+            var timeout;
+            $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
+                window.clearTimeout(timeout);
+                timeout = window.setTimeout(function () {
+                    var data = getData.getDataByName(multiName);
+                    var str = $('.JSM-searchbar').val();
+                    if (!isCaseSensitive)
+                        str = str.toLowerCase();
+                    fuzzySearch(data, str, isCaseSensitive);
+                }, 500);
+
+            });
+        };
 });
