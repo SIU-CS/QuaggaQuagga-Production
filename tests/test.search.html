@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
     <head>
         <!-- Required meta tags -->
@@ -25,12 +25,11 @@
             function loadSettings() {
                 return {
                     search: {
-                        type: "text"
+                        type: "text",
+                        caseSensitive: true
                     },
                     display: {
-                        type: "multiColumn",
-                        numColumns: 3,
-                        dynamicColumns: true
+                        type: "singleColumn",
                     }
                 }
             }
@@ -38,26 +37,26 @@
             function loadData() {
                 var array = [
                     { // a header
-                        "name": "Item 1",
+                        "name": "Item A",
                         "searchable": "search me",
                         "selected": false,
                         "image": "./quagga.jpg",
                         "icon": "fa fa-chrome",
                         "items": [
                             { // list of items 
-                                "name": "Item 1.1",
+                                "name": "Item B",
                                 "searchable": "search me",
                                 "selected": false,
                                 "value" : "1.1",
                                 "icon": "fa fa-chrome"
                             },
                             { // item 1.2 is also a header 
-                                "name": "Item 1.2",
+                                "name": "Item C",
                                 "searchable": "search me",
                                 "selected": false,
                                 "items" : [            
                                     {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
+                                        "name": "Item D",
                                         "searchable": "search me",
                                         "selected": false,
                                         "value" : "1.2.1"
@@ -66,12 +65,12 @@
                                 ]
                             },
                             { // item 1.2 is also a header 
-                                "name": "Item 1.4",
+                                "name": "Item E",
                                 "searchable": "search me",
                                 "selected": false,
                                 "items" : [            
                                     {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
+                                        "name": "Item F",
                                         "searchable": "search me",
                                         "selected": false,
                                         "value" : "1.2.1"
@@ -80,12 +79,12 @@
                                 ]
                             },
                             { // item 1.2 is also a header 
-                                "name": "Item 1.7",
+                                "name": "Item G",
                                 "searchable": "search me",
                                 "selected": false,
                                 "items" : [            
                                     {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
+                                        "name": "Item H",
                                         "searchable": "search me",
                                         "selected": false,
                                         "value" : "1.2.1"
@@ -109,7 +108,7 @@
     </head>
     <body>
 
-    <div class="JS_Multiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
+    <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Country">
     </div>
     </body>
 </html>

@@ -24,9 +24,7 @@ function(require, $) {
             var numCurrSpace = $jsmFirstGroup.children(".JSM-spacer").length;
 
             var totalNeededSpaces = currentNumColumns - (numVisibleItems % currentNumColumns);
-            var neededSpace = totalNeededSpaces - numCurrSpace;
-            
-            if (totalNeededSpaces == currentNumColumns) neededSpace = -numCurrSpace;
+            var neededSpace = totalNeededSpaces % currentNumColumns - numCurrSpace;
 
             if (neededSpace > 0) {
                 for(var i = 0; i < neededSpace; i += 1) {
@@ -48,24 +46,11 @@ function(require, $) {
             );
         }
 
-        function getVisibleLength($selectedItem) {
-            var targetGroupLength = 0;
-            if ($selectedItem != null) {
-                var targetGroup = $($selectedItem.data('target'));
-                if ($selectedItem.hasClass('collapsed')) {
-                    targetGroupLength = targetGroup.children('.list-group-item').length;
-                } else {
-                    targetGroupLength = -targetGroup.children('.list-group-item').length;
-                }
-            }
-            return $jsmList.find(".list-group:visible").children('.list-group-item').length + targetGroupLength;
-        }
-
         function toggleCSS($selectedItem) {
             var itemHeight = Math.ceil(
-                $jsmList.find(".list-group:visible").children('.list-group-item').first().outerHeight()
+                $jsmList.find('.list-group-item:visible').first().outerHeight()
             );
-            var numVisItems = getVisibleLength($selectedItem);
+            var numVisItems = $jsmList.find('.list-group-item:visible').length;
 
             var maxHeight = $jsmBody.css('max-height').replace('px', '');
             var currHeight = itemHeight * numVisItems;
@@ -92,7 +77,7 @@ function(require, $) {
             toggleSpace(numVisItems, itemHeight);
         }
 
-        $jsmFirstGroup.on("click", ".JSM-item-header", function(e) {
+        $jsmList.on("shown.bs.collapse hidden.bs.collapse", ".list-group.collapse", function(e) {
             toggleCSS($(this));
         });
         toggleCSS();

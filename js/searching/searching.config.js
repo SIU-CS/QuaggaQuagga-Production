@@ -20,9 +20,9 @@ function(require, getData, $, fuzzySearch, textSearch) {
         if ($ele == null) return;
 
         if (searchSettings.type == "fuzzy") {
-            fuzzySearch($ele);
+            fuzzySearch(name, $ele, searchSettings);
         } else {
-            textSearch($ele);
+            textSearch(name, $ele, searchSettings);
         }
     }
 

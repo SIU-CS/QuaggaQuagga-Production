@@ -5,14 +5,14 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
     var itemNum = 0;
 
     function showHideHandler($multiselect, $popDisplay, onClose) {
-        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar")
+        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar");
         $searchBar.on("focus", function() {
             $popDisplay.empty();
             $popDisplay.collapse("hide");
         // Display list when search bar is on focus 
             $multiselect.find(".JSM-list.collapse").collapse("show");
         });
-        var $close = $multiselect.find(".JSM-head .JSM-closePopList")
+        var $close = $multiselect.find(".JSM-head .JSM-closePopList");
         $close.on("click", function() {
         // Hide list when ClosePoplist is clicked and show the selected items as popovers
             $multiselect.find(".JSM-list.collapse").collapse("hide");
