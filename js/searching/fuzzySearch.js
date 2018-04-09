@@ -31,7 +31,7 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
 
     // If `pattern` matches `str`, wrap each matching character
     // in `opts.pre` and `opts.post`. If no match, return null
-    fuzzy.match = function (pattern, str, opts) {
+    fuzzy.match = function (pattern, str, opts, filterInterval) {
         opts = opts || {};
         var patternIdx = 0,
             result = [],
@@ -63,7 +63,8 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
                 currScore = 0;
             }
             totalScore += currScore;
-            result[result.length] = ch;
+            if (totalScore > filterInterval)
+                 result[result.length] = ch;
         }
 
         // return rendered string if we have a match for every char
@@ -72,6 +73,7 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
             totalScore = compareString === pattern ? Infinity : totalScore;
             return { rendered: result.join(''), score: totalScore };
         }
+
 
         return null;
     };
@@ -136,9 +138,9 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
             });
         };
 
-        var fuzzySearch = function (data, str, isCaseSensitive) {
+        var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
             searchHelper.searchByFunction(function (name, searchable) {
-                return !str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null);
+                return !str.trim() || fuzzy.match(str, name, null, filterInterval) || fuzzy.match(str, searchable, null, filterInterval);
             }, data, isCaseSensitive);
          };
 
