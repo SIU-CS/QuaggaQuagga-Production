@@ -63,8 +63,7 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
                 currScore = 0;
             }
             totalScore += currScore;
-            if (totalScore > filterInterval)
-                 result[result.length] = ch;
+            result[result.length] = ch;
         }
 
         // return rendered string if we have a match for every char
@@ -140,7 +139,7 @@ define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
 
         var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
             searchHelper.searchByFunction(function (name, searchable) {
-                return !str.trim() || fuzzy.match(str, name, null, filterInterval) || fuzzy.match(str, searchable, null, filterInterval);
+                return !str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null);
             }, data, isCaseSensitive);
          };
 

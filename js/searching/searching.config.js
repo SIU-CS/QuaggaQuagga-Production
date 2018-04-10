@@ -17,7 +17,8 @@ function(require, getData, $, fuzzySearch, textSearch) {
         var $ele = getData.getElementByName(name);
         var searchSettings = getData.getSettingByName("search", name);
         var filterInterval = getData.getSettingByName("filterInterval", name);
-        if (filterInterval == null) {
+
+        if (searchSettings.filterInterval == null) {
             filterInterval = 0;
         }
 
