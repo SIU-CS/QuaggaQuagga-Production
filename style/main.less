@@ -10,25 +10,25 @@
     @import "./shared/footer.less";
     @import "./shared/header.less";
 
-    &.singleColumn {
+    width: auto;
+    display: block;
+    background-color:@darkBackground;
+    margin: 2% 5% 2% 5%;
+    padding: 10px;
+    padding-top: 10px;
 
-    }
+    //&.singleColumn {}
 
     &.multiColumn {
         @import "./multiColumn/list.less";
     }
 
     &.popoverSelect {
-
+        @import "./popoverSelect/popover.less";
+        @import "./popoverSelect/body.less";
+        @import "./popoverSelect/scrollbar.less";
+        @import "./popoverSelect/head.less";
     }
-
-
-    width: 100%;
-    display: block;
-    background-color:@darkBackground;
-    margin-top: 20px;
-    padding: 10px;
-    padding-top: 10px;
     
     /* Apply to all */
     *.textColorLighter {

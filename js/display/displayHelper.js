@@ -14,10 +14,11 @@ function(require, $) {
     function getCheckboxLayout(checked, name, value) {
         return `
         <input type="checkbox" class='checkbox JSM-checkbox' ` +
-        (value != null ? "value=\""+ value +"\"": "") +
+        "value=\"" + (value != null ? value: "") + "\"" +
         // returns "on" if no value and a name
-        (value != null && name != null ? "name=\""+ name +"\"": "") +
+        "name=\""+ (name != null && value != null ?  name : "")+"\"" +
         (checked ? "checked=\"checked\"" : "") + `>`;
+        
     }
 
      /**

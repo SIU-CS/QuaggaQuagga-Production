@@ -57,6 +57,21 @@ define(['require',
     function registerCheckboxClick($multiselect) {
         var key = "input.JSM-checkbox:checkbox";
 
+        $multiselect.find(key + ":checked").each(function(i, ele) {
+            var $ele = $(ele);
+            // get the multiselect name from the item under it
+            var multiselectName = getMultiselectorName.byChildElement($ele);
+            if (multiselectName == null) return;
+            // get the multiselect data
+            var cachedData = getData.getDataByName(multiselectName);
+            // find the selected data
+            var selectedElement = FindSelectedData(cachedData, $ele.parent());
+            // sets the selected property in the data cache
+            setData.setSelectedForItem(selectedElement, true);
+            // selects or deselectes all those under the selected element
+            SelectAllUnderSelected(selectedElement['@children'], true);
+        });
+
         $multiselect.find(key).on('click', function() {
             event.stopPropagation(); // keep the drop down from expanding
         });

@@ -12,6 +12,9 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
     {
         array.sort(function(A, B) 
         {
+            if (A == null && B == null) return 0;
+            if (A == null) return -1;
+            if (B == null) return 1;
            var a = A['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
            var b = B['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
            if (isReverse) {

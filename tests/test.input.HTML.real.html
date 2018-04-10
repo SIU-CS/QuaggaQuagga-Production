@@ -20,6 +20,18 @@
         <script>
             // a test function
             function loadData() {
+                function loadSettings() {
+                return {
+                    search: {
+                        type: "text"
+                    },
+                    display: {
+                        type: "multiColumn",
+                        numColumns: 3,
+                        dynamicColumns: true
+                    }
+                }
+            }
                 // data taken from https://en.wikipedia.org/wiki/List_of_automobile_manufacturers_of_the_United_States
                 var strHTML = `
 <ul>
@@ -987,7 +999,7 @@
     <body>
         <div class="container">
             <!-- START MULTISELECT -->
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-title="Pick A Contry"></div>
+            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
         </div>
     </body>
 </html>

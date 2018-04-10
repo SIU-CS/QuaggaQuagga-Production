@@ -25,8 +25,7 @@ function(require, getData, $, sortByAlpha, sortByCustom) {
                 } else {
                     console.warn("custom for was not passed a function, refer to documentation");
                 }
-            } else { // default is alpha
-                
+            } else if(sortSettings.type == "alpha") {
                 sortByAlpha(name, isReverse);
             }
         }

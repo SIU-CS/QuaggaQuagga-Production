@@ -31,7 +31,7 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
         cascadingSelect($multiselect);
         checkSelected(name);
         colorIndent($multiselect);
-        spaceIndent($multiselect);
+        spaceIndent.setInit($multiselect);
 
         var displaySettings = getData.getSettingByName("display", name);
         if (displaySettings.type === "multiColumn") {
