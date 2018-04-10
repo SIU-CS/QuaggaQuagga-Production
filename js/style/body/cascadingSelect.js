@@ -20,7 +20,7 @@ define(['require',
                 var child = cachedSelected[key];
                 setData.setSelectedForItem(child, isChecked);
                 if (child['@isHeader']) { // if is header check those under it as well
-                    SelectAllUnderSelected(child, isChecked);
+                    SelectAllUnderSelected(child['@children'], isChecked);
                 }
             }
         }
@@ -42,7 +42,7 @@ define(['require',
                 }
                 // if we have a header, try to recursivly call
                 if (data['@isHeader'] == true) {
-                    var find = FindSelectedData(data, callingElement);
+                    var find = FindSelectedData(data['@children'], callingElement);
                     if (find != null) return find;
                 }
             }
@@ -50,18 +50,42 @@ define(['require',
         return null;
     }
 
-    $(document).ready(function() {
-        var key = ".JSM-checkbox";
-        $(key).click(function(event) {
+    /**
+     * Sets the on click event for the multiselect
+     * @param {jquery element} $multiselect the targeted multiselect  
+     */
+    function registerCheckboxClick($multiselect) {
+        var key = "input.JSM-checkbox:checkbox";
+
+        $multiselect.find(key + ":checked").each(function(i, ele) {
+            var $ele = $(ele);
+            // get the multiselect name from the item under it
+            var multiselectName = getMultiselectorName.byChildElement($ele);
+            if (multiselectName == null) return;
+            // get the multiselect data
+            var cachedData = getData.getDataByName(multiselectName);
+            // find the selected data
+            var selectedElement = FindSelectedData(cachedData, $ele.parent());
+            // sets the selected property in the data cache
+            setData.setSelectedForItem(selectedElement, true);
+            // selects or deselectes all those under the selected element
+            SelectAllUnderSelected(selectedElement['@children'], true);
+        });
+
+        $multiselect.find(key).on('click', function() {
             event.stopPropagation(); // keep the drop down from expanding
+        });
+        $multiselect.find(key).on('change', function(event) {
             // find the item
             var $cbox = $(this);
             // if no selected item
             if ($cbox.length <= 0) return;
             // get weather the box is checked or not
             var isChecked = $cbox.is(':checked');
+
             // get the multiselect name from the item under it
             var multiselectName = getMultiselectorName.byChildElement($cbox);
+
             if (multiselectName == null) return;
             // get the multiselect data
             var cachedData = getData.getDataByName(multiselectName);
@@ -70,9 +94,11 @@ define(['require',
             // sets the selected property in the data cache
             setData.setSelectedForItem(selectedElement, isChecked);
             // selects or deselectes all those under the selected element
-            SelectAllUnderSelected(selectedElement, isChecked);
+            SelectAllUnderSelected(selectedElement['@children'], isChecked);
             // checks the whole dataset for those needing to be sleected/deselected
             checkSelected(multiselectName);
         });
-    });
+    }
+
+    return registerCheckboxClick;
 });

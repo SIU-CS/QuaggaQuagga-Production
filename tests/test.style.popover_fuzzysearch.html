@@ -4,58 +4,80 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- LESS -->
+        <link rel="stylesheet" href="../style/main.css">
         <!-- JQuery -->
         <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
         <script data-main="./main.test" src="../lib/require.js"></script>
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
         <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "fuzzy"
+                    },
+                    display: {
+                        type: "popover"
+                    }
+                }
+            }
             // a test function
             function loadData() {
                 var array = [
-                    { // a header
-                        "name": "Item 1",
+                    { // a Header
+                        "name": "Ford",
                         "searchable": "search me",
                         "selected": false,
-                        "image": "./quagga.jpg",
                         "icon": "fa fa-chrome",
                         "items": [
-                            { // list of items 
-                                "name": "Item 1.1",
+                            { // list of items for Ford
+                                "name": "Fiesta",
                                 "searchable": "search me",
                                 "selected": false,
-                                "value" : "1.1",
+                                "value" : "Fiesta",
                                 "icon": "fa fa-chrome"
                             },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.2",
+                            {
+                                "name": "Mustang",
                                 "searchable": "search me",
                                 "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
+                                "value" : "Mustang",
+                                "icon": "fa fa-chrome",
+                            
                             }
                         ]
                     },
-                    {
-                        "name": "Item 2",
+                    { // a Header
+                        "name": "Honda",
                         "searchable": "search me",
-                        "selected": true,  
-                        "value" : "2" 
+                        "selected": false,  
+                        "icon": "fa fa-chrome",
+                        "items" : [            
+                                    {  // list of items for Honda
+                                        "name": "Civic",
+                                        "searchable": "search me",
+                                        "selected": true,
+                                        "value" : "Civic",
+                                        "icon": "fa fa-chrome"
+                                    },
+                                    {  
+                                        "name": "CR-V",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "CR-V",
+                                        "icon": "fa fa-chrome"
+                                    },
+                                    
+                                ]
                     }
                 ];
                 displayInput(array);
@@ -98,30 +120,13 @@
     </script>
     </head>
     <body>
-    <div style="height: 60px; text-align: center;">
-        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded!</h3>
-        </div>
-        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed! Check Warnings</h3>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h2 class="text-center">Input:</h2>
-                <pre id="input">
-        
-                </pre>
+        <div class="container">
+            <div class="container-fluid">
+                        <h2 class="text-center">Popovers are Fun!!</h2>
+            <div class="JS_Multiselect" name="cars" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Select Vehicle"><!-- MULTISELECT HEADER -->
             </div>
-            
-        <div class="col-md-6">
-            <h2 class="text-center">Output:</h2>
-            <!-- START MULTISELECT -->
-            <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
+            </div>
         </div>
-        </div>
-    </div>
 
     </body>
 </html>

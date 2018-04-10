@@ -7,8 +7,8 @@
         <!-- JQuery -->
         <script src="../lib/jquery-3.3.1.min.js"></script>
         <script>
-            var approxNumNodes = 45000
-            var timeInMilli = 1000;
+            var approxNumNodes = 5000
+            var timeInMilli = 3000;
             // put it up here so it always get ran first
             var check = function() {
                 var success = true;
@@ -17,7 +17,7 @@
                     console.warn('Node list either not loading OR\nNode list loading too slow');
                 }
                 if (success) {
-                    $("#success .text").text("Success, loaded Approximately: " + approxNumNodes + " List Items, in less than: " + timeInMilli + " milliseconds!")
+                    $("#success .text").text("Success, loaded Approximately: " + approxNumNodes + " List Items, in less than: " + timeInMilli/1000 + " seconds!")
                     $("#success").removeClass('hidden');
                 } else {
                     $("#failure").removeClass('hidden');
@@ -44,7 +44,7 @@
                 var HTML = `
                     <ul>
                         <li name="Item 1" searchable="search me"><ul>`;
-                    for (var i = 1; i <= 300; i++) {
+                    for (var i = 1; i <= 100; i++) {
                         HTML += `<li name="Item 1.` + i + `" searchable="search me" selected><ul>`
                             for (var ii = 0; ii < i; ii++) {
                                 HTML += `<li name="Item 1.` + i + `.`+ ii +`" value="1.2.1" searchable="search me" selected></li>`;

@@ -18,6 +18,16 @@
         <!-- LESS -->
         <link rel="stylesheet" href="../style/main.css">
         <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "text"
+                    },
+                    display: {
+                        type: "singleColumn"
+                    }
+                }
+            }
             // a test function
             function loadData() {
                 var array = [
@@ -25,12 +35,15 @@
                         "name": "Item 1",
                         "searchable": "search me",
                         "selected": false,
+                        "image": "./quagga.jpg",
+                        "icon": "fa fa-chrome",
                         "items": [
                             { // list of items 
                                 "name": "Item 1.1",
                                 "searchable": "search me",
                                 "selected": false,
-                                "value" : "1.1"
+                                "value" : "1.1",
+                                "icon": "fa fa-chrome"
                             },
                             { // item 1.2 is also a header 
                                 "name": "Item 1.2",
@@ -40,15 +53,9 @@
                                     {  // list of items for 1.2
                                         "name": "Item 1.2.1",
                                         "searchable": "search me",
-                                        "selected": true,
+                                        "selected": false,
                                         "value" : "1.2.1"
                                     },
-                                    { 
-                                        "name": "Item 1.2.2",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.2"
-                                    }
                                     
                                 ]
                             }
@@ -61,33 +68,31 @@
                         "value" : "2" 
                     }
                 ];
+                displayInput(array);
                 return array;
+            }
+            function displayInput(input) {
+                if ($.isPlainObject(input) || $.isArray(input))
+                    input = JSON.stringify(input, null, 2);
+                $("#input").text(input);
             }
 
             $(document).ready(function(){
                 var check = function() {
                     var success = true;
                     // few static test conditions 
-                    //warn if the no. of list groups is less than or greater than 2
-                    if($('.JSM-list .list-group').length > 2) {
+                    //warn if the no. of list groups is less than or greater than 3
+                    if($('.JSM-list .list-group').length != 3) {
                         success = false;
-                        console.warn('Too many groups')
+                        console.warn('Too few/many groups')
                     }
-                    if($('.JSM-list .list-group').length < 2) {
+                    //warn if the no. of list group items is less than or greater than 5
+                    if($('.JSM-list .list-group-item').length != 5) {
                         success = false;
-                        console.warn('Too few groups')
+                        console.warn('Too few/many items')
                     }
-                    //warn if the no. of list group items is greater than 4
-                    if($('.JSM-list .list-group-item').length > 4) {
-                        success = false;
-                        console.warn('Too many items')
-                    }
-                    if($('.JSM-list .list-group-item').length < 4) {
-                        success = false;
-                        console.warn('Too few items')
-                    }
-                    // warn if more than one checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length > 1) {
+                    //warn if more than one/no checkbox is auto selected
+                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
                         success = false;
                         console.warn('Auto selected not working')
                     }
@@ -105,16 +110,28 @@
     <body>
     <div style="height: 60px; text-align: center;">
         <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Succeeded. Something is wrong.</h3>
+            <h3>Test Succeeded!</h3>
         </div>
         <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
-            <h3>Test Failed!</h3>
+            <h3>Test Failed! Check Warnings</h3>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
+            </div>
+            
+        <div class="col-md-6 container-fluid">
+            <h2 class="text-center">Output:</h2>
+            <!-- START MULTISELECT -->
+            <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
+        </div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- START MULTISELECT -->
-        <div class="JS_Multiselect container-fluid" name="towns" data-load-type="array" data-load="loadData" data-title="Pick A Contry"></div>
-    </div>
     </body>
 </html>

@@ -15,7 +15,7 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper
      */
     function ProcessArray(array) {
         if(!$.isArray(array)) return null; // if the input is not an array 
-        var rv = {}; // returnvalue
+        var rv = []; // returnvalue
         for (var i in array) { // for every item in the array check 
             if ($.isPlainObject(array[i])) {
 
@@ -30,20 +30,23 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper
                 //  If items length is greater than 0 , it is a header else it is an item
                 if ($.isArray(items) && items.length > 0) { // is header
                     var header = dataStoreNew.newMultiselectHeader(
+                        name,
+                        ProcessArray(items), // Recursive processing
                         null, 
                         values['@searchable'], 
                         values['@selected'], 
                         values['@image'], 
                         values['@icon']
                     );
-                    // Recursive processing
-                    header = $.extend(ProcessArray(items), header);
-                    rv[name] = header; 
+                    if (header == null) continue;
+                    
+                    rv.push(header); 
 
                 } else { // is item
                     if (values['@value'] == null) continue;
-                    // get the item and store under the given name 
-                    rv[name] = dataStoreNew.newMultiselectItem(
+                    // get the item and store under the given name
+                    var item = dataStoreNew.newMultiselectItem(
+                        name,
                         values['@value'], 
                         null, 
                         values['@searchable'], 
@@ -51,6 +54,9 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper
                         values['@image'], 
                         values['@icon']
                     );
+                    if (item == null) continue;
+
+                    rv.push(item);
                 }
             }
         }
@@ -58,6 +64,7 @@ define(['require', 'jquery', 'data_store/new', 'logger', 'data_input/inputHelper
     }
 
    return function(arrayData) {
-        return ProcessArray(arrayData);
+        var clonedArrayData = JSON.parse(JSON.stringify(arrayData));
+        return ProcessArray(clonedArrayData);
    };
 });
