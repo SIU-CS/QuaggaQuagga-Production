@@ -7,10 +7,11 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
 
     function ProcessXML($parentXml) {
         // return object
-        var rv = {};
+        var rv = [];
         $parentXml.children("item").each(function () {
             var child = $(this);
             var name = child.children("name").first().text();
+            var value = child.children("value").first().text();
             var searchable = child.children("searchable").first().text();
             var selected = child.children("selected").first().text() === "true";
             var iconClass = child.children("icon").first().text();
@@ -22,9 +23,7 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
 
                 if (children == null || $.isEmptyObject(children)) return null;
 
-                rv[name] = dataStoreNew.newMultiselectHeader(null, searchable, selected, imagePath, iconClass);
-
-                rv[name] = $.extend(children, rv[name]);
+                rv.push(dataStoreNew.newMultiselectHeader(name, children, null, searchable, selected, imagePath, iconClass));
 
             } else { // is item
                 // get the value for the item
@@ -36,7 +35,7 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
                     value = name;
                 }
                 // get the new data item and store under given name
-                rv[name] = dataStoreNew.newMultiselectItem(value, null, searchable, selected, imagePath, iconClass);
+                rv.push(dataStoreNew.newMultiselectItem(name, value, null, searchable, selected, imagePath, iconClass));
             } 
         });
         return rv;

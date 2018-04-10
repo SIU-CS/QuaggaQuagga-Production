@@ -1,6 +1,10 @@
-define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
+define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
+    function (require, $, getData, searchHelper) {
     'use strict';
+
     var jquery = $;
+
+
 
     // This is not my code, I used someone else's fuzzy searching algorithm, all credit goes to him
     // The source is https://github.com/mattyork/fuzzy/blob/master/lib/fuzzy.js
@@ -27,7 +31,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
 
     // If `pattern` matches `str`, wrap each matching character
     // in `opts.pre` and `opts.post`. If no match, return null
-    fuzzy.match = function (pattern, str, opts) {
+    fuzzy.match = function (pattern, str, opts, filterInterval) {
         opts = opts || {};
         var patternIdx = 0,
             result = [],
@@ -40,7 +44,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
             post = opts.post || '',
             // String to compare against. This might be a lowercase version of the
             // raw string
-            compareString = opts.caseSensitive && str || str.toLowerCase(),
+            compareString = opts.caseSensitive && str || str.toString().toLowerCase(),
             ch;
 
         pattern = opts.caseSensitive && pattern || pattern.toLowerCase();
@@ -68,6 +72,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
             totalScore = compareString === pattern ? Infinity : totalScore;
             return { rendered: result.join(''), score: totalScore };
         }
+
 
         return null;
     };
@@ -116,7 +121,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
                         string: rendered.rendered,
                         score: rendered.score,
                         index: idx,
-                        original: element,
+                        original: element
                     };
                 }
                 return prev;
@@ -130,18 +135,27 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, get) {
                 if (compare) return compare;
                 return a.index - b.index;
             });
-    };
+        };
 
-    return function ($ele) {
-        var timeout;
-        $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-                var userInput = $(".JSM-searchbar").val();
-                var results = fuzzy.filter(userInput, $(".JSM-list"));
+        var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
+            searchHelper.searchByFunction(function (name, searchable) {
+                return !str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null);
+            }, data, isCaseSensitive);
+         };
 
+        return function (multiName, $ele, settings) {
+            var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
+            var timeout;
+            $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
                 window.clearTimeout(timeout);
                 timeout = window.setTimeout(function () {
-                    fuzzy.simpleFilter(userInput, $(".JSM-list"));
-            }, 500);
-        });
-    };
+                    var data = getData.getDataByName(multiName);
+                    var str = $('.JSM-searchbar').val();
+                    if (!isCaseSensitive)
+                        str = str.toLowerCase();
+                    fuzzySearch(data, str, isCaseSensitive);
+                }, 500);
+
+            });
+        };
 });

@@ -23,7 +23,7 @@
             function loadSettings() {
                 return {
                     search: {
-                        type: "text"
+                        type: "fuzzy"
                     },
                     display: {
                         type: "popover"
@@ -33,41 +33,51 @@
             // a test function
             function loadData() {
                 var array = [
-                    { // a header
-                        "name": "Item 1",
+                    { // a Header
+                        "name": "Ford",
                         "searchable": "search me",
                         "selected": false,
-                        "image": "./quagga.jpg",
                         "icon": "fa fa-chrome",
                         "items": [
-                            { // list of items 
-                                "name": "Item 1.1",
+                            { // list of items for Ford
+                                "name": "Fiesta",
                                 "searchable": "search me",
                                 "selected": false,
-                                "value" : "1.1",
+                                "value" : "Fiesta",
                                 "icon": "fa fa-chrome"
                             },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.2",
+                            {
+                                "name": "Mustang",
                                 "searchable": "search me",
                                 "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
+                                "value" : "Mustang",
+                                "icon": "fa fa-chrome",
+                            
                             }
                         ]
                     },
-                    {
-                        "name": "Item 2",
+                    { // a Header
+                        "name": "Honda",
                         "searchable": "search me",
-                        "selected": true,  
-                        "value" : "2" 
+                        "selected": false,  
+                        "icon": "fa fa-chrome",
+                        "items" : [            
+                                    {  // list of items for Honda
+                                        "name": "Civic",
+                                        "searchable": "search me",
+                                        "selected": true,
+                                        "value" : "Civic",
+                                        "icon": "fa fa-chrome"
+                                    },
+                                    {  
+                                        "name": "CR-V",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "CR-V",
+                                        "icon": "fa fa-chrome"
+                                    },
+                                    
+                                ]
                     }
                 ];
                 displayInput(array);

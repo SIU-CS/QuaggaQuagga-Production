@@ -67,14 +67,20 @@ function (require) {
      * Sets the selected option for this item and checks the element
      * @param {Object} item a data item from the cache 
      * @param {Bool} selected true if selected false otherwise
+     * @param {Bool} changeThis tif true, will call the on change event
      */
-    function setSelectedForItem(item, selected) {
+    function setSelectedForItem(item, selected, changeThis) {
         if (item == null) return false;
         // ensure this is a bool
         selected = selected == true || selected == "true";
         item['@selected'] = selected;
-        if (item['@element'] != null)
-            item['@element'].find('.JSM-checkbox').prop('checked', selected);
+        if (item['@element'] != null) {
+            var checkbox = item['@element'].find('.JSM-checkbox');
+            checkbox.prop('checked', selected);
+            if (changeThis) {
+                checkbox.change();
+            }
+        }
         return true;
     }
 

@@ -16,13 +16,18 @@ function(require, getData, $, fuzzySearch, textSearch) {
     function handler(name) {
         var $ele = getData.getElementByName(name);
         var searchSettings = getData.getSettingByName("search", name);
+        var filterInterval = getData.getSettingByName("filterInterval", name);
+
+        if (searchSettings.filterInterval == null) {
+            filterInterval = 0;
+        }
 
         if ($ele == null) return;
 
         if (searchSettings.type == "fuzzy") {
-            fuzzySearch($ele);
+            fuzzySearch(name, $ele, searchSettings, filterInterval);
         } else {
-            textSearch($ele);
+            textSearch(name, $ele, searchSettings);
         }
     }
 
