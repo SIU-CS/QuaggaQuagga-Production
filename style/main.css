@@ -103,6 +103,7 @@
   border-radius: 0;
 }
 .JS_Multiselect .list-group-root > .list-group .JSM-item-header {
+  cursor: pointer;
   position: relative;
   padding-right: calc(8% + 15px);
 }
