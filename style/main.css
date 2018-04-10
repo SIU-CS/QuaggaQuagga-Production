@@ -246,7 +246,7 @@
   max-height: 30vh;
   padding-bottom: 0;
   overflow: auto;
-  overflow-y: scroll;
+  overflow-y: auto;
   /* width */
   /* Track */
   /* Handle */
