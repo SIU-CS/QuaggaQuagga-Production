@@ -1,4 +1,4 @@
-define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_input/HTML', 'data_input/JSON', 'data_input/XML'],function (require) {
+define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_input/HTML', 'data_input/JSON', 'data_input/CSV', 'data_input/XML'],function (require) {
     'use strict';
     
     var $, jquery;
@@ -13,7 +13,8 @@ define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_in
         "JSON": require('data_input/JSON'),
         "array": require('data_input/array'),
         "HTML": require('data_input/HTML'),
-        "XML": require('data_input/XML')
+        "XML": require('data_input/XML'),
+        "CSV": require('data_input/CSV')
     };
     
     /**
