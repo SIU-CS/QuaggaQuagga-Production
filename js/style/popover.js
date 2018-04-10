@@ -1,5 +1,5 @@
-define(['require', 'jquery', 'data_store/get', 'data_store/set', 'style/body/spaceIndent'], 
-function(require, $, getData, setData, spaceIndent) {
+define(['require', 'jquery', 'data_store/get', 'data_store/set', 'style/body/spaceIndent', 'searching/searchHelper'], 
+function(require, $, getData, setData, spaceIndent, searchHelper) {
     'use strict';
     
     var jquery = $;
@@ -20,7 +20,7 @@ function(require, $, getData, setData, spaceIndent) {
             $multiselect.find(".JSM-list.collapse").collapse("hide");
             $popDisplay.empty();
             $popDisplay.collapse("show");
-            $searchBar.val("");
+            searchHelper.clearSearch($multiselect);
             if (onClose != null) onClose();
         });
     }
