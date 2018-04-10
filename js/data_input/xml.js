@@ -23,19 +23,31 @@ define(['require', 'jquery', 'data_store/new'], function (require) {
 
                 if (children == null || $.isEmptyObject(children)) return null;
 
-                rv.push(dataStoreNew.newMultiselectHeader(name, children, null, searchable, selected, imagePath, iconClass));
+                rv.push(dataStoreNew.newMultiselectHeader(
+                    name, 
+                    children, 
+                    null, 
+                    searchable, 
+                    selected, 
+                    imagePath, 
+                    iconClass)
+                );
 
             } else { // is item
-                // get the value for the item
-                var value = child.find("value").first().text();
-                // make sure the important attribute exist
-
                 if (typeof value === 'undefined' || value === null) {
                     // we deffinitly have a name at this point
                     value = name;
                 }
                 // get the new data item and store under given name
-                rv.push(dataStoreNew.newMultiselectItem(name, value, null, searchable, selected, imagePath, iconClass));
+                rv.push(dataStoreNew.newMultiselectItem(
+                    name, 
+                    value, 
+                    null, 
+                    searchable, 
+                    selected, 
+                    imagePath, 
+                    iconClass)
+                );
             } 
         });
         return rv;

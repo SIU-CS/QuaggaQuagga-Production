@@ -73,7 +73,9 @@
         "requirejs",
         "console",
         "alert",
-        "opera"
+        "opera",
+        "$",
+        "JQuery"
     ],
 
     "esversion": 6

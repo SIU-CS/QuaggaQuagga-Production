@@ -10,34 +10,25 @@
     @import "./shared/footer.less";
     @import "./shared/header.less";
 
-    &.singleColumn {
-        @import "./singleColumn/body/body.less";
-        @import "./singleColumn/body/list.less";
-        @import "./singleColumn/footer.less";
-        @import "./singleColumn/header.less";
-    }
+    width: auto;
+    display: block;
+    background-color:@darkBackground;
+    margin: 2% 5% 2% 5%;
+    padding: 10px;
+    padding-top: 10px;
+
+    //&.singleColumn {}
 
     &.multiColumn {
-        @import "./multiColumn/body/body.less";
-        @import "./multiColumn/body/list.less";
-        @import "./multiColumn/footer.less";
-        @import "./multiColumn/header.less";
+        @import "./multiColumn/list.less";
     }
 
     &.popoverSelect {
-        @import "./popoverSelect/body/body.less";
-        @import "./popoverSelect/body/list.less";
-        @import "./popoverSelect/footer.less";
-        @import "./popoverSelect/header.less";
+        @import "./popoverSelect/popover.less";
+        @import "./popoverSelect/body.less";
+        @import "./popoverSelect/scrollbar.less";
+        @import "./popoverSelect/head.less";
     }
-
-
-    width: 100%;
-    display: block;
-    background-color:@darkBackground;
-    margin-top: 20px;
-    padding: 10px;
-    padding-top: 10px;
     
     /* Apply to all */
     *.textColorLighter {

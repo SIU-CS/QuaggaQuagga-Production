@@ -4,13 +4,13 @@ define(['require',
         'sort/sort.config',
         'display/display.config', 
         'style/style.config',
-        'data_output/data_output.config',
+        'data_output/interface',
         'searching/searching.config',
         'consts',
         'data_store/new',
         'utility/verifySettings'
     ], function(require, $, loadData, sortConfig,
-        displayConfig, styleConfig, outputConfig, searchConfig) {
+        displayConfig, styleConfig, outputInterface, searchConfig) {
     'use strict';
     var jquery = $;
     var CONSTS = require("consts");
@@ -30,7 +30,7 @@ define(['require',
         // set new data store for multiselect
         var name = dataStoreNew.newMultiselect(this, data, settings, title);
         // adds the output functions for ths multiselect
-        outputConfig($this, name);
+        //outputConfig($this, name);
         // sorting the data in the multiselect
         sortConfig(name);
         // if we couldn't set a new data store, error here

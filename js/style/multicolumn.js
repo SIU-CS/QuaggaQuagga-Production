@@ -34,7 +34,7 @@ function(require, $) {
                 var $removal = $jsmFirstGroup.children(".JSM-spacer").slice(0,-neededSpace);
                 $removal.animate({
                         height: "0",
-                    }, 400,
+                    }, 0,
                     function() {
                         $removal.remove();
                     }
@@ -42,7 +42,7 @@ function(require, $) {
             }
             $jsmFirstGroup.children(".JSM-spacer").animate({
                     height: itemHeight + "px",
-                }, 400
+                }, 0
             );
         }
 

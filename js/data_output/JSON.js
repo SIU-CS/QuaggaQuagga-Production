@@ -8,9 +8,9 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
         var rv = {};
         for(var i in data) {
             if (data[i]['@isHeader']) {
-                rv[i] = recursData(data[i]['@children']);
+                rv[data[i]['@name']] = recursData(data[i]['@children']);
             } else if(data[i]['@selected']) {
-                rv[i] = data[i]['@value'];
+                rv[data[i]['@name']] = data[i]['@value'];
             }
         }
         return rv;

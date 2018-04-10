@@ -1,4 +1,5 @@
-define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(require, $, getData, setData) {
+define(['require', 'jquery', 'data_store/get', 'data_store/set', 'style/body/spaceIndent'], 
+function(require, $, getData, setData, spaceIndent) {
     'use strict';
     
     var jquery = $;
@@ -11,6 +12,7 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
             $popDisplay.collapse("hide");
         // Display list when search bar is on focus 
             $multiselect.find(".JSM-list.collapse").collapse("show");
+            spaceIndent.refresh($multiselect);
         });
         var $close = $multiselect.find(".JSM-head .JSM-closePopList");
         $close.on("click", function() {
@@ -18,6 +20,7 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
             $multiselect.find(".JSM-list.collapse").collapse("hide");
             $popDisplay.empty();
             $popDisplay.collapse("show");
+            $searchBar.val("");
             if (onClose != null) onClose();
         });
     }
@@ -25,7 +28,7 @@ define(['require', 'jquery', 'data_store/get', 'data_store/set'], function(requi
     function Popup(item, $popDisplay){
         $popDisplay.append(
         // Popover Basic style
-            '<span style="background-color:rgb(238, 161, 147);margin-right: 20px; display: inline-block; height: 35px; border-style: outset; border-radius: 10px; padding: 5px;">'+
+            '<span class="JSM-popover">'+
                 item["@name"] +
                 '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
             '</span>'
