@@ -33,41 +33,88 @@
             // a test function
             function loadData() {
                 var array = [
-                    { // a header
-                        "name": "Item 1",
+                    { // a Header
+                        "name": "Ford",
                         "searchable": "search me",
                         "selected": false,
-                        "image": "./quagga.jpg",
                         "icon": "fa fa-chrome",
                         "items": [
-                            { // list of items 
-                                "name": "Item 1.1",
+                            { // list of items for Ford
+                                "name": "Fiesta",
                                 "searchable": "search me",
                                 "selected": false,
-                                "value" : "1.1",
+                                "value" : "Fiesta",
                                 "icon": "fa fa-chrome"
                             },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.2",
+                            {
+                                "name": "Mustang",
                                 "searchable": "search me",
                                 "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
+                                "icon": "fa fa-chrome",
+                                "items":[{ // list of items for Mustang
+                                            "name": "Boss",
+                                            "searchable": "search me",
+                                            "selected": false,
+                                            "value" : "Boss",
+                                            "icon": "fa fa-chrome"
+                                        },
+                                        {
+                                            "name": "Cobra",
+                                            "searchable": "search me",
+                                            "selected": false,
+                                            "value" : "Cobra",
+                                            "icon": "fa fa-chrome",
+                                        
+                                        }
+                                        ]
                             }
                         ]
                     },
-                    {
-                        "name": "Item 2",
+                    { // a Header
+                        "name": "Honda",
                         "searchable": "search me",
-                        "selected": true,  
-                        "value" : "2" 
+                        "selected": false,  
+                        "icon": "fa fa-chrome",
+                        "items" : [            
+                                    {  // list of items for Honda
+                                        "name": "Civic",
+                                        "searchable": "search me",
+                                        "selected": true,
+                                        "icon": "fa fa-chrome",
+                                        "items":[{ // list of items for Mustang
+                                                    "name": "Civic Sedan",
+                                                    "searchable": "search me",
+                                                    "selected": false,
+                                                    "value" : "Civic Sedan",
+                                                    "icon": "fa fa-chrome"
+                                                } , 
+                                                {
+                                                    "name": "Civic Coupe",
+                                                    "searchable": "search me",
+                                                    "selected": false,
+                                                    "value" : "Civic Coupe",
+                                                    "icon": "fa fa-chrome",
+                                        
+                                                },
+                                                {
+                                                    "name": "Civic Hatchback",
+                                                    "searchable": "search me",
+                                                    "selected": false,
+                                                    "value" : "Civic Hatchback",
+                                                    "icon": "fa fa-chrome",
+                                        
+                                                }
+                                                ]
+                                    },
+                                    {  
+                                        "name": "CR-V",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "CR-V",
+                                        "icon": "fa fa-chrome"
+                                    }
+                                    
+                                ]
                     }
                 ];
                 displayInput(array);
@@ -113,7 +160,7 @@
     <div class="container">
         <div class="container-fluid" style="width:60%">
                     <h2 class="text-center">Popovers are Fun!!</h2>
-        <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Select Items"><!-- MULTISELECT HEADER -->
+        <div class="JS_Multiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick a Car"><!-- MULTISELECT HEADER -->
         </div>
         </div>
     </div>
