@@ -11,7 +11,7 @@
 .JS_Multiselect .hidden {
   display: none;
 }
-.JS_Multiselect.singleColumn .JSM-body {
+.JS_Multiselect .JSM-body {
   max-height: 30vh;
   padding-bottom: 0;
   overflow: auto;
@@ -21,29 +21,29 @@
   /* Handle */
   /* Handle on hover */
 }
-.JS_Multiselect.singleColumn .JSM-body * {
+.JS_Multiselect .JSM-body * {
   font-weight: bold;
 }
-.JS_Multiselect.singleColumn .JSM-body::-webkit-scrollbar {
+.JS_Multiselect .JSM-body::-webkit-scrollbar {
   width: 8px;
 }
-.JS_Multiselect.singleColumn .JSM-body::-webkit-scrollbar-track {
+.JS_Multiselect .JSM-body::-webkit-scrollbar-track {
   background: #c5c6c7;
 }
-.JS_Multiselect.singleColumn .JSM-body::-webkit-scrollbar-thumb {
+.JS_Multiselect .JSM-body::-webkit-scrollbar-thumb {
   background: #68b9b6;
 }
-.JS_Multiselect.singleColumn .JSM-body::-webkit-scrollbar-thumb:hover {
+.JS_Multiselect .JSM-body::-webkit-scrollbar-thumb:hover {
   background: #66fcf1;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group {
+.JS_Multiselect .list-group-root > .list-group {
   margin-bottom: 0 !important;
   overflow: hidden;
   height: 100%;
   background-color: #1f2833;
   color: #45a29e;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item {
+.JS_Multiselect .list-group-root > .list-group .list-group-item {
   border-radius: 0;
   border-width: 1px 0 0 0;
   border-color: #66fcf1;
@@ -52,7 +52,7 @@
   background-color: inherit;
   color: inherit;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-checkbox {
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox {
   font-family: "FontAwesome";
   -webkit-appearance: none;
   background-color: #d2f080;
@@ -67,10 +67,10 @@
   position: relative;
   vertical-align: text-bottom;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
   background-color: #eea193;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
   content: '\f00c';
   font-size: 14px;
   font-weight: 100;
@@ -78,12 +78,12 @@
   text-align: center;
   vertical-align: text-top;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-itemImage {
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-itemImage {
   margin-right: 5px;
   vertical-align: text-bottom;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-itemImage img,
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group-item .JSM-itemImage i {
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-itemImage img,
+.JS_Multiselect .list-group-root > .list-group .list-group-item .JSM-itemImage i {
   height: 100%;
   max-height: 20px;
   width: 100%;
@@ -94,18 +94,18 @@
   vertical-align: middle;
   font-size: 16px;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .list-group,
-.JS_Multiselect.singleColumn .list-group-root > .list-group {
+.JS_Multiselect .list-group-root > .list-group .list-group,
+.JS_Multiselect .list-group-root > .list-group {
   position: relative;
   margin-bottom: 0;
   color: #45a29e;
   border-radius: 0;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .JSM-item-header {
+.JS_Multiselect .list-group-root > .list-group .JSM-item-header {
   position: relative;
   padding-right: calc(8% + 15px);
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .JSM-item-header .drop-icon {
+.JS_Multiselect .list-group-root > .list-group .JSM-item-header .drop-icon {
   font-family: "FontAwesome";
   width: 15px;
   position: absolute;
@@ -113,37 +113,11 @@
   margin-bottom: 2px;
   margin-right: 5%;
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .JSM-item-header .drop-icon:after {
+.JS_Multiselect .list-group-root > .list-group .JSM-item-header .drop-icon:after {
   content: "\f078";
 }
-.JS_Multiselect.singleColumn .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
+.JS_Multiselect .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
   content: "\f054" !important;
-}
-.JS_Multiselect.multiColumn .JSM-body {
-  max-height: 30vh;
-  width: 100%;
-  padding-bottom: 0;
-  overflow: auto;
-  overflow-y: scroll;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-}
-.JS_Multiselect.multiColumn .JSM-body * {
-  font-weight: bold;
-}
-.JS_Multiselect.multiColumn .JSM-body::-webkit-scrollbar {
-  width: 8px;
-}
-.JS_Multiselect.multiColumn .JSM-body::-webkit-scrollbar-track {
-  background: #c5c6c7;
-}
-.JS_Multiselect.multiColumn .JSM-body::-webkit-scrollbar-thumb {
-  background: #68b9b6;
-}
-.JS_Multiselect.multiColumn .JSM-body::-webkit-scrollbar-thumb:hover {
-  background: #66fcf1;
 }
 .JS_Multiselect.multiColumn .list-group-root > .list-group {
   margin-right: auto;
@@ -160,195 +134,9 @@
   column-gap: 10px;
   column-fill: balance;
   column-width: auto;
-  overflow: hidden;
-  height: 100%;
-  background-color: #1f2833;
-  color: #45a29e;
 }
 .JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item {
-  border-radius: 0;
-  border-width: 1px 0 0 0;
-  border-color: #66fcf1;
-  padding-left: 5%;
-  position: relative;
-  background-color: inherit;
-  color: inherit;
   display: block;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-checkbox {
-  font-family: "FontAwesome";
-  -webkit-appearance: none;
-  background-color: #d2f080;
-  border: 1px solid black;
-  padding: 0;
-  margin: 0;
-  margin-right: 10px;
-  height: 16px;
-  width: 16px;
-  border-radius: 3px;
-  display: inline-block;
-  position: relative;
-  vertical-align: text-bottom;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
-  background-color: #eea193;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
-  content: '\f00c';
-  font-size: 14px;
-  font-weight: 100;
-  color: black;
-  text-align: center;
-  vertical-align: text-top;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-itemImage {
-  margin-right: 5px;
-  vertical-align: text-bottom;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-itemImage img,
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group-item .JSM-itemImage i {
-  height: 100%;
-  max-height: 20px;
-  width: 100%;
-  max-width: 20px;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 16px;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .list-group,
-.JS_Multiselect.multiColumn .list-group-root > .list-group {
-  position: relative;
-  margin-bottom: 0;
-  color: #45a29e;
-  border-radius: 0;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .JSM-item-header {
-  position: relative;
-  padding-right: calc(8% + 15px);
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .JSM-item-header .drop-icon {
-  font-family: "FontAwesome";
-  width: 15px;
-  position: absolute;
-  right: 0;
-  margin-bottom: 2px;
-  margin-right: 5%;
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .JSM-item-header .drop-icon:after {
-  content: "\f078";
-}
-.JS_Multiselect.multiColumn .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
-  content: "\f054" !important;
-}
-.JS_Multiselect.popoverSelect .JSM-body {
-  max-height: 30vh;
-  padding-bottom: 0;
-  overflow: auto;
-  overflow-y: scroll;
-  /* width */
-  /* Track */
-  /* Handle */
-  /* Handle on hover */
-}
-.JS_Multiselect.popoverSelect .JSM-body * {
-  font-weight: bold;
-}
-.JS_Multiselect.popoverSelect .JSM-body::-webkit-scrollbar {
-  width: 8px;
-}
-.JS_Multiselect.popoverSelect .JSM-body::-webkit-scrollbar-track {
-  background: #c5c6c7;
-}
-.JS_Multiselect.popoverSelect .JSM-body::-webkit-scrollbar-thumb {
-  background: #68b9b6;
-}
-.JS_Multiselect.popoverSelect .JSM-body::-webkit-scrollbar-thumb:hover {
-  background: #66fcf1;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group {
-  margin-bottom: 0 !important;
-  overflow: hidden;
-  height: 100%;
-  background-color: #1f2833;
-  color: #45a29e;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item {
-  border-radius: 0;
-  border-width: 1px 0 0 0;
-  border-color: #66fcf1;
-  padding-left: 5%;
-  position: relative;
-  background-color: inherit;
-  color: inherit;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-checkbox {
-  font-family: "FontAwesome";
-  -webkit-appearance: none;
-  background-color: #d2f080;
-  border: 1px solid black;
-  padding: 0;
-  margin: 0;
-  margin-right: 10px;
-  height: 16px;
-  width: 16px;
-  border-radius: 3px;
-  display: inline-block;
-  position: relative;
-  vertical-align: text-bottom;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-checkbox:hover {
-  background-color: #eea193;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-checkbox:checked:after {
-  content: '\f00c';
-  font-size: 14px;
-  font-weight: 100;
-  color: black;
-  text-align: center;
-  vertical-align: text-top;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-itemImage {
-  margin-right: 5px;
-  vertical-align: text-bottom;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-itemImage img,
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group-item .JSM-itemImage i {
-  height: 100%;
-  max-height: 20px;
-  width: 100%;
-  max-width: 20px;
-  padding: 0;
-  margin: 0;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 16px;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .list-group,
-.JS_Multiselect.popoverSelect .list-group-root > .list-group {
-  position: relative;
-  margin-bottom: 0;
-  color: #45a29e;
-  border-radius: 0;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .JSM-item-header {
-  position: relative;
-  padding-right: calc(8% + 15px);
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .JSM-item-header .drop-icon {
-  font-family: "FontAwesome";
-  width: 15px;
-  position: absolute;
-  right: 0;
-  margin-bottom: 2px;
-  margin-right: 5%;
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .JSM-item-header .drop-icon:after {
-  content: "\f078";
-}
-.JS_Multiselect.popoverSelect .list-group-root > .list-group .JSM-item-header.collapsed .drop-icon:after {
-  content: "\f054" !important;
 }
 .JS_Multiselect *.textColorLighter {
   color: #45a29e !important;
