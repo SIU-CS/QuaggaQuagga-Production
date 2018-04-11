@@ -10,7 +10,7 @@ define(['require', 'jquery', 'data_store/get'], function(require, $, getData) {
             if (data[i]['@isHeader']) {
                 rv = rv.concat(recursData(data[i]['@children']));
             } else if(data[i]['@selected']) {
-                rv.push({ 'name': i, 'value': data[i]['@value'] });
+                rv.push({ 'name': data[i]['@name'], 'value': data[i]['@value'] });
             }
         }
         return rv;

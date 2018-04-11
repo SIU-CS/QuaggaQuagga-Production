@@ -22,6 +22,7 @@
         
     </head>
     <body>
+        <hr/>
         <script>
             function getDisplayData(data, type) {
                 if ($.isPlainObject(data) || $.isArray(data)) {
@@ -62,7 +63,8 @@
                             <div class="JS_Multiselect" name="`+loadType+`" data-load-type="`+loadType+`" data-load="`+loadFunctionPath+`" data-title="` + loadType + ` Data"></div>
                         </div>
                     </div>
-                </div>`
+                </div>
+                <hr/>`
             };
             for(var input in loadData) {
                 document.write(template(loadData[input], "loadData." + input, input));
