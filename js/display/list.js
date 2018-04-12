@@ -40,7 +40,8 @@ function(require, $, dataStoreGet, displayHelper) {
                     headCount += 1;
                     // this is the selectable item (expand button)
                     var itemStr = `
-                        <a href="#" data-target="#` + groupId + `" class="list-group-item JSM-item-header collapsableIcon collapsed"
+                        <a data-target="#` + groupId + 
+                                `" class="list-group-item JSM-item-header collapsableIcon collapsed"
                                 data-toggle="collapse" data-searchable="` + displayData.searchable + `">` +
                                 displayHelper.getCheckboxLayout(displayData.selected, displayData.name) +
                             '<span class="JSM-itemImage"></span>' +

@@ -19,7 +19,7 @@ define(['require', 'jquery'],function (require) {
         return `<!-- MULTISELECT HEADER -->
             <div class="JSM-head navbar navbar-default">
                 <span class="JSM-title navbar-brand"></span>
-                <span class="JSM-search form-group">
+                <span class="JSM-search">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
                 </span>
             </div>
@@ -38,7 +38,7 @@ define(['require', 'jquery'],function (require) {
         return `<!-- MULTISELECT HEADER -->
             <div class="JSM-head navbar navbar-default">
                 <span class="JSM-title navbar-brand"></span>
-                <span class="JSM-search form-group">
+                <span class="JSM-search">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
                     <span class="fa fa-times JSM-closePopList" aria-hidden="true"></span>
                 </span>
@@ -60,7 +60,7 @@ define(['require', 'jquery'],function (require) {
         return `<!-- MULTISELECT HEADER -->
             <div class="JSM-head navbar navbar-default">
                 <span class="JSM-title navbar-brand"></span>
-                <span class="JSM-search form-group">
+                <span class="JSM-search">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
                 </span>
             </div>

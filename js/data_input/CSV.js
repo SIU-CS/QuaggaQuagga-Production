@@ -18,7 +18,7 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
 
     function getHeaderItems(array, name) {
         var headerArray = [];
-        for(var i = 0; i < array.length; i++) {
+        for(var i = 0; i < array.length; i += 1) {
             var splitname = array[i][0].split(".");
             if(splitname.length > 1 && splitname[0] == name){
                 array[i][0] = array[i][0].replace(name + ".", '');
@@ -47,11 +47,11 @@ define(['require', 'jquery', 'data_store/new'], function(require) {
         var rv = []; // returnvalue
 
         // loop
-        for(var i =0; i <data.length; i++){
+        for(var i =0; i <data.length; i += 1){
             var name = data[i][0];
             var value = data[i][1];
-            var selected = data[i][3] == "true";
             var searchable = data[i][2];
+            var selected = data[i][3] === "true";
             var image = data[i][4] != "" ? data[i][4] : null;
             var icon = data[i][5] != "" ? data[i][5] : null;
             

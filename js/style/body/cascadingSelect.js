@@ -55,15 +55,34 @@ define(['require',
      * @param {jquery element} $multiselect the targeted multiselect  
      */
     function registerCheckboxClick($multiselect) {
-        var key = ".JSM-checkbox";
-        $multiselect.find(key).click(function(event) {
+        var key = "input.JSM-checkbox:checkbox";
+
+        $multiselect.find(key + ":checked").each(function(i, ele) {
+            var $ele = $(ele);
+            // get the multiselect name from the item under it
+            var multiselectName = getMultiselectorName.byChildElement($ele);
+            if (multiselectName == null) return;
+            // get the multiselect data
+            var cachedData = getData.getDataByName(multiselectName);
+            // find the selected data
+            var selectedElement = FindSelectedData(cachedData, $ele.parent());
+            // sets the selected property in the data cache
+            setData.setSelectedForItem(selectedElement, true);
+            // selects or deselectes all those under the selected element
+            SelectAllUnderSelected(selectedElement['@children'], true);
+        });
+
+        $multiselect.find(key).on('click', function() {
             event.stopPropagation(); // keep the drop down from expanding
+        });
+        $multiselect.find(key).on('change', function(event) {
             // find the item
             var $cbox = $(this);
             // if no selected item
             if ($cbox.length <= 0) return;
             // get weather the box is checked or not
             var isChecked = $cbox.is(':checked');
+
             // get the multiselect name from the item under it
             var multiselectName = getMultiselectorName.byChildElement($cbox);
 

@@ -1,19 +1,21 @@
 define(['require', 
         'jquery',  
-        'data_store/new', 
         'data_input/load',
-        'utility/verifySettings',
-        'data_store/get', 
+        'sort/sort.config',
         'display/display.config', 
         'style/style.config',
         'data_output/interface',
         'searching/searching.config',
-        'consts'
-    ], function(require, $, dataStoreNew, loadData, verifySettings,
-         dataStoreGet, displayConfig, styleConfig, outputModule, searchConfig) {
+        'consts',
+        'data_store/new',
+        'utility/verifySettings'
+    ], function(require, $, loadData, sortConfig,
+        displayConfig, styleConfig, outputInterface, searchConfig) {
     'use strict';
     var jquery = $;
     var CONSTS = require("consts");
+    var dataStoreNew = require('data_store/new');
+    var verifySettings = require('utility/verifySettings');
 
     // for each multiselect on the screen
     $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
@@ -27,6 +29,10 @@ define(['require',
         var data = loadData(loadFunction, loadType);
         // set new data store for multiselect
         var name = dataStoreNew.newMultiselect(this, data, settings, title);
+        // adds the output functions for ths multiselect
+        //outputConfig($this, name);
+        // sorting the data in the multiselect
+        sortConfig(name);
         // if we couldn't set a new data store, error here
         if (name == null) return;
         // display list and title

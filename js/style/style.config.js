@@ -39,7 +39,7 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
             displaySettings.displayFadeColor === "true") {
             colorIndent($multiselect, displaySettings.fadeColor);
         }
-        spaceIndent($multiselect);
+        spaceIndent.setInit($multiselect);
 
         colorSelect(name, $multiselect, displaySettings);
         

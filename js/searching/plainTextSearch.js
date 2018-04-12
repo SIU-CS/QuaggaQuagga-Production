@@ -1,45 +1,29 @@
-define(['require', 'jquery', 'data_store/get'], function (require) {
+define(['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
+    function (require, $, getData, searchHelper) {
     'use strict';
     
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var get = require('data_store/get');
+    var jquery = $;
 
-    var plainTextSearch = function (selectionEl, str, isCaseSensitive) {
-        if (typeof isCaseSensitive == 'undefined')
-            isCaseSensitive = true;
-        if (isCaseSensitive)
-            str = str.toLowerCase();
-
-        var $el = $(selectionEl);
-
-        $el.children(".list-group-item");
-        $el.val('');
-        $el.children(".list-group-item").hide();
-
-        $el.children(".list-group-item").filter(function () {
-            var text = $(this).prop("value").text();
-            var searchableText = $(this).prop("data-searchable").text();
-            if (isCaseSensitive) {
-                text = text.toLowerCase();
-                searchableText = searchableText.toLowerCase();
-            }
-
-            if (text.indexOf(str) > -1 || searchableText.indexOf(str) > -1)
-                return true;
-
-            return false;
-        }).show();
-
+    var plainTextSearch = function (data, str, isCaseSensitive) {
+        searchHelper.searchByFunction(function (name, searchable) {
+            return !str.trim() || 
+            (name != null && name.indexOf(str) > -1) || 
+            (searchable != null && searchable.indexOf(str) > -1);
+        }, data, isCaseSensitive);
     };
-    return function ($ele) {
+    return function (multiName, $ele, settings) {
+        var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
         var timeout;
         $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-            var userInput = $(".JSM-searchbar").val();
+            var searchBar = this;
             window.clearTimeout(timeout);
             timeout = window.setTimeout(function () {
-                plainTextSearch($(".JSM-list"), userInput, true);
-            }, 500);
+                var data = getData.getDataByName(multiName);
+                var str = $(searchBar).val();
+                if (!isCaseSensitive)
+                    str = str.toLowerCase();
+                plainTextSearch(data, str, isCaseSensitive);
+            }, 200);
 
         });
     };
