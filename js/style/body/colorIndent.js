@@ -28,13 +28,17 @@ define(['require', 'jquery', 'utility/color', 'utility/nestedDepth'], function(r
      * sets the color fade for the multiselect
      * @param {jquery element} $multiselect the multiselect targeted  
      */
-    function setColor($multiselect) {
+    function setColor($multiselect, color) {
         $multiselect.find(".list-group-root > .list-group").each(function(i, e) {
             var $ele = $(e);
-            var color = $ele.css("background-color");
+            if (color != null) {
+                $ele.css("background-color", color);
+            }
+            color = $ele.css("background-color");
             var rgbA = colorUtil.RgbStringToArray(color);
             var maxDepth = nestedDepth($ele, ".list-group");
             var fadeArray = colorUtil.fadeRgbToWhite(rgbA[0], rgbA[1], rgbA[2], maxDepth);
+
             $ele.css("background-color", colorUtil.RgbArrayToString(fadeArray[0]));
             setColorRecursivly($ele, fadeArray, 1);
         });
