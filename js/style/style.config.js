@@ -4,12 +4,11 @@ define(['require',
         'style/multicolumn',
         'style/popover',
         'style/body/cascadingSelect', 
-        'style/body/checkSelected', 
         'style/body/colorIndent', 
         'style/body/spaceIndent',
         'data_store/get'], 
 function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, 
-    checkSelected, colorIndent, spaceIndent, getData) {
+    colorIndent, spaceIndent, getData) {
     'use strict';
     var jquery = $;
 
@@ -28,8 +27,7 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
      */
     function handler($multiselect, name) {
         setDefaultMultiselectType($multiselect);
-        cascadingSelect($multiselect);
-        checkSelected(name);
+        cascadingSelect(name, $multiselect);
         colorIndent($multiselect);
         spaceIndent.setInit($multiselect);
 

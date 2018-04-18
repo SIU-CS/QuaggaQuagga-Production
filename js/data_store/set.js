@@ -64,21 +64,35 @@ function (require) {
     }
 
     /**
+     * sets the element for the item as well as sets up handlers
+     * @param {JSON item} item the item to add the element to 
+     * @param {Jquery element} $ele the jquery element to set for the item   
+     */
+    function setElementForItem(item, $ele) {
+        if ($ele == null || $ele.length <= 0) return;
+        if (item == null) return;
+        item['@element'] = $ele.first();
+    }
+
+    /**
      * Sets the selected option for this item and checks the element
      * @param {Object} item a data item from the cache 
      * @param {Bool} selected true if selected false otherwise
-     * @param {Bool} changeThis tif true, will call the on change event
+     * @param {Bool} preventChange if true, will not call the on change event
      */
-    function setSelectedForItem(item, selected, changeThis) {
+    function setSelectedForItem(item, selected, preventChange) {
         if (item == null) return false;
         // ensure this is a bool
         selected = selected == true || selected == "true";
-        item['@selected'] = selected;
-        if (item['@element'] != null) {
-            var checkbox = item['@element'].find('.JSM-checkbox');
-            checkbox.prop('checked', selected);
-            if (changeThis) {
-                checkbox.change();
+        var checkbox;
+        if (item['@selected'] != selected) {
+            item['@selected'] = selected;
+            if (item['@element'] != null) {
+                checkbox = item['@element'].find('.JSM-checkbox');
+                checkbox.prop('checked', selected);
+                if (preventChange !== true) {
+                    checkbox.change();
+                }
             }
         }
         return true;
@@ -88,6 +102,7 @@ function (require) {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
         setSettingsByName: setSettingsByName,
-        setSelectedForItem: setSelectedForItem
+        setSelectedForItem: setSelectedForItem,
+        setElementForItem: setElementForItem
     };
 });

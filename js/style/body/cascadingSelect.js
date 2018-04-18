@@ -1,8 +1,7 @@
 define(['require', 
         'jquery', 
         'utility/getMultiselectName', 
-        'data_store/get', 'data_store/set', 
-        'style/body/checkSelected'], 
+        'data_store/get', 'data_store/set'], 
     function(require) {
     'use strict';
 
@@ -11,93 +10,65 @@ define(['require',
     var getMultiselectorName = require('utility/getMultiselectName');
     var getData = require('data_store/get');
     var setData = require('data_store/set');
-    var checkSelected = require('style/body/checkSelected');
-
-    function SelectAllUnderSelected(cachedSelected, isChecked) {
-        for (var key in cachedSelected) {
-            // make sure the key is a object, ie not @element or some other
-            if ($.isPlainObject(cachedSelected[key]) && cachedSelected[key] != null) {
-                var child = cachedSelected[key];
-                setData.setSelectedForItem(child, isChecked);
-                if (child['@isHeader']) { // if is header check those under it as well
-                    SelectAllUnderSelected(child['@children'], isChecked);
-                }
-            }
-        }
-    }
-
-    function FindSelectedData(cachedData, callingElement) {
-        // if no calling element return null
-        if (callingElement == null) return null;
-        // try to find the element among the cached data
-        for (var key in cachedData) {
-            // make sure the key is a object, ie not @element or some other
-            if ($.isPlainObject(cachedData[key]) && cachedData[key] != null) {
-                var data = cachedData[key];
-                // get the elemnt, and if null continue
-                if (data['@element'] == null) continue;
-                // if the two elements match, return that data
-                if(callingElement[0] == data['@element'][0]) {
-                    return data;
-                }
-                // if we have a header, try to recursivly call
-                if (data['@isHeader'] == true) {
-                    var find = FindSelectedData(data['@children'], callingElement);
-                    if (find != null) return find;
-                }
-            }
-        }
-        return null;
-    }
 
     /**
      * Sets the on click event for the multiselect
      * @param {jquery element} $multiselect the targeted multiselect  
      */
-    function registerCheckboxClick($multiselect) {
+    function registerCheckboxClick(name, $multiselect) {
         var key = "input.JSM-checkbox:checkbox";
-
-        $multiselect.find(key + ":checked").each(function(i, ele) {
-            var $ele = $(ele);
-            // get the multiselect name from the item under it
-            var multiselectName = getMultiselectorName.byChildElement($ele);
-            if (multiselectName == null) return;
-            // get the multiselect data
-            var cachedData = getData.getDataByName(multiselectName);
-            // find the selected data
-            var selectedElement = FindSelectedData(cachedData, $ele.parent());
-            // sets the selected property in the data cache
-            setData.setSelectedForItem(selectedElement, true);
-            // selects or deselectes all those under the selected element
-            SelectAllUnderSelected(selectedElement['@children'], true);
-        });
+        if (name == null) return;
 
         $multiselect.find(key).on('click', function() {
             event.stopPropagation(); // keep the drop down from expanding
         });
-        $multiselect.find(key).on('change', function(event) {
-            // find the item
-            var $cbox = $(this);
-            // if no selected item
-            if ($cbox.length <= 0) return;
-            // get weather the box is checked or not
-            var isChecked = $cbox.is(':checked');
 
-            // get the multiselect name from the item under it
-            var multiselectName = getMultiselectorName.byChildElement($cbox);
-
-            if (multiselectName == null) return;
-            // get the multiselect data
-            var cachedData = getData.getDataByName(multiselectName);
-            // find the selected data
-            var selectedElement = FindSelectedData(cachedData, $cbox.parent());
-            // sets the selected property in the data cache
-            setData.setSelectedForItem(selectedElement, isChecked);
-            // selects or deselectes all those under the selected element
-            SelectAllUnderSelected(selectedElement['@children'], isChecked);
-            // checks the whole dataset for those needing to be sleected/deselected
-            checkSelected(multiselectName);
+        getData.forEachItemInMutiselect(name, function(item) {
+            // a colsure so we can keep the references variables
+            (function() {
+                var Item = item;
+                var Name = name;
+                if (Item["@isHeader"]) {
+                    // finds all the checkboxes under the header
+                    var childItems = $(Item["@element"].data("target"))
+                                    .find(".list-group-item").not(".JSM-item-header").find(key);
+                    // if any of them change, see if we need to change the header to unchecked
+                    childItems.on('change', function(event) {
+                        if (childItems.filter(":checked").length != childItems.length) {
+                            setData.setSelectedForItem(Item, false);
+                        } else {
+                            setData.setSelectedForItem(Item, true);
+                        }
+                    });
+                    // if we select a header, and that header has focus, then check the child items
+                    Item["@element"].find(key).first().on('change', function(event) {
+                        var isChecked = $(this).is(':checked');
+                        if ($(this).is(":focus")) {
+                            var setItems = null;
+                            if (isChecked) {
+                                setItems = childItems.not(":checked");
+                            } else {
+                                setItems = childItems.filter(":checked");
+                            }
+                            // its okay for us to set this here, because the individual items handle
+                            // setting selected in the cache to true/false
+                            if (setItems != null) setItems.prop('checked', isChecked).change();
+                        }
+                    });
+                } else { // is an item
+                    // find the checkbox and update the cache on change
+                    Item['@element'].find(key).on('change', function(event) {
+                        var isChecked = $(this).is(':checked');
+                        setData.setSelectedForItem(Item, isChecked);
+                    });
+                }
+            }());
         });
+        var HeaderItems = $multiselect.find(".list-group-item.JSM-item-header").has(key + ":checked");
+        HeaderItems.each(function() {
+            $($(this).data("target")).find(".list-group-item:not(.JSM-header) " + key).prop('checked', true);
+        });
+        $multiselect.find(".list-group-item").find(key + ":checked").change();
     }
 
     return registerCheckboxClick;
