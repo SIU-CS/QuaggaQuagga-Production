@@ -1,8 +1,8 @@
 /**
  * Produces the displayed list for the data in the multiselect
  */
-define(['require', 'jquery', 'data_store/get', 'display/displayHelper'], 
-function(require, $, dataStoreGet, displayHelper) {
+define(['require', 'jquery', 'data_store/get', 'data_store/set', 'display/displayHelper'], 
+function(require, $, dataStoreGet, setData, displayHelper) {
     'use strict';
     
     var jquery = $;
@@ -65,7 +65,7 @@ function(require, $, dataStoreGet, displayHelper) {
                     // add the group
                     $parent.append($group);
                     // set the element portion of the data item
-                    item["@element"] = $ele;
+                    setData.setElementForItem(item, $ele);
                 } else { // else is just a selectable item
                     // string format
                     var eleString = `
@@ -81,7 +81,7 @@ function(require, $, dataStoreGet, displayHelper) {
                     // add it to the parent element
                     $parent.append($ele);
                     // set the element portion in the data cache
-                    item["@element"] = $ele;
+                    setData.setElementForItem(item, $ele);
                 }
                 // finds the icon and sets it
                 displayHelper.displayImageOrIcon(displayData.image, displayData.icon, $ele);

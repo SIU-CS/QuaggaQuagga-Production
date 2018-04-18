@@ -53,7 +53,8 @@ function (require, cache, cacheSet, CONSTS) {
             "@selected": (selected == null ? false : selected),
             "@isHeader": false,
             "@image": imagePath,
-            "@icon": iconClass
+            "@icon": iconClass,
+            "@parent": null
         };
     }
 
@@ -73,8 +74,8 @@ function (require, cache, cacheSet, CONSTS) {
         }
         if (element != null && element.length <= 0 ) return null;
         if (!$.isArray(children) || children.length <= 0) return null;
-        
-        return {
+
+        var header = {
             "@name": name,
             "@element": element,
             "@searchable": (searchable == null ? "": searchable),
@@ -82,8 +83,16 @@ function (require, cache, cacheSet, CONSTS) {
             "@isHeader": true,
             "@image": (imagePath == null ? "": imagePath),
             "@icon": (iconClass == null ? "": iconClass),
-            "@children": children
+            "@children": children,
+            "@parent": null
         };
+
+        for(var i in children) {
+            if (children[i] != null)
+                children[i]['@parent'] = header;
+        }
+        
+        return header;
     }
 
     return {

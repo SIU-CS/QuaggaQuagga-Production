@@ -100,6 +100,28 @@ function (require) {
         return ["@value", "@element", "@searchable", "@selected", "@isHeader", "@icon", "@image"];
     }
 
+    /**
+     * Find s all items (including headers) and returns them in func
+     * @param {String} name The name of the given multiselect
+     * @param {Function} func a function that accepts a multiselect item
+     */
+    function forEachItemInMutiselect(name, func) {
+        var data = getDataByName(name);
+        if (data != null) {
+            var forEach = function(children) {
+                for(var i in children) {
+                    if (children[i] != null) {
+                        func(children[i]);
+                        if (children[i]['@isHeader']) {
+                            forEach(children[i]['@children']);
+                        }
+                    }
+                }
+            };
+            forEach(data);
+        }
+    }
+
 
     return {
         nameList: nameList,
@@ -108,6 +130,7 @@ function (require) {
         getSettingsByMultiselectName: getSettingsByMultiselectName,
         getSettingByName: getSettingByName,
         getMultiselectItemKeys: getMultiselectItemKeys,
-        getTitleByName: getTitleByName
+        getTitleByName: getTitleByName,
+        forEachItemInMutiselect: forEachItemInMutiselect
     };
 });
