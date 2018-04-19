@@ -104,9 +104,9 @@
     </head>
     <body>
         <div class="container">
-            <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadDataFirst" data-settings="loadSettings" data-title="Pick A Contry">
+            <div class="JSMultiselect" name="towns"  data-settings="loadSettings" data-title="Pick A Contry">
         </div>
-        
+        <!--data-load-type="array" data-load="loadDataFirst"-->
         <script>
 
             var check = function() {
@@ -122,7 +122,7 @@
                     });
                 });
             }
-            setTimeout(check, 2000);
+            setTimeout(check, 1000);
         </script>
     </div>
     </body>

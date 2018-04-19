@@ -7,6 +7,7 @@ define(['require', 'jquery', 'data_input/liveHTML', 'data_input/array', 'data_in
 
     function getLoadFunction(functionPath) {
         if (jquery.isFunction(functionPath)) return functionPath;
+        if (typeof functionPath != "string") return null;
         var functionArray = functionPath.split(".");
         var fun =  window[functionArray[0]];
         for (var i = 1; i < functionArray.length; i += 1) {

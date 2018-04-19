@@ -1,3 +1,4 @@
+(function () {
 /**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
  * Released under MIT license, http://github.com/requirejs/almond/LICENSE
@@ -1240,6 +1241,11 @@ function(require, $, dataStoreGet, setData, displayHelper) {
 
     
     function displayMissing(multiselectName) {
+        // check if data has previously been loaded
+        var $multiselect = dataStoreGet.getElementByName(multiselectName);
+        if ($multiselect.find(".list-group-root .list-group").length < 0) {
+            return listFunction($multiselect, multiselectName);
+        }
         var appender = function($ele, item) {
             if (item == null) return;
             // check is element inserted into the dom
@@ -2223,6 +2229,7 @@ define('data_input/load',['require', 'jquery', 'data_input/liveHTML', 'data_inpu
 
     function getLoadFunction(functionPath) {
         if (jquery.isFunction(functionPath)) return functionPath;
+        if (typeof functionPath != "string") return null;
         var functionArray = functionPath.split(".");
         var fun =  window[functionArray[0]];
         for (var i = 1; i < functionArray.length; i += 1) {
@@ -3361,3 +3368,4 @@ define("main", function(){});
 
 
 require(["main"]);
+}());

@@ -126,6 +126,11 @@ function(require, $, dataStoreGet, setData, displayHelper) {
 
     
     function displayMissing(multiselectName) {
+        // check if data has previously been loaded
+        var $multiselect = dataStoreGet.getElementByName(multiselectName);
+        if ($multiselect.find(".list-group-root .list-group").length < 0) {
+            return listFunction($multiselect, multiselectName);
+        }
         var appender = function($ele, item) {
             if (item == null) return;
             // check is element inserted into the dom
