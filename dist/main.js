@@ -1,4 +1,3 @@
-(function () {
 /**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
  * Released under MIT license, http://github.com/requirejs/almond/LICENSE
@@ -3307,11 +3306,6 @@ function(require, CONSTS, flatArray, JSONoutput) {
 });
 (function() {
     'use strict';
-    //var baseURL = require.toUrl('');
-    // set default base url if not already done
-    //if (baseURL == './') // inital base url
-    //    requirejs.config({ baseUrl: './js' });
-
     // set the rest of the options
     requirejs.config({
         paths: {
@@ -3325,12 +3319,45 @@ function(require, CONSTS, flatArray, JSONoutput) {
         }
     });
 }());
-requirejs(['init', 'data_input/interface', 'data_output/interface'], function () {
+// register onload event
+(function() {
+    'use strict';
+    var onloadFunctions = [];
+    if (window["JSMultiselect"] == null) 
+        window["JSMultiselect"] = {};
+    if (window["JSMultiselect"]["onload"] == null)
+        window["JSMultiselect"]["onload"] = {};
 
+    window["JSMultiselect"]["onload"]["isLoaded"] = false;
+    window["JSMultiselect"]["onload"]["addCallback"] = function(func) {
+        if (typeof func != "function") {
+            console.warn("onload callback is not a function");
+            return;
+        } 
+        onloadFunctions.push(func);
+        if (window["JSMultiselect"]["onload"]["isLoaded"] == true) {
+            func();
+        }
+    };
+    window["JSMultiselect"]["onload"]["executeCallback"] = function() {
+        for(var i = 0; i < onloadFunctions.length; i += 1) {
+            if (typeof onloadFunctions[i] == "function") {
+                onloadFunctions[i]();
+            }
+        }
+    };
+
+}());
+
+requirejs(['jquery', 'init', 'data_input/interface', 'data_output/interface'], function ($) {
+    'use strict';
+    $(document).ready(function(){
+        window["JSMultiselect"]["onload"]["isLoaded"] = true;
+        window["JSMultiselect"]["onload"]["executeCallback"]();
+    });
 });
 
 define("main", function(){});
 
 
 require(["main"]);
-}());
