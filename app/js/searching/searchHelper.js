@@ -4,7 +4,7 @@ define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
 
     var jquery = $;
 
-    var searchByFunction = function(determineSearch, data, isCaseSensitive) {
+    var searchByFunction = function(determineSearch, data, isCaseSensitive, filterInterval) {
         var returnVisible = false;
         for (var i = 0; i < data.length; i += 1) {
             var item = data[i];
@@ -15,13 +15,16 @@ define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
                 name = name.toLowerCase();
                 searchable = searchable.toLowerCase();
             }
+            if (filterInterval == null || filterInterval == '') {
+                filterInterval = 0;
+            }
 
             // if input is not empty, and the input matches an entry in the 
             // multiselect, show the item and its children
             if (determineSearch(name, searchable)) {
-                returnVisible = true;
                 showHideItems.showItem(item);
                 showHideItems.showAllChildren(item);
+                returnVisible = true;
             } else {
                 if (item['@isHeader']) {
                     // recursively performs the plain text search on the child items 
@@ -29,7 +32,8 @@ define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
                     var isAnyVisible = searchByFunction(
                         determineSearch, 
                         item['@children'], 
-                        isCaseSensitive
+                        isCaseSensitive,
+                        filterInterval
                     );
                     if (isAnyVisible) {
                         showHideItems.showItem(item);
