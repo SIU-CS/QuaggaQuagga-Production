@@ -1189,12 +1189,10 @@ function(require, $, dataStoreGet, setData, displayHelper) {
 
         // set the element portion of the data item
         setData.setElementForItem(item, $ele);
-        // add the button
-        appendFunction($ele, item);
         // set all the inner data for the group
         ConvertDataToHTML(item['@children'], $group);
-        // add the group
-        appendFunction($group, item);
+        // add the button and the group
+        appendFunction([$ele, $group], item);
         return item;
     };
 
@@ -1223,7 +1221,7 @@ function(require, $, dataStoreGet, setData, displayHelper) {
      * @param {String} multiselectName Name of the multiselect with data
      * @returns {Jquery HTML elements} A html list, but does already append it to the element
      */
-    function listFunction($ele, multiselectName) {
+    function init($ele, multiselectName) {
         // gets the multiselect data and elements
         var multiselectData = dataStoreGet.getDataByName(multiselectName);
         // finds the root of the list so we can append to it
@@ -1239,23 +1237,20 @@ function(require, $, dataStoreGet, setData, displayHelper) {
         return $html;
     }
 
-    
+    // finds the elements that are not displayed and shows them
     function displayMissing(multiselectName) {
         // check if data has previously been loaded
         var $multiselect = dataStoreGet.getElementByName(multiselectName);
+        // if not will run init
         if ($multiselect.find(".list-group-root .list-group").length < 0) {
-            return listFunction($multiselect, multiselectName);
+            return init($multiselect, multiselectName);
         }
         var appender = function($ele, item) {
             if (item == null) return;
-            // check is element inserted into the dom
-            if (item['@element'].parent().length > 0) {
-                $ele.insertAfter(item['@element']);
-                return;
-            }
+
             var myItemList = item["@parent"] != null ? item["@parent"]["@children"] : null;
             var parentElement = item["@parent"] != null ? item["@parent"]["@element"] : null;
-            if (myItemList == null) { // if parent is null then we are at the root
+            if (myItemList == null || parentElement == null) { // if parent is null then we are at the root
                 myItemList = dataStoreGet.getDataByName(multiselectName);
                 parentElement = dataStoreGet.getElementByName(multiselectName).find(".list-group-root > .list-group");
             }
@@ -1291,7 +1286,7 @@ function(require, $, dataStoreGet, setData, displayHelper) {
     }
 
     return {
-        init: listFunction,
+        init: init,
         displayMissing: displayMissing
     };
 });
@@ -1678,34 +1673,39 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
      */
     function addNewData(name, newData) {
         if (name == null) return;
+        // defers to dataA
         var recurseCompareData = function(dataA, dataB) {
+            if (dataA == null) dataA = [];
+            if (dataB == null) dataB = [];
+            var bIndex = 0;
             var returnData = [];
             var issueNames = [];
-            var a;
-            var b;
-            for (a = 0; a < dataA.length; a += 1) {
-                for(b = 0; b < dataB.length; b += 1) {
-                    if (dataA[a]["@name"] === dataB[b]["@name"]) {
-                        issueNames.push({
-                            name: dataA[a]["@name"],
-                            aIndex: a,
-                            bIndex: b
-                        });
-                    }
+            var aNames = dataA.map(x => x['@name']);
+            var bNames = dataB.map(x => x['@name']);
+            var foundBIndexes = [];
+            for (var aIndex = 0; aIndex < aNames.length; aIndex += 1) {
+                bIndex = bNames.indexOf(aNames[aIndex]);
+                if (bIndex >= 0) {
+                    foundBIndexes.push(bIndex);
+                    // merg the data recusivly
+                    var issueA = dataA[aIndex];
+                    var issueB = dataB[bIndex];
+                    if (issueA['@isHeader'] || issueB['@isHeader'])
+                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);
+                    if (issueB['@element'] != null)
+                        issueB['@element'].remove();
+                    if (issueB['@selected'] == true) issueA['@selected'] = true;
+                    returnData.push(issueA);
+                } else { // we can now safly add aIndex
+                    returnData.push(dataA[aIndex]);
                 }
             }
-            var issueAIndex = issueNames.map(x => x.aIndex);
-            for (a = 0; a < dataA.length; a += 1) {
-                if (issueAIndex.indexOf(a) <= 0) {
-                    returnData.push(dataA[a]);
-                } 
+
+            for (bIndex = 0; bIndex < dataB.length; bIndex += 1) {
+                if (foundBIndexes.indexOf(bIndex) < 0) // selects unmerged indexes
+                    returnData.push(dataB[bIndex]);
             }
-            var issueBIndex = issueNames.map(x => x.bIndex);
-            for (b = 0; b < dataB.length; b += 1) {
-                if (issueBIndex.indexOf(b) <= 0) {
-                    returnData.push(dataB[b]);
-                } 
-            }
+                
             return returnData;
         };
         var data = cacheGet.getDataByName(name);

@@ -74,12 +74,10 @@ function(require, $, dataStoreGet, setData, displayHelper) {
 
         // set the element portion of the data item
         setData.setElementForItem(item, $ele);
-        // add the button
-        appendFunction($ele, item);
         // set all the inner data for the group
         ConvertDataToHTML(item['@children'], $group);
-        // add the group
-        appendFunction($group, item);
+        // add the button and the group
+        appendFunction([$ele, $group], item);
         return item;
     };
 
@@ -108,7 +106,7 @@ function(require, $, dataStoreGet, setData, displayHelper) {
      * @param {String} multiselectName Name of the multiselect with data
      * @returns {Jquery HTML elements} A html list, but does already append it to the element
      */
-    function listFunction($ele, multiselectName) {
+    function init($ele, multiselectName) {
         // gets the multiselect data and elements
         var multiselectData = dataStoreGet.getDataByName(multiselectName);
         // finds the root of the list so we can append to it
@@ -124,23 +122,20 @@ function(require, $, dataStoreGet, setData, displayHelper) {
         return $html;
     }
 
-    
+    // finds the elements that are not displayed and shows them
     function displayMissing(multiselectName) {
         // check if data has previously been loaded
         var $multiselect = dataStoreGet.getElementByName(multiselectName);
+        // if not will run init
         if ($multiselect.find(".list-group-root .list-group").length < 0) {
-            return listFunction($multiselect, multiselectName);
+            return init($multiselect, multiselectName);
         }
         var appender = function($ele, item) {
             if (item == null) return;
-            // check is element inserted into the dom
-            if (item['@element'].parent().length > 0) {
-                $ele.insertAfter(item['@element']);
-                return;
-            }
+
             var myItemList = item["@parent"] != null ? item["@parent"]["@children"] : null;
             var parentElement = item["@parent"] != null ? item["@parent"]["@element"] : null;
-            if (myItemList == null) { // if parent is null then we are at the root
+            if (myItemList == null || parentElement == null) { // if parent is null then we are at the root
                 myItemList = dataStoreGet.getDataByName(multiselectName);
                 parentElement = dataStoreGet.getElementByName(multiselectName).find(".list-group-root > .list-group");
             }
@@ -176,7 +171,7 @@ function(require, $, dataStoreGet, setData, displayHelper) {
     }
 
     return {
-        init: listFunction,
+        init: init,
         displayMissing: displayMissing
     };
 });

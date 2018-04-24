@@ -7,8 +7,9 @@ define(['require',
     'jquery',
     'display/list',
     'style/body/colorIndent',
-    'style/body/spaceIndent'],
-function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorIndent, spaceIndent) {
+    'style/body/spaceIndent',
+    'sort/sort.config'],
+function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorIndent, spaceIndent, sortConfig) {
     'use strict';
 
     var jquery;
@@ -106,38 +107,44 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
      */
     function addNewData(name, newData) {
         if (name == null) return;
+        // defers to dataA
         var recurseCompareData = function(dataA, dataB) {
+            if (dataA == null) dataA = [];
+            if (dataB == null) dataB = [];
+            var bIndex = 0;
             var returnData = [];
             var issueNames = [];
-            var a;
-            var b;
-            for (a = 0; a < dataA.length; a += 1) {
-                for(b = 0; b < dataB.length; b += 1) {
-                    if (dataA[a]["@name"] === dataB[b]["@name"]) {
-                        issueNames.push({
-                            name: dataA[a]["@name"],
-                            aIndex: a,
-                            bIndex: b
-                        });
-                    }
+            var aNames = dataA.map(x => x['@name']);
+            var bNames = dataB.map(x => x['@name']);
+            var foundBIndexes = [];
+            for (var aIndex = 0; aIndex < aNames.length; aIndex += 1) {
+                bIndex = bNames.indexOf(aNames[aIndex]);
+                if (bIndex >= 0) {
+                    foundBIndexes.push(bIndex);
+                    // merg the data recusivly
+                    var issueA = dataA[aIndex];
+                    var issueB = dataB[bIndex];
+                    if (issueA['@isHeader'] || issueB['@isHeader'])
+                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);
+                    if (issueB['@element'] != null)
+                        issueB['@element'].remove();
+                    if (issueB['@selected'] == true) issueA['@selected'] = true;
+                    returnData.push(issueA);
+                } else { // we can now safly add aIndex
+                    returnData.push(dataA[aIndex]);
                 }
             }
-            var issueAIndex = issueNames.map(x => x.aIndex);
-            for (a = 0; a < dataA.length; a += 1) {
-                if (issueAIndex.indexOf(a) <= 0) {
-                    returnData.push(dataA[a]);
-                } 
+
+            for (bIndex = 0; bIndex < dataB.length; bIndex += 1) {
+                if (foundBIndexes.indexOf(bIndex) < 0) // selects unmerged indexes
+                    returnData.push(dataB[bIndex]);
             }
-            var issueBIndex = issueNames.map(x => x.bIndex);
-            for (b = 0; b < dataB.length; b += 1) {
-                if (issueBIndex.indexOf(b) <= 0) {
-                    returnData.push(dataB[b]);
-                } 
-            }
+                
             return returnData;
         };
         var data = cacheGet.getDataByName(name);
         cacheSet.replaceDataByName(name, recurseCompareData(newData, data));
+        sortConfig(name);
         displayList.displayMissing(name);
         spaceIndent.refresh(cacheGet.getElementByName(name));
         colorIndent(cacheGet.getElementByName(name));
