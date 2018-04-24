@@ -106,6 +106,13 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
      * @param {JSON} newData JSON data to add to the multiselect
      */
     function addNewData(name, newData) {
+        var removeElement = function(item) {
+            if (item['@isHeader']) {
+                $(item['@element'].data("target")).remove();
+            }
+            if (item['@element'] != null)
+                item['@element'].remove();
+        }
         if (name == null) return;
         // defers to dataA
         var recurseCompareData = function(dataA, dataB) {
@@ -124,10 +131,12 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
                     // merg the data recusivly
                     var issueA = dataA[aIndex];
                     var issueB = dataB[bIndex];
-                    if (issueA['@isHeader'] || issueB['@isHeader'])
-                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);
+                    if (issueA['@isHeader'] || issueB['@isHeader']) {
+                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);                          
+                        issueA['@isHeader'] = true;
+                    }
                     if (issueB['@element'] != null)
-                        issueB['@element'].remove();
+                        removeElement(issueB);
                     if (issueB['@selected'] == true) issueA['@selected'] = true;
                     returnData.push(issueA);
                 } else { // we can now safly add aIndex

@@ -59,16 +59,15 @@
                     </div>
                 </div>`
             };
+            notTestedInputs = ['newData'];
             for(var input in loadData) {
-                document.write(template(loadData[input], "loadData." + input, input));
+                if (notTestedInputs.indexOf(input) < 0)
+                    document.write(template(loadData[input], "loadData." + input, input));
             }
         </script>
-
-
-
-    <script>
-        $(document).ready(function(){
-            var check = function() {
+        <script src="../../dist/main.js"></script>
+        <script>
+            JSMultiselect.onload.addCallback(function() {
                 $(".inputContainer").each(function(i, ele) {
                     var $ele = $(ele);
                     var success = true;
@@ -98,11 +97,7 @@
                     }
                     console.log(" ");
                 });
-            };
-            // wait for the info to load
-            setTimeout(check, 500);
-        });
-</script>
-    <script src="../../dist/main.js"></script>
+            });
+        </script>
     </body>
 </html>

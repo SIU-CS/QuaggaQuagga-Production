@@ -78,33 +78,29 @@
                 $("#input").text(input);
             }
 
-            $(document).ready(function(){
-                var check = function() {
-                    var success = true;
-                    // few static test conditions 
-                    //warn if the no. of list groups is less than or greater than 3
-                    if($('.JSM-list .list-group').length != 3) {
-                        success = false;
-                        console.warn('Too few/many groups')
-                    }
-                    //warn if the no. of list group items is less than or greater than 5
-                    if($('.JSM-list .list-group-item').length != 5) {
-                        success = false;
-                        console.warn('Too few/many items')
-                    }
-                    //warn if more than one/no checkbox is auto selected
-                    if($('.JSM-list .JSM-checkbox:checked').length != 1) {
-                        success = false;
-                        console.warn('Auto selected not working')
-                    }
-                    if (success) {
-                        $("#success").removeClass('hidden');
-                    } else {
-                        $("#failure").removeClass('hidden');
-                    }
-                };
-                // wait for the info to load
-                setTimeout(check, 200);
+            JSMultiselect.onload.addCallback(function() {
+                var success = true;
+                // few static test conditions 
+                //warn if the no. of list groups is less than or greater than 3
+                if($('.JSM-list .list-group').length != 3) {
+                    success = false;
+                    console.warn('Too few/many groups')
+                }
+                //warn if the no. of list group items is less than or greater than 5
+                if($('.JSM-list .list-group-item').length != 5) {
+                    success = false;
+                    console.warn('Too few/many items')
+                }
+                //warn if more than one/no checkbox is auto selected
+                if($('.JSM-list .JSM-checkbox:checked').length != 1) {
+                    success = false;
+                    console.warn('Auto selected not working')
+                }
+                if (success) {
+                    $("#success").removeClass('hidden');
+                } else {
+                    $("#failure").removeClass('hidden');
+                }
             });
     </script>
     </head>
