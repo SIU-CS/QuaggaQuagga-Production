@@ -154,12 +154,54 @@ var loadData = (function() {
         return rv;
     };
 
+    var newData = function() {
+        var rv = {
+            "Item 1": {
+                searchable: "value",
+                "@selected": false,
+                "@image": "./quagga.jpg",
+                "@icon": "fa fa-chrome",
+                selected: {
+                    "image": "./quagga.jpg",
+                    searchable: "value",
+                    selected: false,
+                    value: "1.1"
+                },
+                "Item 1.2": {
+                    "@searchable": "value",
+                    "@selected": false,
+                    "@icon": "fa fa-chrome",
+                    "Item 1.2.1": {
+                        "icon": "fa fa-chrome",
+                        searchable: "value",
+                        selected: true,
+                        value: "1.2.1"
+                    },
+                    "Item 1.2.8": {
+                        "icon": "fa fa-chrome",
+                        searchable: "value",
+                        selected: true,
+                        value: "1.2.8"
+                    }
+                }
+            },
+            "Item 2": {
+                "@searchable": "value",
+                "@selected": false,
+                "@icon": "",
+                "value": "3"
+            }
+        };
+        return rv;
+    };
+
     return {
         array: array,
         CSV: CSV,
         HTML: HTML,
         JSON: JSON,
         liveHTML: liveHTML,
-        XML: XML
+        XML: XML,
+        newData: newData
     };
 }());
