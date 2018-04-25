@@ -21,7 +21,7 @@
             console.log('stderr: ' + data);
         });
 
-        compileJS.on('close', (code) => {
+        compileJS.on('close', function(code) {
             console.log('------------------- Stop compiling RequireJS -------------------');
         });
     };
