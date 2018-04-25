@@ -18,6 +18,7 @@
         <script src="./loadData.js"></script>
     </head>
     <body>
+        <hr/>
         <script>
             function getDisplayData(data, type) {
                 if ($.isPlainObject(data) || $.isArray(data)) {
@@ -57,7 +58,8 @@
                             <div class="JSMultiselect" name="`+loadType+`" data-load-type="`+loadType+`" data-load="`+loadFunctionPath+`" data-title="` + loadType + ` Data"></div>
                         </div>
                     </div>
-                </div>`
+                </div>
+                <hr/>`
             };
             notTestedInputs = ['newData'];
             for(var input in loadData) {

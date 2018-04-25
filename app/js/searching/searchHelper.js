@@ -49,6 +49,11 @@ define(['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
         return returnVisible;
     };
     return {
-        searchByFunction: searchByFunction
+        searchByFunction: searchByFunction,
+        clearSearch: function($multi) {
+            var $searchBar = $multi.find(".JSM-head .JSM-search .JSM-searchbar");
+            $searchBar.val("");
+            $searchBar.trigger("keyup");
+        }
     };
 });
