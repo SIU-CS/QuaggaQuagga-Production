@@ -4,6 +4,7 @@
   insertRequire: ['main'],
   out: './dist/main.js',
   wrap: true,
+  optimize: 'none',
   paths: {
     init: './init.config',
     consts: './consts.config',
