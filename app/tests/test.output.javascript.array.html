@@ -10,7 +10,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
         <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="../../dist/main.css">
         <!-- JQuery -->
         <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
@@ -46,65 +46,61 @@ var strHTML = `<ul>
                 $("#expected-output").text(output);
             }
 
-            $(document).ready(function(){
-                var check = function() {
-                    var success = true;
-                    if($('.JSM-list .list-group').length != 3) {
-                        success = false;
-                        console.warn('data not loaded properly');
+            JSMultiselect.onload.addCallback(function() {
+                var success = true;
+                if($('.JSM-list .list-group').length != 3) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                if($('.JSM-list .list-group-item').length != 5) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                if($('.JSM-list .JSM-checkbox:checked').length != 3) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                var parsedData = JSMultiselect.GetData.flatArray('towns');
+                displayOutput(parsedData);
+                console.log("Parsed Data: ", parsedData);
+                var expectedOutput = [
+                    {
+                        "name": "Item 1.2.1",
+                        "value": "1.2.1"
+                    },
+                    {
+                        "name": "Item 2",
+                        "value": "2"
                     }
-                    if($('.JSM-list .list-group-item').length != 5) {
-                        success = false;
-                        console.warn('data not loaded properly');
-                    }
-                    if($('.JSM-list .JSM-checkbox:checked').length != 3) {
-                        success = false;
-                        console.warn('data not loaded properly');
-                    }
-                    var parsedData = JSMultiselect.GetData.flatArray('towns');
-                    displayOutput(parsedData);
-                    console.log("Parsed Data: ", parsedData);
-                    var expectedOutput = [
-                        {
-                            "name": "Item 1.2.1",
-                            "value": "1.2.1"
-                        },
-                        {
-                            "name": "Item 2",
-                            "value": "2"
-                        }
-                    ];
-                    displayExpectedOutput(expectedOutput)
-                    // copy the array so we get good output here
-                    console.log("Expected Data: ", expectedOutput.slice());
-                    if (parsedData.length == expectedOutput.length) {
-                        for (var f in parsedData) {
-                            var found = false;
-                            for (var e in expectedOutput) {
-                                if (hasSameProps(expectedOutput[e], parsedData[f])){
-                                    found = true;
-                                    // remove that output so we can't use it twice
-                                    expectedOutput.splice(e, 1);
-                                    break;
-                                }
-                            }
-                            if (!found) {
-                                success = false;
-                                console.warn('Unexpected form output');
+                ];
+                displayExpectedOutput(expectedOutput)
+                // copy the array so we get good output here
+                console.log("Expected Data: ", expectedOutput.slice());
+                if (parsedData.length == expectedOutput.length) {
+                    for (var f in parsedData) {
+                        var found = false;
+                        for (var e in expectedOutput) {
+                            if (hasSameProps(expectedOutput[e], parsedData[f])){
+                                found = true;
+                                // remove that output so we can't use it twice
+                                expectedOutput.splice(e, 1);
+                                break;
                             }
                         }
-                    } else {
-                        success = false;
-                        console.warn('Too few/many items returning selected. Data:');
+                        if (!found) {
+                            success = false;
+                            console.warn('Unexpected form output');
+                        }
                     }
-                    if (success) {
-                        $("#success").removeClass('hidden');
-                    } else {
-                        $("#failure").removeClass('hidden');
-                    }
-                };
-                // wait for the info to load
-                setTimeout(check, 200);
+                } else {
+                    success = false;
+                    console.warn('Too few/many items returning selected. Data:');
+                }
+                if (success) {
+                    $("#success").removeClass('hidden');
+                } else {
+                    $("#failure").removeClass('hidden');
+                }
             });
             // checks if two objects have equal values, not equal references
             function hasSameProps( obj1, obj2 ) {

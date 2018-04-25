@@ -10,7 +10,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
         <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="../../dist/main.css">
         <!-- JQuery -->
         <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
@@ -46,59 +46,55 @@ var strHTML = `<ul>
                 $("#expected-output").text(output);
             }
 
-            $(document).ready(function(){
-                var check = function() {
-                    var success = true;
-                    if($('.JSM-list .list-group').length != 3) {
-                        success = false;
-                        console.warn('data not loaded properly');
-                    }
-                    if($('.JSM-list .list-group-item').length != 5) {
-                        success = false;
-                        console.warn('data not loaded properly');
-                    }
-                    if($('.JSM-list .JSM-checkbox:checked').length != 3) {
-                        success = false;
-                        console.warn('data not loaded properly');
-                    }
-                    parsedData = JSMultiselect.GetData.JSON('towns');
-                    displayOutput(parsedData);
-                    console.log("Parsed Data: ", parsedData);
-                    expectedOutput = {
-                        "Item 1": {
-                            "Item 1.2": {
-                            "Item 1.2.1": "1.2.1"
-                            }
-                        },
-                        "Item 2": "2"
-                    };
-                    displayExpectedOutput(expectedOutput)
-                    // copy the array so we get good output here
-                    console.log("Expected Data: ", expectedOutput);
-                    
-                    function check(data, expected) {
-                        for(var i in data) {
-                            if (expected.hasOwnProperty(i)) {
-                                if ($.isPlainObject(data[i]) && $.isPlainObject(expected[i])) {
-                                    return check(data[i], expected[i]);
-                                } else if(data[i] === expected[i]) {
-                                    return true;
-                                }
-                            }
-                            return false;
+            JSMultiselect.onload.addCallback(function() {
+                var success = true;
+                if($('.JSM-list .list-group').length != 3) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                if($('.JSM-list .list-group-item').length != 5) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                if($('.JSM-list .JSM-checkbox:checked').length != 3) {
+                    success = false;
+                    console.warn('data not loaded properly');
+                }
+                parsedData = JSMultiselect.GetData.JSON('towns');
+                displayOutput(parsedData);
+                console.log("Parsed Data: ", parsedData);
+                expectedOutput = {
+                    "Item 1": {
+                        "Item 1.2": {
+                        "Item 1.2.1": "1.2.1"
                         }
-                    } 
-                    success = check(parsedData, expectedOutput);
-
-                    if (success) {
-                        $("#success").removeClass('hidden');
-                    } else {
-                        console.warn('Unexpected form output');
-                        $("#failure").removeClass('hidden');
-                    }
+                    },
+                    "Item 2": "2"
                 };
-                // wait for the info to load
-                setTimeout(check, 200);
+                displayExpectedOutput(expectedOutput)
+                // copy the array so we get good output here
+                console.log("Expected Data: ", expectedOutput);
+                
+                function check(data, expected) {
+                    for(var i in data) {
+                        if (expected.hasOwnProperty(i)) {
+                            if ($.isPlainObject(data[i]) && $.isPlainObject(expected[i])) {
+                                return check(data[i], expected[i]);
+                            } else if(data[i] === expected[i]) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                } 
+                success = check(parsedData, expectedOutput);
+
+                if (success) {
+                    $("#success").removeClass('hidden');
+                } else {
+                    console.warn('Unexpected form output');
+                    $("#failure").removeClass('hidden');
+                }
             });
     </script>
     </head>

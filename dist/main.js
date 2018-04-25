@@ -1565,6 +1565,154 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
         refresh: refresh
     };
 });
+define('sort/sortByAlpha',['require', 'jquery', 'data_store/get'], function (require) {
+    'use strict';
+    
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var get = require('data_store/get');
+    /*
+    This functon compares the data and sort it alphabtically
+     We have defined isReverse to sort the data in reverse alphabetical order
+    */
+    function alphaSort(array, isReverse) 
+    {
+        array.sort(function(A, B) 
+        {
+            if (A == null && B == null) return 0;
+            if (A == null) return -1;
+            if (B == null) return 1;
+           var a = A['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
+           var b = B['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
+           if (isReverse) {
+                if (a < b) return 1;
+                if (a > b) return -1;
+           } else {
+                if (a < b) return -1;
+                if (a > b) return 1;
+           }
+
+           return 0; // equal 
+        });
+    }
+    /*
+    This functon goes through each header and sort it
+    Nested structure sorting
+    */
+    function forEachHeader(data, fun) {
+        for (var i in data) {
+            if (data[i] != null) 
+            {
+                if (data[i]['@isHeader'])//If data is a header
+                {
+                    fun(data[i]);
+                    forEachHeader(data[i]['@children'], fun);//Go inside the header and sort it
+                }
+            }
+        }
+    }
+    /*
+    Get the data from the multiselect in the form of an array
+    */
+    function handler(multiName, isReverse) 
+    {
+        var data = get.getDataByName(multiName);
+        alphaSort(data, isReverse); // data is an array by defintion
+        forEachHeader(data, function(header) 
+        {
+            alphaSort(header['@children'], isReverse);
+        });
+    }
+    return handler;//Return thr sorted multielect
+});
+
+define('sort/sortByCustom',['require', 'jquery', 'data_store/get'], function (require) {
+    'use strict';
+    
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var get = require('data_store/get');
+    /*
+    This functon uses the custom sorting technique defined by the user
+    We have defined isReverse to sort the data reversely as defined
+    */
+    function customSort(array, customSortFunction, isReverse) 
+    {
+        array.sort(function(A, B) 
+        {
+           var value = customSortFunction(A['@name'], B['@name']);
+           if (isReverse) return -value;//Revrese sorting
+           return value;
+        });
+    }
+    /*
+    This functon goes through each header and use the custom sort
+    Nested structure sorting
+    */
+    function forEachHeader(data, fun) 
+    {
+        for (var i in data) 
+        {
+            if (data[i] != null) 
+            {
+                if (data[i]['@isHeader'])//If data is a header
+                {
+                    fun(data[i]);
+                    forEachHeader(data[i]['@children'], fun);//Go inside the header and sort it
+                }
+            }
+        }
+    }
+    /*
+    Get the data from the multiselect in the form of an array
+    */
+    function handler(multiName, customSortFunction, isReverse) 
+    {
+        var data = get.getDataByName(multiName);
+        customSort(data, customSortFunction, isReverse); // data is an array by defintion
+        forEachHeader(data, function(header) 
+        {
+            customSort(header['@children'], customSortFunction, isReverse);
+        });
+    }
+    return handler;//Return thr sorted multielect
+});
+
+define('sort/sort.config',['require',
+        'data_store/get',
+        'jquery', 
+        'sort/sortByAlpha', 
+        'sort/sortByCustom', 
+    ], 
+function(require, getData, $, sortByAlpha, sortByCustom) {
+    'use strict';
+    var jquery = $;
+
+    /**
+     * Handles the style part of the multiselect, selecting the apprpriate styles
+     * For each based upon optons/multiselect type
+     * @param {jquery element} $multiselect the targeted multiselect
+     */
+    function handler(name) {
+        var sortSettings = getData.getSettingByName("sort", name);
+
+        if (sortSettings != null) {
+            var isReverse = (sortSettings.reverse === true || sortSettings.reverse === "true");
+
+            if(sortSettings.type == "custom") {
+                if ($.isFunction(sortSettings['sortDefine'])) {
+                    sortByCustom(name, sortSettings['sortDefine'], isReverse);
+                } else {
+                    console.warn("custom for was not passed a function, refer to documentation");
+                }
+            } else if(sortSettings.type == "alpha") {
+                sortByAlpha(name, isReverse);
+            }
+        }
+    }
+
+    return handler;
+});
 // defines the consructors for the data object
 define('data_store/new',['require',
     'data_store/cache',
@@ -1574,8 +1722,9 @@ define('data_store/new',['require',
     'jquery',
     'display/list',
     'style/body/colorIndent',
-    'style/body/spaceIndent'],
-function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorIndent, spaceIndent) {
+    'style/body/spaceIndent',
+    'sort/sort.config'],
+function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorIndent, spaceIndent, sortConfig) {
     'use strict';
 
     var jquery;
@@ -1672,6 +1821,13 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
      * @param {JSON} newData JSON data to add to the multiselect
      */
     function addNewData(name, newData) {
+        var removeElement = function(item) {
+            if (item['@isHeader']) {
+                $(item['@element'].data("target")).remove();
+            }
+            if (item['@element'] != null)
+                item['@element'].remove();
+        }
         if (name == null) return;
         // defers to dataA
         var recurseCompareData = function(dataA, dataB) {
@@ -1690,10 +1846,12 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
                     // merg the data recusivly
                     var issueA = dataA[aIndex];
                     var issueB = dataB[bIndex];
-                    if (issueA['@isHeader'] || issueB['@isHeader'])
-                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);
+                    if (issueA['@isHeader'] || issueB['@isHeader']) {
+                        issueA['@children'] = recurseCompareData(issueA['@children'], issueB['@children']);                          
+                        issueA['@isHeader'] = true;
+                    }
                     if (issueB['@element'] != null)
-                        issueB['@element'].remove();
+                        removeElement(issueB);
                     if (issueB['@selected'] == true) issueA['@selected'] = true;
                     returnData.push(issueA);
                 } else { // we can now safly add aIndex
@@ -1710,6 +1868,7 @@ function (require, cache, cacheSet, cacheGet, CONSTS, $, displayList, colorInden
         };
         var data = cacheGet.getDataByName(name);
         cacheSet.replaceDataByName(name, recurseCompareData(newData, data));
+        sortConfig(name);
         displayList.displayMissing(name);
         spaceIndent.refresh(cacheGet.getElementByName(name));
         colorIndent(cacheGet.getElementByName(name));
@@ -2282,154 +2441,6 @@ define('data_input/load',['require', 'jquery', 'data_input/liveHTML', 'data_inpu
         }
     };
 });
-define('sort/sortByAlpha',['require', 'jquery', 'data_store/get'], function (require) {
-    'use strict';
-    
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var get = require('data_store/get');
-    /*
-    This functon compares the data and sort it alphabtically
-     We have defined isReverse to sort the data in reverse alphabetical order
-    */
-    function alphaSort(array, isReverse) 
-    {
-        array.sort(function(A, B) 
-        {
-            if (A == null && B == null) return 0;
-            if (A == null) return -1;
-            if (B == null) return 1;
-           var a = A['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
-           var b = B['@name'].toLowerCase();//Converting to lowercase to avoid case sensitive issue
-           if (isReverse) {
-                if (a < b) return 1;
-                if (a > b) return -1;
-           } else {
-                if (a < b) return -1;
-                if (a > b) return 1;
-           }
-
-           return 0; // equal 
-        });
-    }
-    /*
-    This functon goes through each header and sort it
-    Nested structure sorting
-    */
-    function forEachHeader(data, fun) {
-        for (var i in data) {
-            if (data[i] != null) 
-            {
-                if (data[i]['@isHeader'])//If data is a header
-                {
-                    fun(data[i]);
-                    forEachHeader(data[i]['@children'], fun);//Go inside the header and sort it
-                }
-            }
-        }
-    }
-    /*
-    Get the data from the multiselect in the form of an array
-    */
-    function handler(multiName, isReverse) 
-    {
-        var data = get.getDataByName(multiName);
-        alphaSort(data, isReverse); // data is an array by defintion
-        forEachHeader(data, function(header) 
-        {
-            alphaSort(header['@children'], isReverse);
-        });
-    }
-    return handler;//Return thr sorted multielect
-});
-
-define('sort/sortByCustom',['require', 'jquery', 'data_store/get'], function (require) {
-    'use strict';
-    
-    var $, jquery;
-    jquery = $ = require('jquery');
-    var get = require('data_store/get');
-    /*
-    This functon uses the custom sorting technique defined by the user
-    We have defined isReverse to sort the data reversely as defined
-    */
-    function customSort(array, customSortFunction, isReverse) 
-    {
-        array.sort(function(A, B) 
-        {
-           var value = customSortFunction(A['@name'], B['@name']);
-           if (isReverse) return -value;//Revrese sorting
-           return value;
-        });
-    }
-    /*
-    This functon goes through each header and use the custom sort
-    Nested structure sorting
-    */
-    function forEachHeader(data, fun) 
-    {
-        for (var i in data) 
-        {
-            if (data[i] != null) 
-            {
-                if (data[i]['@isHeader'])//If data is a header
-                {
-                    fun(data[i]);
-                    forEachHeader(data[i]['@children'], fun);//Go inside the header and sort it
-                }
-            }
-        }
-    }
-    /*
-    Get the data from the multiselect in the form of an array
-    */
-    function handler(multiName, customSortFunction, isReverse) 
-    {
-        var data = get.getDataByName(multiName);
-        customSort(data, customSortFunction, isReverse); // data is an array by defintion
-        forEachHeader(data, function(header) 
-        {
-            customSort(header['@children'], customSortFunction, isReverse);
-        });
-    }
-    return handler;//Return thr sorted multielect
-});
-
-define('sort/sort.config',['require',
-        'data_store/get',
-        'jquery', 
-        'sort/sortByAlpha', 
-        'sort/sortByCustom', 
-    ], 
-function(require, getData, $, sortByAlpha, sortByCustom) {
-    'use strict';
-    var jquery = $;
-
-    /**
-     * Handles the style part of the multiselect, selecting the apprpriate styles
-     * For each based upon optons/multiselect type
-     * @param {jquery element} $multiselect the targeted multiselect
-     */
-    function handler(name) {
-        var sortSettings = getData.getSettingByName("sort", name);
-
-        if (sortSettings != null) {
-            var isReverse = (sortSettings.reverse === true || sortSettings.reverse === "true");
-
-            if(sortSettings.type == "custom") {
-                if ($.isFunction(sortSettings['sortDefine'])) {
-                    sortByCustom(name, sortSettings['sortDefine'], isReverse);
-                } else {
-                    console.warn("custom for was not passed a function, refer to documentation");
-                }
-            } else if(sortSettings.type == "alpha") {
-                sortByAlpha(name, isReverse);
-            }
-        }
-    }
-
-    return handler;
-});
 define('display/title',['require', 'jquery', 'data_store/get'], function(require) {
     'use strict';
     
@@ -2855,7 +2866,7 @@ define('searching/searchHelper',['require', 'jquery', 'data_store/get', 'utility
 
     var jquery = $;
 
-    var searchByFunction = function(determineSearch, data, isCaseSensitive) {
+    var searchByFunction = function(determineSearch, data, isCaseSensitive, filterInterval) {
         var returnVisible = false;
         for (var i = 0; i < data.length; i += 1) {
             var item = data[i];
@@ -2866,13 +2877,16 @@ define('searching/searchHelper',['require', 'jquery', 'data_store/get', 'utility
                 name = name.toLowerCase();
                 searchable = searchable.toLowerCase();
             }
+            if (filterInterval == null || filterInterval == '') {
+                filterInterval = 0;
+            }
 
             // if input is not empty, and the input matches an entry in the 
             // multiselect, show the item and its children
             if (determineSearch(name, searchable)) {
-                returnVisible = true;
                 showHideItems.showItem(item);
                 showHideItems.showAllChildren(item);
+                returnVisible = true;
             } else {
                 if (item['@isHeader']) {
                     // recursively performs the plain text search on the child items 
@@ -2880,7 +2894,8 @@ define('searching/searchHelper',['require', 'jquery', 'data_store/get', 'utility
                     var isAnyVisible = searchByFunction(
                         determineSearch, 
                         item['@children'], 
-                        isCaseSensitive
+                        isCaseSensitive,
+                        filterInterval
                     );
                     if (isAnyVisible) {
                         showHideItems.showItem(item);
@@ -2905,9 +2920,7 @@ define('searching/fuzzySearch',['require', 'jquery', 'data_store/get', 'searchin
 
     var jquery = $;
 
-
-
-    // This is not my code, I used someone else's fuzzy searching algorithm, all credit goes to him
+    // This is not all my code, I used someone else's fuzzy searching algorithm, all credit goes to him
     // The source is https://github.com/mattyork/fuzzy/blob/master/lib/fuzzy.js
 
     var root = {};
@@ -2917,28 +2930,16 @@ define('searching/fuzzySearch',['require', 'jquery', 'data_store/get', 'searchin
     // Use in node or in browser
     root.fuzzy = fuzzy;
 
-    // Return all elements of `array` that have a fuzzy
-    // match against `pattern`.
-    fuzzy.simpleFilter = function (pattern, array) {
-        return array.filter(function (str) {
-            return fuzzy.test(pattern, str);
-        });
-    };
-
-    // Does `pattern` fuzzy match `str`?
-    fuzzy.test = function (pattern, str) {
-        return fuzzy.match(pattern, str) !== null;
-    };
-
     // If `pattern` matches `str`, wrap each matching character
     // in `opts.pre` and `opts.post`. If no match, return null
     fuzzy.match = function (pattern, str, opts, filterInterval) {
-        opts = opts || {};
-        var patternIdx = 0,
+            opts = opts || {};
+            var patternIdx = 0,
             result = [],
             len = str.length,
             totalScore = 0,
             currScore = 0,
+            maxScore = Math.pow(2, pattern.length + 1) - pattern.length - 2,
             // prefix
             pre = opts.pre || '',
             // suffix
@@ -2952,7 +2953,7 @@ define('searching/fuzzySearch',['require', 'jquery', 'data_store/get', 'searchin
 
         // For each character in the string, either add it to the result
         // or wrap in template if it's the next string in the pattern
-        for (var idx = 0; idx < len; idx += 1) {
+        for (var idx = 0; idx < len && patternIdx < pattern.length; idx += 1) {
             ch = str[idx];
             if (compareString[idx] === pattern[patternIdx]) {
                 ch = pre + ch + post;
@@ -2963,102 +2964,43 @@ define('searching/fuzzySearch',['require', 'jquery', 'data_store/get', 'searchin
             } else {
                 currScore = 0;
             }
+
             totalScore += currScore;
             result[result.length] = ch;
-        }
+            }
 
-        // return rendered string if we have a match for every char
-        if (patternIdx === pattern.length) {
-            // if the string is an exact match with pattern, totalScore should be maxed
-            totalScore = compareString === pattern ? Infinity : totalScore;
+        // If the totalScore of the string (anywhere from 0 to 99; 100 is essentially text searching) is more than the
+        // determined interval (filterInterval * maxScore), then show results with scores above that interval
+        if (filterInterval * maxScore < totalScore) {
             return { rendered: result.join(''), score: totalScore };
-        }
-
-
-        return null;
+        } else return null;
     };
 
-    // The normal entry point. Filters `arr` for matches against `pattern`.
-    // It returns an array with matching values of the type:
-    //
-    //     [{
-    //         string:   '<b>lah' // The rendered string
-    //       , index:    2        // The index of the element in `arr`
-    //       , original: 'blah'   // The original element in `arr`
-    //     }]
-    //
-    // `opts` is an optional argument bag. Details:
-    //
-    //    opts = {
-    //        // string to put before a matching character
-    //        pre:     '<b>'
-    //
-    //        // string to put after matching character
-    //      , post:    '</b>'
-    //
-    //        // Optional function. Input is an entry in the given arr`,
-    //        // output should be the string to test `pattern` against.
-    //        // In this example, if `arr = [{crying: 'koala'}]` we would return
-    //        // 'koala'.
-    //      , extract: function(arg) { return arg.crying; }
-    //    }
-    fuzzy.filter = function (pattern, arr, opts) {
-        if (!arr || arr.length === 0) {
-            return [];
-        }
-        if (typeof pattern !== 'string') {
-            return arr;
-        }
-        opts = opts || {};
-        return arr
-            .reduce(function (prev, element, idx, arr) {
-                var str = element;
-                if (opts.extract) {
-                    str = opts.extract(element);
-                }
-                var rendered = fuzzy.match(pattern, str, opts);
-                if (rendered !== null) {
-                    prev[prev.length] = {
-                        string: rendered.rendered,
-                        score: rendered.score,
-                        index: idx,
-                        original: element
-                    };
-                }
-                return prev;
-            }, [])
 
-            // Sort by score. Browsers are inconsistent wrt stable/unstable
-            // sorting, so force stable by using the index in the case of tie.
-            // See http://ofb.net/~sethml/is-sort-stable.html
-            .sort(function (a, b) {
-                var compare = b.score - a.score;
-                if (compare) return compare;
-                return a.index - b.index;
-            });
-        };
+    var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
+        searchHelper.searchByFunction(function (name, searchable) {
+            return !str.trim() || 
+                fuzzy.match(str, name, null, filterInterval) || 
+                fuzzy.match(str, searchable, null, filterInterval);
+        }, data, isCaseSensitive, filterInterval);
+    };
 
-        var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
-            searchHelper.searchByFunction(function (name, searchable) {
-                return !str.trim() || fuzzy.match(str, name, null) || fuzzy.match(str, searchable, null);
-            }, data, isCaseSensitive);
-         };
+    return function (multiName, $ele, settings) {
+        var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
+        var filterInterval = settings.filterInterval;
+        var timeout;
+        $ele.find(".JSM-head .JSM-searchbar").on("change", function () {
+            window.clearTimeout(timeout);
+            timeout = window.setTimeout(function () {
+                var data = getData.getDataByName(multiName);
+                var str = $('.JSM-searchbar').val();
+                if (!isCaseSensitive)
+                    str = str.toLowerCase();
+                fuzzySearch(data, str, isCaseSensitive, filterInterval);
+            }, 200);
 
-        return function (multiName, $ele, settings) {
-            var isCaseSensitive = settings.caseSensitive === true || settings.caseSensitive === "true";
-            var timeout;
-            $ele.find(".JSM-head .JSM-searchbar").on("keyup", function () {
-                window.clearTimeout(timeout);
-                timeout = window.setTimeout(function () {
-                    var data = getData.getDataByName(multiName);
-                    var str = $('.JSM-searchbar').val();
-                    if (!isCaseSensitive)
-                        str = str.toLowerCase();
-                    fuzzySearch(data, str, isCaseSensitive);
-                }, 500);
-
-            });
-        };
+        });
+    };
 });
 
 define('searching/plainTextSearch',['require', 'jquery', 'data_store/get', 'searching/searchHelper'],
@@ -3070,8 +3012,8 @@ define('searching/plainTextSearch',['require', 'jquery', 'data_store/get', 'sear
     var plainTextSearch = function (data, str, isCaseSensitive) {
         searchHelper.searchByFunction(function (name, searchable) {
             return !str.trim() || 
-            (name != null && name.indexOf(str) > -1) || 
-            (searchable != null && searchable.indexOf(str) > -1);
+            name != null && name.indexOf(str) > -1 || 
+            searchable != null && searchable.indexOf(str) > -1;
         }, data, isCaseSensitive);
     };
     return function (multiName, $ele, settings) {
@@ -3109,16 +3051,20 @@ function(require, getData, $, fuzzySearch, textSearch) {
     function handler(name) {
         var $ele = getData.getElementByName(name);
         var searchSettings = getData.getSettingByName("search", name);
-        var filterInterval = getData.getSettingByName("filterInterval", name);
 
-        if (searchSettings.filterInterval == null) {
-            filterInterval = 0;
+
+        // if there is no filterInterval defined in the search settings, default it to 0 for the purposes of the function
+        if (searchSettings.filterInterval == null || searchSettings.filterInterval == '') {
+            searchSettings.filterInterval = 0;
+        } else if (searchSettings.filterInterval > 1) {
+            searchSettings.filterInterval /= 100;
         }
+
 
         if ($ele == null) return;
 
         if (searchSettings.type == "fuzzy") {
-            fuzzySearch(name, $ele, searchSettings, filterInterval);
+            fuzzySearch(name, $ele, searchSettings, searchSettings.filterInterval);
         } else {
             textSearch(name, $ele, searchSettings);
         }

@@ -10,7 +10,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
         <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="../../dist/main.css">
         <!-- JQuery -->
         <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
@@ -45,29 +45,25 @@
             <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData.array"  data-settings="loadSettings" data-title="Pick A Contry">
         </div>
         <script>
-
-            var check = function() {
-                //alert("Load New Data Start");
-                JSMultiselect.onload.addCallback(function() {
-                    $.ajax({
-                        url: 'https://raw.githubusercontent.com/SIU-CS/QuaggaQuagga-Production/d86764e3ca502a32aca16e7aae60fb3b2208b526/app/tests/loadData.js',
-                        type: 'GET',
-                        success: function(data) {
-                            eval(data);
-                            JSMultiselect.AddData.JSON("towns", loadData.newData);
-                            // check success or failure
-                            $(".list-group").collapse("show");
-                            if($(".list-group-item:visible").length != 8) {
-                                console.warn("Merge unsuccessful.");
-                                $("#failure").removeClass('hidden');
-                            } else {
-                                $("#success").removeClass('hidden');
-                            }
+            
+            JSMultiselect.onload.addCallback(function() {
+                $.ajax({
+                    url: 'https://raw.githubusercontent.com/SIU-CS/QuaggaQuagga-Production/dev/app/tests/loadData.js',
+                    type: 'GET',
+                    success: function(data) {
+                        eval(data);
+                        JSMultiselect.AddData.JSON("towns", loadData.newData);
+                        // check success or failure
+                        $(".list-group").collapse("show");
+                        if($(".list-group-item:visible").length != 7) {
+                            console.warn("Merge unsuccessful.");
+                            $("#failure").removeClass('hidden');
+                        } else {
+                            $("#success").removeClass('hidden');
                         }
-                    });
+                    }
                 });
-            }
-            setTimeout(check, 500);
+            });
         </script>
     </div>
     </body>
