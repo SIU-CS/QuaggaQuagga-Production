@@ -9,7 +9,7 @@
 
     var jsWatcher = hound.watch('./app/js');
 
-    var compileJSFiles = function() {
+    var compileJSFiles = function(callback) {
         var compileJS = spawn('node', ['./r.js', '-o', 'require.build.js']);
         console.log('\n------------------- Start compiling RequireJS -------------------');
 
@@ -23,6 +23,7 @@
 
         compileJS.on('close', function(code) {
             console.log('------------------- Stop compiling RequireJS -------------------');
+            if (callback != null) callback();
         });
     };
 
@@ -48,7 +49,7 @@
 
     var lessWatcher = hound.watch('./app/style');
 
-    var compileLESSFiles = function() {
+    var compileLESSFiles = function(callback) {
         console.log('\n------------------- Start compiling LESS -------------------');
         exec('lessc ./app/style/main.less ./dist/main.css', (error, stdout, stderr) => {
             if (error) {
@@ -60,6 +61,7 @@
             if (stderr.trim())
                 console.log('stderr: ' + stderr);
             console.log('------------------- Stop compiling LESS -------------------');
+            if (callback != null) callback();
           });
     };
 
@@ -78,5 +80,13 @@
         console.log('------------------- ' + file.replace("\\", "/") + ' was deleted -------------------');
         compileLESSFiles();
     });
+
+
+    // init
+    (function() {
+        compileJSFiles(function() {
+            compileLESSFiles();
+        });
+    }());
 
 }());

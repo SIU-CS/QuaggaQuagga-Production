@@ -2979,7 +2979,9 @@ define('searching/fuzzySearch',['require', 'jquery', 'data_store/get', 'searchin
 
     var fuzzySearch = function (data, str, isCaseSensitive, filterInterval) {
         searchHelper.searchByFunction(function (name, searchable) {
-            return !str.trim() || fuzzy.match(str, name, null, filterInterval) || fuzzy.match(str, searchable, null, filterInterval);
+            return !str.trim() || 
+                fuzzy.match(str, name, null, filterInterval) || 
+                fuzzy.match(str, searchable, null, filterInterval);
         }, data, isCaseSensitive, filterInterval);
     };
 
