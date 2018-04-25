@@ -1,0 +1,188 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <!-- data-main attribute tells require.js to load
+        scripts/main.js after require.js loads. -->
+        <script src="../../dist/main.js"></script>
+        <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "fuzzy",
+                        caseSensitive: true,
+                        filterInterval: 0.5
+                    },
+                    display: {
+                        type: "singleColumn",
+                    }
+                }
+            }
+            // a test function
+            function loadData() {
+                var array = [
+                    { // a header
+                        "name": "Animals",
+                        "searchable": "animals",
+                        "selected": false,
+                        "image": "./quagga.jpg",
+                        "icon": "fa fa-chrome",
+                        "items": [
+                            { // list of items
+                                "name": "Lion",
+                                "searchable": "Simba",
+                                "selected": false,
+                                "items": [
+                                    {
+                                        "name": "African",
+                                        "searchable": "Mufasa",
+                                        "selected": true,
+                                        "value": "1.1.1"
+                                    }
+                                ]
+                            },
+                            { // item 1.2 is also a header
+                                "name": "Tiger",
+                                "searchable": "ursine",
+                                "selected": false,
+                                "items": [
+                                    {  // list of items for 1.2
+                                        "name": "Bengal",
+                                        "searchable": "Sher Khan",
+                                        "selected": false,
+                                        "value": "1.2.1"
+                                    },
+                                    {
+                                        "name": "Siberian",
+                                        "searchable": "comrade",
+                                        "selected": "false",
+                                        "value": "1.2.2"
+                                    }
+                                ]
+                            },
+                            { // item 1.2 is also a header
+                                "name": "Bear",
+                                "searchable": "ursine",
+                                "selected": false,
+                                "items": [
+                                    {  // list of items for 1.2
+                                        "name": "Grizzly",
+                                        "searchable": "Grrr",
+                                        "selected": false,
+                                        "value": "1.3.1"
+                                    },
+                                    {
+                                        "name": "Kodiak",
+                                        "searchable": "Alaska",
+                                        "selected": false,
+                                        "value": "1.3.2"
+                                    }
+                                ]
+                            },
+                            { // item 1.2 is also a header
+                                "name": "Dog",
+                                "searchable": "Best Friend",
+                                "selected": false,
+                                "items": [
+                                    {  // list of items for 1.2
+                                        "name": "Labrador",
+                                        "searchable": "Retriever",
+                                        "selected": false,
+                                        "value": "1.4.1"
+                                    },
+                                    {
+                                        "name": "Golden Retriever",
+                                        "searchable": "Retriever",
+                                        "selected": false,
+                                        "value": "1.4.2"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Things",
+                        "searchable": "Stuff",
+                        "selected": true,
+                        "value": "2"
+                    },
+                    {
+                        "name": "Food",
+                        "searchable": "Yum",
+                        "selected": true,
+                        "value": "3"
+                    }
+                ];
+
+                return array;
+            }
+        </script>
+    <script>
+        var expectedVisible = [3, 3, 0, 3, 3, 0, 0, 4, 4, 3, 1, 1];
+        var checkSearchValues = ['Sib', 'Grizz', 'HHHHHHH', 'Golden', 'Grrr', 'abcde', 'Grz', 'Tiger', 'Dog', 'Simba', 'Food', 'Yum'];
+        JSMultiselect.onload.addCallback(function() {
+            var success = true;
+            $(".list-group").collapse("show");
+
+            var index = 0;
+            var checkSearch = function () {
+                // test is failed/success
+                var vis = $(".list-group-item:visible").length;
+                if (expectedVisible[index] != vis) {
+                    success = false;
+                    console.warn("Test failed on string: " + checkSearchValues[index]);
+                    console.warn("Expected: " + expectedVisible[index], "Actual: " + vis);
+                    console.log(" ");
+
+                }
+
+
+                index += 1;
+                doSearch();
+            };
+            function doSearch() {
+                if (index >= checkSearchValues.length) return showHideSuccess();
+                $(".JSM-searchbar").val(checkSearchValues[index]);
+                $(".JSM-searchbar").change();
+                setTimeout(checkSearch, 400);
+            } doSearch();
+
+            function showHideSuccess() {
+                if (!success) {
+                    $("#failure").removeClass('hidden');
+                    $("#success").addClass('hidden');
+                } else {
+                    $("#success").removeClass('hidden');
+                    $("#failure").addClass('hidden');
+                }
+            }
+        });
+
+    </script>
+    </head>
+    <body>
+        <div style="height: 60px; text-align: center;">
+            <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Succeeded!</h3>
+            </div>
+            <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Failed! Check Warnings</h3>
+            </div>
+        </div>
+        <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Country">
+        </div>
+    </body>
+</html>

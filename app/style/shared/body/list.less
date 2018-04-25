@@ -1,0 +1,91 @@
+.list-group-root > .list-group {
+    margin-bottom: 0 !important;
+    overflow: hidden;
+    height: 100%;
+    background-color: @lightBackground;
+    color:@textColor;
+
+    .list-group-item {
+        border-radius: 0;
+        border-width: 1px 0 0 0;
+        border-color: @highlight;
+        padding-left: 5%;
+        position: relative;
+        background-color: inherit;
+        color: inherit;
+        // Custom Checkbox 
+        .JSM-checkbox {
+            font-family: "FontAwesome";
+            -webkit-appearance: none; // Default appearance is set to none
+            background-color: rgb(210, 240, 128);
+	        border: 1px solid black;
+            padding: 0;
+            margin: 0;
+            margin-right: 10px;
+            height: 16px;
+            width: 16px;
+	        border-radius: 3px;
+	        display: inline-block;
+            position: relative;
+            vertical-align: text-bottom;
+        }
+        // On hover styling 
+        .JSM-checkbox:hover {
+        background-color: rgb(238, 161, 147);
+        }
+        // Checkmark Styling 
+        .JSM-checkbox:checked:after {
+            content: '\f00c';
+            font-size: 14px;
+            font-weight: 100;
+            color: black;
+            text-align: center;
+            vertical-align: text-top;
+        }
+
+        .JSM-itemImage {
+            margin-right: 5px;
+            vertical-align: text-bottom;
+            img, i {
+                height: 100%;
+                max-height: 20px;
+                width: 100%;
+                max-width: 20px;
+                padding: 0;
+                margin: 0;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 16px;
+            }
+        }
+    }
+    .list-group, & {
+        position: relative;
+        margin-bottom: 0;
+        color:@textColor;
+        border-radius: 0;
+    }
+    .JSM-item-header {
+        cursor: pointer;
+        position: relative;
+        @dropIconWidth: 15px;
+        padding-right: calc(8% +  @dropIconWidth);
+        .drop-icon {
+            font-family: "FontAwesome";
+            width:  @dropIconWidth;
+            position: absolute;
+            right: 0;
+            margin-bottom: 2px;
+            margin-right: 5%;
+        }
+
+        
+        // changes the chevron glyphicon
+        .drop-icon:after {
+            content: "\f078";
+        }
+        &.collapsed .drop-icon:after {
+            content: "\f054" !important;
+        }
+    }
+}

@@ -4,7 +4,7 @@ requirejs(['./require.config'], function () {
         $(document).ready(function() {
             requirejs(['init'], function (init) {
                 requirejs([
-                'consts',
+                'consts'
                 ], function() {
                     // assign JS_Multiselect developer functions here
                     var CONST = require('consts');
