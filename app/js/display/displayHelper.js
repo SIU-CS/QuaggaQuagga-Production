@@ -16,8 +16,9 @@ function(require, $) {
         <input type="checkbox" class='checkbox JSM-checkbox' ` +
         "value=\"" + (value != null ? value: "") + "\"" +
         // returns "on" if no value and a name
-        "name=\""+ (name != null && value != null ?  name : "")+"\"" +
-        (checked ? "checked=\"checked\"" : "") + `>`;
+        "name=\""+ (name != null && value != null ?  name : "") +"\"" +
+        (checked ? "checked=\"checked\"" : "") + 
+        "data-name=\"" + name + "\"" + `>`;
         
     }
 

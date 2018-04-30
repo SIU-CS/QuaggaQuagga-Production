@@ -17,7 +17,6 @@ function(require, getData, $, outInterface, selectionOut) {
         var outputSettings = getData.getSettingByName("output", name);
 
         if (outputSettings != null) {
-            console.log(outputSettings);
             selectionOut($multiselect, outputSettings.onSelect, outputSettings.onDeselect);
         }
     }

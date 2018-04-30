@@ -5,36 +5,30 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
         <!-- Font Awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
         <!-- LESS -->
-        <link rel="stylesheet" href="../style/main.css">
+        <link rel="stylesheet" href="../../dist/main.css">
         <!-- JQuery -->
-        <script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
+        <script src="../lib/jquery-3.3.1.min.js"></script>
         <!-- Bootstrap -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
         <!-- data-main attribute tells require.js to load
         scripts/main.js after require.js loads. -->
-        <script data-main="./main.test" src="../lib/require.js"></script>
+        <script src="../../dist/main.js"></script>
         <script>
             function loadSettings() {
                 return {
-                    output: 
-                    {
-                       onSelect: function(value) 
-                       {
-                           console.log(value);
-                       },
-                       onDeselect: function(value) {
-                           console.log(value);
-                       }
+                    search: {
+                        type: "text"
                     },
-                }
+                    sort: {
+                        type: 'alpha',
+                        reverse: true,
+                    }
+                 }
                 }
             
             // a test function
@@ -119,7 +113,7 @@
     </head>
     <body>
 
-    <div class="JS_Multiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
+    <div class="JSMultiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
     </div>
     </body>
 </html>

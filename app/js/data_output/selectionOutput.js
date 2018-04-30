@@ -13,7 +13,7 @@ define(['require', 'jquery', 'data_store/get'], function (require) {
             $multiselect.on("change", ".JSM-list .JSM-checkbox", function() 
             {
                 var $this = $(this);
-                var name = $this.attr("name");
+                var name = $this.data("name");
                 var value = $this.attr("value");
                 if (name != null && value != null) {
                     var rv = { name: name, value: value }
