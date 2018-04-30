@@ -1,0 +1,1009 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <!-- data-main attribute tells require.js to load
+        scripts/main.js after require.js loads. -->
+        <script src="../../dist/main.js"></script>
+        <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "text"
+                    },
+                    display: {
+                        type: "multiColumn",
+                        numColumns: 2,
+                        dynamicColumns: true
+                    },
+                    sort: {
+                        type: "alpha"
+                    }
+                }
+            }
+            // a test function
+            function loadData() {
+                // data taken from https://en.wikipedia.org/wiki/List_of_automobile_manufacturers_of_the_United_States
+                var strHTML = `
+<ul>
+    <li>Major US automakers
+        <ul>
+            <li>Fiat Chrysler Automobiles
+                <ul>
+                    <li>Chalmers-Detroit/Chalmers (1908–1910/1911–1924)</li>
+                    <li>Chrysler (1925–present)</li>
+                    <li>DeSoto (1928–1961)</li>
+                    <li>Dodge (1914–present)</li>
+                    <li>Eagle (1988–1999)</li>
+                    <li>Fargo (1920–1972)</li>
+                    <li>Imperial (1955–1975, 1981–1983)</li>
+                    <li>Jeep (1963–present)</li>
+                    <li>Maxwell (1905–1925)</li>
+                    <li>Plymouth (1928–2001)</li>
+                    <li>Ram (2009–present)</li>
+                    <li>SRT (2013–2014)[1]</li>
+                    <li>Valiant (1960–1966)</li>
+                </ul>
+            </li>
+            <li>Ford (1903–present)
+                <ul>
+                    <li>Continental (1956–1961)</li>
+                    <li>Edsel (1958–1960)</li>
+                    <li>Lincoln (1920–present)</li>
+                    <li>Mercury (1939–2011)</li>
+                </ul>
+            </li>
+            <li>General Motors (1908–present)
+                <ul>
+                    <li>Buick (1903–present)
+                        <ul>
+                            <li>Marquette (1930)</li>
+                        </ul>
+                    </li>
+                    <li>Cadillac (1902–present)
+                        <ul>
+                            <li>LaSalle (1927–1940)</li>
+                        </ul>
+                    </li>
+                    <li>Cartercar (1906–1916)</li>
+                    <li>Chevrolet (1911–present)
+                        <ul>
+                            <li>Geo (1988–1998)</li>
+                        </ul>
+                    </li>
+                    <li>Elmore (1893–1912)</li>
+                    <li>Ewing (1908–1911)</li>
+                    <li>GMC (1912–present)</li>
+                    <li>Hummer (1992–2010)</li>
+                    <li>Oakland (1907–1931)
+                        <ul>
+                            <li>Pontiac (1926–2009)</li>
+                        </ul>
+                    </li>
+                    <li>Oldsmobile (1897–2004)
+                        <ul>
+                            <li>Viking (1929–1931)</li>
+                        </ul>
+                    </li>
+                    <li>Rainier (1905–1911)</li>
+                    <li>Saturn (1990–2010)</li>
+                    <li>Scripps Booth (1913–1923)</li>
+                    <li>Sheridan (1920–1921)</li>
+                    <li>Welch (1903–1911)</li>
+                    <li>Welch-Detroit (1910–1911)</li>
+                </ul>
+            </li>
+            <li>Tesla (2003–present)</li>
+        </ul>
+    </li>
+    <li>Minor US automakers
+        <ul>
+            <li>AM General, Vehicle Production Group</li>
+            <li>Anteros (2005–present)</li>
+            <li>BXR (2008–present)</li>
+            <li>Buckeye Bullet</li>
+            <li>Callaway (1977–present)</li>
+            <li>Elio (2009–present)</li>
+            <li>Falcon (2009–present)</li>
+            <li>Faraday (2014–present)</li>
+            <li>Googly (1974–present)</li>
+            <li>Karma (2016–present) [2]</li>
+            <li>Lithium (2004–present)</li>
+            <li>Local (2007–present)</li>
+            <li>Lucid (2007–present)</li>
+            <li>Lucra (2005–present)</li>
+            <li>Lyons (2011–present)</li>
+            <li>Niama-Reisser (2005–present)</li>
+            <li>Panoz (1989–present)</li>
+            <li>Polaris (1954–present)</li>
+            <li>Racefab (1991–present)</li>
+            <li>Rezvani (2014–present)</li>
+            <li>Rossion (2007–present)</li>
+            <li>Shelby American (1992–present)</li>
+            <li>SSC (1999–present)[3]</li>
+            <li>Tanom (2012–present)</li>
+            <li>Zimmer (1978–1988, 1997–present)</li>
+        </ul>
+    </li>
+    <li>Former US automakers(Alphabetical)
+        <ul>
+            <li>A
+                <ul>
+                    <li>Abbott (1917–1918)</li>
+                    <li>Abbott-Detroit (1909–1916)</li>
+                    <li>ABC (1906–1910)</li>
+                    <li>A Car Without A Name (1909)</li>
+                    <li>Ace (1920–1922)</li>
+                    <li>Acme (1903–1911)</li>
+                    <li>Adams-Farwell (1905–1911)</li>
+                    <li>Adria (1921–1922)</li>
+                    <li>Aerocar (1905–1908)</li>
+                    <li>Aerocar (1946)</li>
+                    <li>Airscoot (1947)</li>
+                    <li>Airway (1949–1950)</li>
+                    <li>Ajax (1901–1903)</li>
+                    <li>Ajax (1914–1915)</li>
+                    <li>Ajax (1920–1921)</li>
+                    <li>Ajax (1925–1926)</li>
+                    <li>Aland (1916–1917)</li>
+                    <li>Albany (1907–1908)</li>
+                    <li>Alco (1909–1913)</li>
+                    <li>Aldo (1910)</li>
+                    <li>Alena (1922)</li>
+                    <li>All-Steel (1915–1916)</li>
+                    <li>Allen (1913–1914)</li>
+                    <li>Allen (1913–1921)</li>
+                    <li>Allen Kingston (1907–1909)</li>
+                    <li>Allied (1932–1934)</li>
+                    <li>Allstate (1952–1953)</li>
+                    <li>Alpena (1910–1914)</li>
+                    <li>Alsace (1920–1921)</li>
+                    <li>Alter (1915–1917)</li>
+                    <li>Altham (1896–1899)</li>
+                    <li>Altman (1901)</li>
+                    <li>Amalgamated (1917–1919)</li>
+                    <li>Ambassador (1921–1925)[4]</li>
+                    <li>Amco (1917–1922)</li>
+                    <li>America (1911)</li>
+                    <li>American (1899)</li>
+                    <li>American (1902–1903)</li>
+                    <li>American (1911–1912)</li>
+                    <li>American (1914)</li>
+                    <li>American (1917–1924)</li>
+                    <li>American Austin (1930–1934) (later American Bantam) (1938–1941)</li>
+                    <li>American Chocolate (1903–1906)</li>
+                    <li>American Electric (1899–1902)</li>
+                    <li>American Electric (1913–1914)</li>
+                    <li>American Fiat (1910–1918)</li>
+                    <li>American Locomotive Company (ALCO) (1909–1913)</li>
+                    <li>American Mercedes (1904–1907)</li>
+                    <li>American Motors (AMC) (1966–1987)</li>
+                    <li>American Napier (1904–1912)</li>
+                    <li>American Populaire (1904–1905)</li>
+                    <li>American Simplex (1906–1910) (see also Amplex)</li>
+                    <li>American Steam (1924–1942)</li>
+                    <li>American Steamer (1922–1924)</li>
+                    <li>American Tri-Car (1912)</li>
+                    <li>American Underslung (1905–1914)</li>
+                    <li>American Waltham (1898–1899)</li>
+                    <li>American Voiturette (see Car-Nation)</li>
+                    <li>Ames (1910–1915)</li>
+                    <li>Amplex (1910–1913) (see also American Simplex)</li>
+                    <li>Anahuac (1922)</li>
+                    <li>Anchor Buggy (1910–1911)</li>
+                    <li>Anderson (1907–1910)</li>
+                    <li>Anderson (1916–1925)</li>
+                    <li>Anderson Electric (see Detroit Electric)</li>
+                    <li>Anhut (1909–1910)</li>
+                    <li>Ann Arbor (1911–1912)</li>
+                    <li>Ansted (1926–1927)</li>
+                    <li>Ansted-Lexington (1922)</li>
+                    <li>Apollo (1906–1907)</li>
+                    <li>Apollo (1962–1964)</li>
+                    <li>Apperson (1902–1926)</li>
+                    <li>Apple (1917–1918)</li>
+                    <li>Aptera (2005–2011)</li>
+                    <li>ArBenz (1911–1918)</li>
+                    <li>Ardsley (1905–1906)</li>
+                    <li>Argo (1914–1918)</li>
+                    <li>Argo Electric (1912–1916)</li>
+                    <li>Argonaut (1959–1963)</li>
+                    <li>Argonne (1919–1920)</li>
+                    <li>Ariel (1905–1906)</li>
+                    <li>Armstrong Electric (1901–1902)</li>
+                    <li>Arnolt (1953–1963)</li>
+                    <li>Arrow (1914)</li>
+                    <li>Asardo (1959–1960)</li>
+                    <li>Astra (1920)</li>
+                    <li>Atlas (1906–1907)</li>
+                    <li>Atlas (1907–1911)</li>
+                    <li>Atlas-Knight (1912–1913)</li>
+                    <li>Auburn (1900–1936)</li>
+                    <li>Aultman (1901)</li>
+                    <li>Aurora (1957–1958)</li>
+                    <li>Austin (1901–1921) [5]</li>
+                    <li>Auto Red Bug (1916–1920)</li>
+                    <li>Autocar (1901–1912)</li>
+                    <li>Auto Cub (1956)</li>
+                    <li>Autoette (1910–1913)</li>
+                    <li>Autoette (1948–1970)</li>
+                    <li>Automatic Electric (1921)</li>
+                    <li>Avanti (1965–1991, 2000–2007)</li>
+                </ul>
+            </li>
+            <li>B
+                <ul>
+                    <li>Babcock Electric (1906–1912)</li>
+                    <li>Bailey Electric (1907–1916)</li>
+                    <li>Baker Electric (1899–1916)</li>
+                    <li>Balzer (1894–1900)</li>
+                    <li>Barley (1923–1924)</li>
+                    <li>Bates (1903–1905)</li>
+                    <li>Bay State (1922–1926)</li>
+                    <li>Beggs (1919–1923)</li>
+                    <li>Bell (1916–1922)</li>
+                    <li>Belmont (1916)</li>
+                    <li>Bendix (1908–1909)</li>
+                    <li>Benham (1914–1917)</li>
+                    <li>Berg (1903–1905)</li>
+                    <li>Bergdoll (1910–1913)</li>
+                    <li>Berkshire (1905–1912)</li>
+                    <li>Berwick Electric (1904)</li>
+                    <li>Biddle (1916–1923)</li>
+                    <li>Biesel (1914)</li>
+                    <li>Binghamton Electric (1920)</li>
+                    <li>Binney & Burnham (1901–1902)</li>
+                    <li>Birch (1916–1923)</li>
+                    <li>Birmingham (1920–1923)</li>
+                    <li>Black (1896–1900)</li>
+                    <li>Black (1908–1910)</li>
+                    <li>Black Crow (1909–1911)</li>
+                    <li>Blackhawk (1929–1930)</li>
+                    <li>Blakely (c.1972–1987)</li>
+                    <li>Bliss (1906)</li>
+                    <li>Blood (1902–1905)</li>
+                    <li>Bobbi-Kar (1945–1947)</li>
+                    <li>Borland Electric (1910–1916)</li>
+                    <li>Bour-Davis (1915–1922)</li>
+                    <li>Brennan (1902–1908)</li>
+                    <li>Brew-Hatcher (1904–1905)</li>
+                    <li>Brewster (1915–1925, 1934–1935)</li>
+                    <li>Briggs-Detroiter (1912–1917)</li>
+                    <li>Briscoe (1914–1921)</li>
+                    <li>Broc Electric (1909–1916)</li>
+                    <li>Brogan (1946–1952)[6]</li>
+                    <li>Brush (1907–1912)</li>
+                    <li>Bryan (1918–1923)</li>
+                    <li>Buckmobile (1902–1905)</li>
+                    <li>Buffalo (1900–1902)</li>
+                    <li>Buffalo Electric (1901–1906, 1912–1915)</li>
+                    <li>Buffum (1901–1906)</li>
+                    <li>Burg (1910–1913)</li>
+                    <li>Bush (1916–1924)</li>
+                </ul>
+            </li>
+            <li>C
+                <ul>
+                    <li>Cameron (1903–1920)</li>
+                    <li>Cannon (1902–1906)</li>
+                    <li>Carbon (2003–2013)</li>
+                    <li>Car de Luxe (1906–1910)</li>
+                    <li>Car-Nation (c.1912–1915)</li>
+                    <li>Carhartt (1910–1911)</li>
+                    <li>Carter Twin-Engine (1907–1908)</li>
+                    <li>Case (1911–1927)</li>
+                    <li>Cavac (1910)</li>
+                    <li>Ceco (1914–15)</li>
+                    <li>Century (1899–1903)</li>
+                    <li>Century Electric (1911–1915)</li>
+                    <li>Chadwick (1904–1916)</li>
+                    <li>Chandler (1914–1929)</li>
+                    <li>Chapman Electric (1899–1901)</li>
+                    <li>Checker (1922–1982)</li>
+                    <li>Chicago Electric (1913–1916)</li>
+                    <li>Christie (1904–1910)</li>
+                    <li>Church</li>
+                    <li>Church-Field (1912–1915)</li>
+                    <li>Citicar (1974–1983)</li>
+                    <li>Cleveland (1904–1909)</li>
+                    <li>Cleveland (1919–1926)</li>
+                    <li>Cleveland Electric (1909–1910)</li>
+                    <li>Clenet (1976–1986)</li>
+                    <li>Climber (1919–1924)</li>
+                    <li>Clipper (1955–1956)</li>
+                    <li>Coates-Goshen (1908–1910)</li>
+                    <li>Coats Steamer (1921–1923)</li>
+                    <li>Coey (1913–1917)</li>
+                    <li>Colburn (1906–1911)</li>
+                    <li>Colby (1911–1914)</li>
+                    <li>Cole (1909–1925)</li>
+                    <li>Colonial (1921–1922)</li>
+                    <li>Colonial Six (1917)</li>
+                    <li>Colt (1907)</li>
+                    <li>Columbia Electric (1897–1913)</li>
+                    <li>Columbia Six (1916–1924)</li>
+                    <li>Columbus Electric (1903–1915)</li>
+                    <li>Comet (1917–1922)</li>
+                    <li>Commerce (1922)</li>
+                    <li>Commonwealth (1917–1922)</li>
+                    <li>Consolidated (see Moyea)</li>
+                    <li>Continental (1907–1908)</li>
+                    <li>Continental (1910–1914)</li>
+                    <li>Continental (1933–1934)</li>
+                    <li>Continental Roadster (1907)</li>
+                    <li>Corbin (1904–1912)</li>
+                    <li>Corbin (1999–2003)</li>
+                    <li>Cord (1929–1932, 1936–1937)</li>
+                    <li>Correja (1908–1915)</li>
+                    <li>Courier (1904–1905)</li>
+                    <li>Courier (1910–1912)</li>
+                    <li>Courier (1923)</li>
+                    <li>Covert (1902–1907)</li>
+                    <li>Coyote (1909–1910)</li>
+                    <li>Crane (1912–1914)</li>
+                    <li>Crane & Breed (1912–1917)</li>
+                    <li>Crane-Simplex (1922)</li>
+                    <li>Crawford (1905–1923)</li>
+                    <li>Crestmobile (1901–1905)</li>
+                    <li>Cricket (1914)</li>
+                    <li>Crofton (1959–1961)</li>
+                    <li>Crosley (1939–1952)</li>
+                    <li>Crow-Elkhart (1911–1923)</li>
+                    <li>Crown (1905–1907)</li>
+                    <li>Croxton (1909–1910)</li>
+                    <li>Croxton-Keeton (1909–1910)</li>
+                    <li>Cunningham (1907–1936)</li>
+                    <li>Cunningham (1951–1955)</li>
+                    <li>Curtiss (1920–1921)</li>
+                    <li>Cutting (1909–1912)</li>
+                    <li>CVI (1907–1908)</li>
+                </ul>
+            </li>
+            <li>D
+                <ul>
+                    <li>DAC (1922–1923)</li>
+                    <li>Dagmar (1922–1927)</li>
+                    <li>Daniels (1916–1924)</li>
+                    <li>Darrin (1955–1958)</li>
+                    <li>Davis (1908–1929)</li>
+                    <li>Davis (1914)</li>
+                    <li>Davis (1947–1949)</li>
+                    <li>Davis Steam (1921)</li>
+                    <li>Day (1911–1914)</li>
+                    <li>Dayton Electric (1911–1915)</li>
+                    <li>De La Vergne (1895–1896)</li>
+                    <li>De Luxe (1910)</li>
+                    <li>De Mot (1910)</li>
+                    <li>De Schaum (1908–1909)</li>
+                    <li>De Tamble (1908–1913)</li>
+                    <li>De Vaux (1931)</li>
+                    <li>De Vaux Continental (1932)</li>
+                    <li>Devon (2008–2013)</li>
+                    <li>Deal (1905–1911)</li>
+                    <li>Del Mar (1949)</li>
+                    <li>Delling (1924–1927)</li>
+                    <li>DeLorean (1975–1982)</li>
+                    <li>Demotcar (1910–1911)</li>
+                    <li>Desberon (1901–1904)</li>
+                    <li>Detroit (1899–1902)</li>
+                    <li>Detroit (1904)</li>
+                    <li>Detroit Cyclecar (1913–1914)</li>
+                    <li>Detroit-Dearborn (1910–1911)</li>
+                    <li>Detroit Electric (1907–1939)</li>
+                    <li>Detroit-Oxford (1905–1906)</li>
+                    <li>Detroit Steam (1923)</li>
+                    <li>Detroiter (1912–1917)</li>
+                    <li>DeWitt (c.1908–1910)</li>
+                    <li>Diamond T (1905–1911)</li>
+                    <li>Diana (1925–1928)</li>
+                    <li>Dile (1914–1916)</li>
+                    <li>Dingfelder (1903)</li>
+                    <li>Dispatch (1910)</li>
+                    <li>Dixie Flyer (1916–1923)</li>
+                    <li>Doble (1914–1918, 1923–1931)</li>
+                    <li>Dodge (1914–1915)</li>
+                    <li>Dodgeson (1926)</li>
+                    <li>Dolson (1904–1907)</li>
+                    <li>Dorris (1906–1925)</li>
+                    <li>Dort (1915–1924)</li>
+                    <li>Downing-Detroit (1913–1915)</li>
+                    <li>Dragon (1906–1908)</li>
+                    <li>Drexel (1916–1917)</li>
+                    <li>Driggs (1921–1925)</li>
+                    <li>Driggs-Seabury (1913–1915)</li>
+                    <li>Dual-Ghia (1956–1962)</li>
+                    <li>Dudly Bug (1913–1915)</li>
+                    <li>Duesenberg (1920–1937)</li>
+                    <li>DuPont (1919–1931)</li>
+                    <li>Durant (1921–1932)</li>
+                    <li>Duryea (1893–1917)</li>
+                    <li>Dymaxion (1933–1934)</li>
+                </ul>
+            </li>
+            <li>E
+                <ul>
+                    <li>Earl (1921–1923)</li>
+                    <li>Eastman (1898–1900)</li>
+                    <li>Edwards (1954–1955)</li>
+                    <li>Eisenhuth (1896–1900)</li>
+                    <li>Elcar (1915–1931)</li>
+                    <li>Eldredge (1903–1906)</li>
+                    <li>Electricar (1950–1966)</li>
+                    <li>Electric Carriage (1896–1897)</li>
+                    <li>Electric Vehicle (1897–1899)</li>
+                    <li>Electrobat (see Morris & Salom)</li>
+                    <li>Elgin (1916–1924)</li>
+                    <li>Emerson (1917)</li>
+                    <li>E-M-F (1909–1912)</li>
+                    <li>Empire (1901–1902)</li>
+                    <li>Empire (1910–1919)</li>
+                    <li>Empire Steamer (1899–1900)</li>
+                    <li>Endurance (1922–1924)</li>
+                    <li>Enger (1909–1927)</li>
+                    <li>Engler (1914–1915)</li>
+                    <li>Erskine (1927–1930)</li>
+                    <li>Eshelman (1953–1963)</li>
+                    <li>Essex (1919–1932)</li>
+                    <li>Etnyre (1910–1911)</li>
+                    <li>Eureka (1900)</li>
+                    <li>Eureka (1907–1909)</li>
+                    <li>Everitt (1909–1912)</li>
+                    <li>Excel (1914)</li>
+                    <li>Excalibur (1965–1986)</li>
+                </ul>
+            </li>
+            <li>F
+                <ul>
+                    <li>Fal-Car (1909–1914) (see also A Car Without A Name)</li>
+                    <li>Falcon-Knight (1927–1929)</li>
+                    <li>Faulkner-Blanchard (1910)</li>
+                    <li>Ferris (1920–1922)</li>
+                    <li>Fiberfab (c.1964–1996)</li>
+                    <li>Fina-Sport (1953–1954)</li>
+                    <li>Firestone-Columbus (1909–1915)</li>
+                    <li>Fischer-Detroit (1914)</li>
+                    <li>Fisker[1] (2007–2014)</li>
+                    <li>Flanders Electric (1912–1914)</li>
+                    <li>Flint (1923–1927)</li>
+                    <li>Flyer (1913–1914)</li>
+                    <li>Foster (1901–1904)</li>
+                    <li>Fostoria (1915–1916)</li>
+                    <li>Fox (1921–1923)</li>
+                    <li>Franklin (1902–1934)</li>
+                    <li>Frayer-Miller (1904–1910)</li>
+                    <li>Frazen (1951–1962)</li>
+                    <li>Frazer (1947–1951)</li>
+                    <li>Fredonia (1902–1904)</li>
+                    <li>Friend (1920–1921)</li>
+                    <li>Fritchle Electric (1905–1920)</li>
+                    <li>Frontenac (1921–1925)</li>
+                    <li>FRP (1914–1916)</li>
+                    <li>FS (1911–1912)</li>
+                    <li>Fuller (1907–1909)</li>
+                </ul>
+            </li>
+            <li>G
+                <ul>
+                    <li>Gadabout (1913–1915)</li>
+                    <li>Gaeth (1902–1911)</li>
+                    <li>Gale (1905–1907)</li>
+                    <li>Gardner (1920–1931)</li>
+                    <li>Garford (1908, 1911–1913)</li>
+                    <li>Gas-au-Lec (1905–1906)</li>
+                    <li>Gasmobile (1899–1902)</li>
+                    <li>Gaylord (1911–1912)</li>
+                    <li>Gaylord (1955–1956)</li>
+                    <li>Gem (1917–1919)</li>
+                    <li>Geronimo (1917–1920)</li>
+                    <li>GJG (1909–1914)</li>
+                    <li>Glassic (1966–1976)</li>
+                    <li>Glasspar (1950–1954)</li>
+                    <li>Glide (1903–1920)</li>
+                    <li>Globe Four (1921–1922)</li>
+                    <li>Gordon (1947)</li>
+                    <li>Graham (1930–1941)</li>
+                    <li>Graham-Paige (1928–1930)</li>
+                    <li>Grant (1913–1922)</li>
+                    <li>Gray (1922–1926)</li>
+                    <li>Great Eagle (1910–1918)</li>
+                    <li>Great Smith (1907–1911)</li>
+                    <li>Great Southern (1912–1914)</li>
+                    <li>Great Western (1910–1916)</li>
+                    <li>Greenleaf (1902)</li>
+                    <li>Gregory (1920–1922)</li>
+                    <li>Grinnell (1910–1913)</li>
+                    <li>Griswold (1907)</li>
+                    <li>Grout (1900–1912)</li>
+                    <li>Gyroscope (1908–1909)</li>
+                </ul>
+            </li>
+            <li>H
+                <ul>
+                    <li>Hackett (1916–1919)</li>
+                    <li>H.A.L. (1916–1918)</li>
+                    <li>Halladay (1905–1922)</li>
+                    <li>Hammer (1905–1906)</li>
+                    <li>Hammer-Sommer (1902–1904)</li>
+                    <li>Handley-Knight (1921–1923)</li>
+                    <li>Hanson (1918–1925)</li>
+                    <li>Harrison (1905–1906)</li>
+                    <li>Harroun (1917–1922)</li>
+                    <li>Harvard (1915–1921)</li>
+                    <li>Hatfield (1907–1908)</li>
+                    <li>Hatfield (1916–1924)</li>
+                    <li>Havers (1908–1914)</li>
+                    <li>Hawk (1914)</li>
+                    <li>Haynes (1905–1924)</li>
+                    <li>Haynes-Apperson (1896–1905)</li>
+                    <li>HCS (1920–1925)</li>
+                    <li>Heine-Velox (1905–1906, 1921–1923)</li>
+                    <li>Henney (1960–1964)</li>
+                    <li>Henry (1910–1912)</li>
+                    <li>Henry J (1951–1954)</li>
+                    <li>Herff-Brooks (1915–1916)</li>
+                    <li>Herreshoff (1909–1914)</li>
+                    <li>Hertz (1924–1927)</li>
+                    <li>Hewitt-Lindstrom (1900–1901)</li>
+                    <li>Hidley (1901)</li>
+                    <li>Hitchcock (1909)</li>
+                    <li>Hi-tech (1975–1998)</li>
+                    <li>H-M Free-Way (c.1977–1985)</li>
+                    <li>Hobbie Accessible (1908–1909)</li>
+                    <li>Hoffman (1901–1904)</li>
+                    <li>Hoffman (1931)</li>
+                    <li>Hol-Tan (1908)</li>
+                    <li>Holley (1900–1904)</li>
+                    <li>Hollier (1915–1921)</li>
+                    <li>Holmes (1918–1923)</li>
+                    <li>Holsman (1903–1910)</li>
+                    <li>Hoppenstand (1949–1950)</li>
+                    <li>Howard (1913–1914)</li>
+                    <li>Huber (1903–1907)</li>
+                    <li>Hudson (1901–1902)</li>
+                    <li>Hudson (1909–1957)</li>
+                    <li>Huffman (1920–1925)</li>
+                    <li>Hupmobile (1909–1941)</li>
+                    <li>Hupp-Yeats (1911–1916)</li>
+                    <li>Huselton (1911–1914)</li>
+                </ul>
+            </li>
+            <li>I-J
+                <ul>
+                    <li>IMP (1913–1914)</li>
+                    <li>Imperial (1908–1916)</li>
+                    <li>International Harvester (1907–1911, 1956–1980)</li>
+                    <li>Inter-State (1909–1919)</li>
+                    <li>Iroquois (1903–1907)</li>
+                    <li>Jackson (1903–1923)</li>
+                    <li>Jacquet Flyer (1921)</li>
+                    <li>Jaeger (1932–1933)</li>
+                    <li>Janney (1907)</li>
+                    <li>Jeannin (1908)</li>
+                    <li>Jeffery (1914–1917)</li>
+                    <li>Jewel (1908–1909)</li>
+                    <li>Jewell (1906–1907)</li>
+                    <li>Jewett (1922–1927)</li>
+                    <li>Johnson (1905–1912)</li>
+                    <li>Jones (1914–1920)</li>
+                    <li>Jordan (1917–1931)</li>
+                    <li>JPL (1913)</li>
+                </ul>
+            </li>
+            <li>K
+                <ul>
+                    <li>Kaiser (1947–1955)</li>
+                    <li>Kansas City (1905–1909)</li>
+                    <li>Kauffman (1909–1912)</li>
+                    <li>Kearns (1909–1916)</li>
+                    <li>Keeton (1912–1914)</li>
+                    <li>Keller (1948–1950)</li>
+                    <li>Kelsey (1920–1924)</li>
+                    <li>Kensington (1899–1904)</li>
+                    <li>Kent's Pacemaker (1899–1901)</li>
+                    <li>Kenworthy (1920–1921)</li>
+                    <li>Kermath (1907–1908)</li>
+                    <li>Kess-Line (1922)</li>
+                    <li>Kessler (1921–1922)</li>
+                    <li>Keystone (1899–1900)</li>
+                    <li>Keystone (1914–1915)</li>
+                    <li>Kiblinger (1907–1909)</li>
+                    <li>Kimball Electric (1910–1912)</li>
+                    <li>King (1896, 1911–1923)</li>
+                    <li>King Midget (1947–1969)</li>
+                    <li>King-Remick (1910)</li>
+                    <li>Kissel (1907–1931)</li>
+                    <li>Kleiber (1924–1929)</li>
+                    <li>Kline Kar (1910–1923)</li>
+                    <li>Knox (1900–1914)</li>
+                    <li>Komet (1911)</li>
+                    <li>Koppin (1915)</li>
+                    <li>K-R-I-T (or Krit) (1910–1915)</li>
+                    <li>Kurtis Kraft (1949–1955)</li>
+                </ul>
+            </li>
+            <li>L
+                <ul>
+                    <li>LaFayette (1921–1924)</li>
+                    <li>Lambert (1905–1917)</li>
+                    <li>Lane (1900–1911)</li>
+                    <li>Laurel (1916–1920)</li>
+                    <li>Leach (1920–1923)</li>
+                    <li>Lenawee (1903–1904)</li>
+                    <li>Lenox (1911–1917)</li>
+                    <li>Leon Rubay (1923)</li>
+                    <li>Lewis (1914–1916)</li>
+                    <li>Lewis (1939) [7]</li>
+                    <li>Lexington (1910–1927)</li>
+                    <li>Liberty (1916–1924)</li>
+                    <li>Light (1914)</li>
+                    <li>Lincoln (1912–1913)</li>
+                    <li>Lincoln Highway (1914)</li>
+                    <li>Lion (1909–1912)</li>
+                    <li>Liquid Air (1899–1902)</li>
+                    <li>Little (1911–1913)</li>
+                    <li>Little Detroit (1913–1914)</li>
+                    <li>Little Princess (1913–1914)</li>
+                    <li>Locomobile (1899–1929)</li>
+                    <li>Logan (1904–1908)</li>
+                    <li>Lone Star (1920–1922)</li>
+                    <li>Lorraine (1920–1922)</li>
+                    <li>Lozier (1898, 1901, 1905–1918)</li>
+                    <li>LuLu (1914)</li>
+                    <li>Luverne (1904–1917)</li>
+                    <li>Lyons Atlas (1913–1915)</li>
+                </ul>
+            </li>
+            <li>M
+                <ul>
+                    <li>Madison (1915–1919)</li>
+                    <li>Maibohm (1916–1922)</li>
+                    <li>Majestic (1917)</li>
+                    <li>Malcolm Jones (1914–1915)</li>
+                    <li>Marathon (1908–1914)</li>
+                    <li>Marble-Swift (1903–1905)</li>
+                    <li>Marion (1904–1915)</li>
+                    <li>Marion Flyer (1910)</li>
+                    <li>Marion-Handley (1916–1919)</li>
+                    <li>Marmon (1902–1933)</li>
+                    <li>Marr (1903–1904)</li>
+                    <li>Martin (1928–1932)</li>
+                    <li>Marvel (1907)</li>
+                    <li>Maryland (1907–1910)</li>
+                    <li>Mason (1906–1914)</li>
+                    <li>Matheson (1903–1912)</li>
+                    <li>McFarlan (1910–1928)</li>
+                    <li>McIntyre (1909–1915)</li>
+                    <li>Mecca (1915–1916)</li>
+                    <li>Menominee (1915)</li>
+                    <li>Mercer (1910–1926)</li>
+                    <li>Mercury (1914)</li>
+                    <li>Meteor (1915–1930)</li>
+                    <li>Metz (1909–1921)</li>
+                    <li>Metzger (see Everitt)</li>
+                    <li>Michigan (1903–1908)</li>
+                    <li>Michigan (1908–1911)</li>
+                    <li>Midland (1908–1913)</li>
+                    <li>Milburn Electric (1915–1923)</li>
+                    <li>Miller (1912–1913)</li>
+                    <li>Mitchell (1903–1923)</li>
+                    <li>Model (1903–1907)</li>
+                    <li>Mohs (1967–1979)</li>
+                    <li>Moline (1904–1913)</li>
+                    <li>Moline-Knight (1914–1919)</li>
+                    <li>Monarch (1914–1917)</li>
+                    <li>Monitor (1915–1922)</li>
+                    <li>Monroe (1914–1923)</li>
+                    <li>Moon (1905–1929)</li>
+                    <li>Moore (1906–1909)</li>
+                    <li>Moore (1916–1920)</li>
+                    <li>Mora (1906–1911)</li>
+                    <li>Morris & Salom (1894–1897)</li>
+                    <li>Morse (1910–1916)</li>
+                    <li>Mosler (1993–2013)[8]</li>
+                    <li>Motor Bob (1914)</li>
+                    <li>Moyea (1903–1904)</li>
+                    <li>Moyer (1908–1915)</li>
+                    <li>MPM (1914–1915)</li>
+                    <li>Munson (1896–1900)</li>
+                    <li>Muntz (1951–1954)</li>
+                    <li>Murray (1916–1921)</li>
+                    <li>Murray-Mac (1921–1929)</li>
+                    <li>Myers</li>
+                </ul>
+            </li>
+            <li>N-O
+                <ul>
+                    <li>Nash (1917–1957)</li>
+                    <li>Nash-Healey (1951–1954)</li>
+                    <li>National (1900–1924)</li>
+                    <li>Navajo (1953–1954)</li>
+                    <li>Nelson (1917–1921)</li>
+                    <li>New Parry (1911–1912)</li>
+                    <li>Niagara (1903–1905)</li>
+                    <li>Nielson (1907)</li>
+                    <li>Noma (1919–1923)</li>
+                    <li>Northern (1902–1908)</li>
+                    <li>Northway (1921–1922)</li>
+                    <li>Norwalk (1910–1922)</li>
+                    <li>Nu-Klea (1959–1960)</li>
+                    <li>Nyberg (1911–1914)</li>
+                    <li>O-We-Go (1914)</li>
+                    <li>Ogren (1915–1917, 1920–1923)</li>
+                    <li>Ohio (1909–1912)</li>
+                    <li>Ohio Electric (1910–1918)</li>
+                    <li>Oliver (1912)</li>
+                    <li>Olympian (1917–1921)</li>
+                    <li>Orient (1902–1908)</li>
+                    <li>Orlo (1904)</li>
+                    <li>Overland (1903–1926, 1939)</li>
+                    <li>Owen Magnetic (1915–1922)</li>
+                </ul>
+            </li>
+            <li>P
+                <ul>
+                    <li>Packard (1899–1958)</li>
+                    <li>Paige (1911–1928)</li>
+                    <li>Paige-Detroit (1909–1912)</li>
+                    <li>Palmer-Singer (1908–1914)</li>
+                    <li>Pan (1917–1923)[9]</li>
+                    <li>Parry (1910)</li>
+                    <li>Partin (1913)</li>
+                    <li>Partin-Palmer (1913–1917)</li>
+                    <li>Paterson (1909–1923)</li>
+                    <li>Pathfinder (1912–1917)</li>
+                    <li>Peerless (1900–1931)</li>
+                    <li>Penn (1910–1913)</li>
+                    <li>Pennant (1924–1925)</li>
+                    <li>Pennsylvania (1907–1911)</li>
+                    <li>Petrel (1909–1912)</li>
+                    <li>Phelps (1903–1905)</li>
+                    <li>Phianna (1917–1922)</li>
+                    <li>Piedmont (1917–1922)</li>
+                    <li>Pierce-Arrow (1901–1938)</li>
+                    <li>Pierce-Racine (1904–1911)</li>
+                    <li>Piggins (1909)</li>
+                    <li>Pilot (1909–1924)</li>
+                    <li>Pittsburgh Six (1908–1910)</li>
+                    <li>Plass (1897)</li>
+                    <li>Playboy (1947–1951)</li>
+                    <li>Pope-Hartford (1904–1914)</li>
+                    <li>Pope-Robinson (1902–1904)</li>
+                    <li>Pope-Toledo (1903–1909)</li>
+                    <li>Pope-Tribune (1904–1908)</li>
+                    <li>Pope-Waverley (1903–1908)</li>
+                    <li>Powell (1955–1956)</li>
+                    <li>Pratt (1911–1915)</li>
+                    <li>Premier (1902–1926)</li>
+                    <li>Princess (1914–1918)</li>
+                    <li>Publix (1947–1948)</li>
+                    <li>Pullman (1905–1917)</li>
+                    <li>Pungs Finch (1904–1908)</li>
+                    <li>Pup (1948–1949)</li>
+                    <li>Quantum (1959–1965)</li>
+                </ul>
+            </li>
+            <li>Q
+                <ul>
+                    <li>Queen (1904–1907)</li>
+                    <li>Quick (1899–1900)</li>
+                    <li>Quinby (1899)</li>
+                </ul>
+            </li>
+            <li>R
+                <ul>
+                    <li>Rambler (1902–1913)</li>
+                    <li>Rambler (1958–1968)</li>
+                    <li>Rapid (1902–1909)</li>
+                    <li>Rauch & Lang (1905–1932)</li>
+                    <li>Rayfield (1911–1915)</li>
+                    <li>Reber (1902–1903)</li>
+                    <li>Regal (1908–1918)</li>
+                    <li>Reliable-Dayton (1906–1909)</li>
+                    <li>Reliance (1904–1906)</li>
+                    <li>Reo (1905–1936)</li>
+                    <li>Republic (1910–1916)</li>
+                    <li>ReVere (1918–1926)</li>
+                    <li>Richelieu (1922–1923)</li>
+                    <li>Richmond (1904–1917)</li>
+                    <li>Rickenbacker (1922–1927)</li>
+                    <li>Riker (1897–1902)</li>
+                    <li>Riotte (1895, 1899)</li>
+                    <li>R-O (see Owen)</li>
+                    <li>Roader (1911–1912)</li>
+                    <li>Roamer (1916–1929)</li>
+                    <li>Robe (1914–1915)</li>
+                    <li>Robie (1914)</li>
+                    <li>Robinson (1900–1902)</li>
+                    <li>Robson (1909)</li>
+                    <li>Roche (1924–1925)</li>
+                    <li>Rochester (1901)</li>
+                    <li>Rochester (1901–1902)</li>
+                    <li>Rockaway (1902–1903)</li>
+                    <li>Rockaway (1903–1904)</li>
+                    <li>Rocket (see Scripps-Booth)</li>
+                    <li>Rock Falls (1919–1925)</li>
+                    <li>Rockne (1932–1933)</li>
+                    <li>Rockway (1910–1911)</li>
+                    <li>Rockwell (1910–1911)</li>
+                    <li>Rodgers (1921)</li>
+                    <li>Roebling-Planche (1909)</li>
+                    <li>Rogers (1899–1900) (see also Steamobile)</li>
+                    <li>Rogers (1911–1912)[10]</li>
+                    <li>Rogers & Hanford (1899–1902)</li>
+                    <li>Rogers & Thatcher (1903)</li>
+                    <li>Rollin (1924–1925)</li>
+                    <li>Rolls-Royce (1921–1935)</li>
+                    <li>Romer (1921)</li>
+                    <li>Roosevelt (1929–1930)</li>
+                    <li>Roper (1860–1896)</li>
+                    <li>Ross (1915–1918)</li>
+                    <li>Ross Steamer (1905–1909)</li>
+                    <li>Rotary (1903–1905)</li>
+                    <li>Rotary (1921–1923)</li>
+                    <li>Rovena (1926)</li>
+                    <li>Royal Tourist (1904–1911)</li>
+                    <li>Rugby (1922–1928)</li>
+                    <li>Rutenber (1902)</li>
+                    <li>Ruxton (1929–1930)</li>
+                    <li>R&V Knight (1920–1924)</li>
+                </ul>
+            </li>
+            <li>S
+                <ul>
+                    <li>Saleen[2] (1984–2009)</li>
+                    <li>Sampson (1911)</li>
+                    <li>Saxon (1913–1922)</li>
+                    <li>Sayers (1917–1924)</li>
+                    <li>Scarab (1958)</li>
+                    <li>Schacht (1904–1914)</li>
+                    <li>Schaum (1901–1905)</li>
+                    <li>Searchmont (1900–1903)</li>
+                    <li>Sears (1908–1912)</li>
+                    <li>Sebring-Vanguard (1974-1978)</li>
+                    <li>Selden (1909–1912)</li>
+                    <li>Severin (1920–1921)</li>
+                    <li>SGV (1911–1915)</li>
+                    <li>Shad-Wyck (1917–1923)</li>
+                    <li>Shawmobile (or Shaw) (1920–1930)</li>
+                    <li>Simplex (1907–1919)</li>
+                    <li>Simplo (1908–1909)</li>
+                    <li>Sinclair-Scott (1904–1907)</li>
+                    <li>Singer (1914–1920)</li>
+                    <li>Single Center (1907–1908)</li>
+                    <li>Sintz (1899–1904)</li>
+                    <li>Skelton (1920–1922)</li>
+                    <li>Skene (1900–1901)</li>
+                    <li>Smith (1903–1907)</li>
+                    <li>Smith Flyer (1915–1919)</li>
+                    <li>SM Motors[11][12] (2009–2010)</li>
+                    <li>Soules (1905–1908)</li>
+                    <li>Spacke (1919–1920)</li>
+                    <li>Spaulding (1910–1916)</li>
+                    <li>Speedwell (1907–1914)</li>
+                    <li>St. Louis (1899–1907)</li>
+                    <li>Standard (1904–1908)</li>
+                    <li>Standard (1912–1923)</li>
+                    <li>Standard (1915–1923)</li>
+                    <li>Standard Electric (or Standard Electrique) (1911–1915)</li>
+                    <li>Standard Six (1909–1910)</li>
+                    <li>Standard Steam (1920–1921)</li>
+                    <li>Stanley (1896–1924)</li>
+                    <li>Stanwood (1920–1922)</li>
+                    <li>Star (1922–1928)</li>
+                    <li>Staver (1907–1914)</li>
+                    <li>Steamobile (1900–1902)</li>
+                    <li>Stearns (1900–1911)</li>
+                    <li>Stearns-Knight (1912–1929)</li>
+                    <li>Stearns Automobile Company (1901–1904)</li>
+                    <li>Stephens (1917–1924)</li>
+                    <li>Sterling-Knight (1920–1926)</li>
+                    <li>Stevens-Duryea (1901–1927)</li>
+                    <li>Stewart (1915–1916)</li>
+                    <li>Stewart-Coats (1922)</li>
+                    <li>Stoddard-Dayton (1904–1913)</li>
+                    <li>Stout-Scarab (1932–1936)</li>
+                    <li>Studebaker (1902–1966)</li>
+                    <li>Studebaker-Garford (1904–1911)</li>
+                    <li>Stutz (1911–1935)</li>
+                    <li>Success (1906–1909)</li>
+                    <li>Sultan (1908–1912)</li>
+                    <li>Sun (1916–1917)</li>
+                    <li>Sun (1921–1922)</li>
+                </ul>
+            </li>
+            <li>T-V
+                <ul>
+                    <li>Templar (1917–1924)</li>
+                    <li>Terraplane (1932–1938)</li>
+                    <li>Texan (1920–1922)</li>
+                    <li>TH!NK (1991–2011)</li>
+                    <li>Thomas (1902–1919)</li>
+                    <li>Thomas-Detroit (1906–1908)</li>
+                    <li>Tincher (1903–1909)</li>
+                    <li>Totem (1921–1922)</li>
+                    <li>Towne Shopper (1948)</li>
+                    <li>Tourist (1902–1910)</li>
+                    <li>Trihawk (1983–c.1987)</li>
+                    <li>Tropica EV (1995) [13]</li>
+                    <li>Twombly (1910)</li>
+                    <li>Twombly (1913–1915)</li>
+                    <li>Tucker (1948)</li>
+                    <li>Tulsa (1918–1922)</li>
+                    <li>Union (1902–1905)</li>
+                    <li>Upton (1902–1903)[14]</li>
+                    <li>Upton (1905–1907)</li>
+                    <li>US Automobile (1899–1901)</li>
+                    <li>Van Wagoner (1899–1900)</li>
+                    <li>Velie (1908–1929)</li>
+                    <li>Virginian (1911–1912)</li>
+                    <li>Vulcan (1913–1915)</li>
+                </ul>
+            </li>
+            <li>W
+                <ul>
+                    <li>Wagenhals (1910–1915)</li>
+                    <li>Walter (1902–1909)</li>
+                    <li>Walker (1905–1906)</li>
+                    <li>Waltham (or Waltham-Orient) (1905–1908, 1922)</li>
+                    <li>Ware (1861–1867)</li>
+                    <li>Warren-Detroit (1910–1913)</li>
+                    <li>Wasp (1919–1924)</li>
+                    <li>WaterCar</li>
+                    <li>Waverley Electric (1898–1903, 1909–1916) (see also Pope-Waverley)</li>
+                    <li>Wayne (1904–1908)</li>
+                    <li>Westcott (1912–1925)</li>
+                    <li>Whippet (1927–1931)</li>
+                    <li>White (1900–1918)</li>
+                    <li>Wills Sainte Claire (1921–1927)</li>
+                    <li>Willys (1916–1918, 1930–1942, 1953–1963)</li>
+                    <li>Willys Knight (1914–1933)</li>
+                    <li>Wilson (1903–1905)</li>
+                    <li>Windsor (1929–1930)</li>
+                    <li>Winton (1896–1924)</li>
+                    <li>Winther (1921–1923)</li>
+                    <li>Wolverine (1927–1928)</li>
+                    <li>Woodill (1952–1956)</li>
+                    <li>Woods Electric (1899–1916)</li>
+                </ul>
+            </li>
+            <li>X-Z
+                <ul>
+                    <li>Xenia (1914)</li>
+                    <li>Yale (1902–1905)</li>
+                    <li>Yale (1916–1918)</li>
+                    <li>Yellow Cab (1915–1930)</li>
+                    <li>ZAP</li>
+                    <li>Zent (1900–1902, 1904–1906)</li>
+                    <li>Zimmerman (1908–1915)</li>
+                    <li>Zip (1913–1914)</li>
+                    <li>Zoe</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+                `;
+                return strHTML;
+            }
+    </script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- START MULTISELECT -->
+            <div class="JSMultiselect container-fluid" name="towns" data-load-type="HTML" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry"></div>
+        </div>
+    </body>
+</html>
