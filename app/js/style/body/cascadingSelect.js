@@ -44,22 +44,28 @@ define(['require',
             });
         });
 
-        $multiselect.on("change", keyHeaders + " " + keyCheckbox, function() {
+        var selectHeader = function(event) {
             var $this = $(this);
-            if ($this.is(":focus")) {
-                var isChecked = $(this).is(':checked');
-                var item = $this.parent();
-                var listId = item.data("target");
-                var list = $(listId);
-                var setItems = null;
-                if (isChecked) {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
-                } else {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
-                }
-                if (setItems != null) setItems.prop('checked', isChecked).change();
+            var isChecked = $this.is(':checked');
+            var item = $this.parent();
+            var listId = item.data("target");
+            var list = $(listId);
+            var setItems = null;
+            if (isChecked) {
+                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
+            } else {
+                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
             }
+            if (setItems != null) setItems.prop('checked', isChecked).change();
+        };
+
+
+        $multiselect.on("click", keyHeaders + " " + keyCheckbox, selectHeader);
+        $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
+            if (event.keyCode == 13)
+                selectHeader(event);
         });
+
         var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
         HeaderItems.each(function() {
             $($(this).data("target")).find(keyNonheaders + " " + keyCheckbox).prop('checked', true);

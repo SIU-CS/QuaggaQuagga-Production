@@ -19,17 +19,21 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
         isPopped.push({
             remove: (function() {
                 var Item = item;
-                var Index = isPopped.length;
                 var ItemCheckbox = item['@element'].find(".JSM-checkbox");
                 var PoppedItem = poppedItem;
 
-                var remove = function() {
-                    if (PoppedItem != null) {
+                var remove = function(event) {
+                    if (PoppedItem != null && Item != null) {
                         PoppedItem.remove();
-                        setData.setSelectedForItem(Item, false);
-                        isPopped.splice(Index, 1);
+                        if (Item['@isHeader'] || event != null)
+                            setData.setSelectedForItem(Item, false);
+
+                        var items = isPopped.map(function(p) { return p.item; });
+                        var itemIndex = items.indexOf(Item);
+                        if (itemIndex >= 0)
+                            isPopped.splice(itemIndex, 1);
                     }
-                }
+                };
                 PoppedItem.find(".JSM-closePopover").on("click", remove);
                 return remove;
             }()),
@@ -46,8 +50,7 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
                 if (data == null) return [];
                 var rv = [];
                 for (var i in data) {
-                    if (data[i] == null) continue;
-                    if (data[i]['@selected']) {
+                    if (data[i] != null && data[i]['@selected']) {
                         rv.push(data[i]);
                     } else if (data[i]['@isHeader']) {
                         rv = rv.concat(recurseChildren(data[i]['@children']));
@@ -57,21 +60,25 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
             };
             shouldBePopped = recurseChildren(data);
 
-            var shouldElements = shouldBePopped.map(function(item) {
-                return item['@element'];
-            });
-            var isElements = isPopped.map(function(item) {
-                return item['item']['@element'];
-            });
-            for (var i = 0 ; i < isElements.length; i += 1) {
-                var index = shouldElements.indexOf(isElements[i]);
+            var i;
+            for (i = 0 ; i < isPopped.length; i += 1) {
+                var index = -1;
+                // finds the index for those that should be popped
+                for (var should = 0; should < shouldBePopped.length; should += 1) {
+                    if (shouldBePopped[should]['@element'] == isPopped[i]['item']['@element']) {
+                        index = should;
+                    }
+                }
+                // if already popped, don't pop again
                 if (index >= 0) {
                     shouldBePopped.splice(index, 1);
-                } else {
+                } else { // if isPopped should not be, remove it
                     isPopped[i].remove();
+                    i -= 1; // adjusts the index
                 }
             }
-            for (var i = 0; i < shouldBePopped.length; i += 1) {
+            // all those that should be popped but are not need to be displayed
+            for (i = 0; i < shouldBePopped.length; i += 1) {
                 Popup(shouldBePopped[i], $multiselect);
             }
         }
