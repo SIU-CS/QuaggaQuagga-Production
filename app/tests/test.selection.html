@@ -1,0 +1,233 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <!-- data-main attribute tells require.js to load
+        scripts/main.js after require.js loads. -->
+        <script src="../../dist/main.js"></script>
+        <script>
+            var expectedSelectedArray = [
+                                            {
+                                                "name": "a Item 2",
+                                                "value": "2"
+                                            },
+                                            {
+                                                "name": "z Item a",
+                                                "value": "5"
+                                            },
+                                            {
+                                                "name": "Item 1.8",
+                                                "value": "1.1"
+                                            },
+                                            {
+                                                "name": "Item 1.2",
+                                                "value": ""
+                                            },
+                                            {
+                                                "name": "Item 1.4",
+                                                "value": ""
+                                            },
+                                            {
+                                                "name": "Item 1.2.1",
+                                                "value": "1.2.1"
+                                            },
+                                            {
+                                                "name": "Item 1.2.1",
+                                                "value": "1.2.1"
+                                            },
+                                            {
+                                                "name": "Item 1.7 a",
+                                                "value": ""
+                                            }
+                                        ];
+            var expectedDeslectedArray = [{name: "h2", value: ""}];
+            var selectArray = [];
+            var deselectArray = [];
+            function displaySelectedOutput(output) {
+                output =JSON.stringify(output, null, 2);
+                $("#selected-output").text(output);
+            }
+            function displayDeselectedOutput(output) {
+                output =deselectArray;
+                $("#deselected-output").text(output);
+            }
+            function displayExpectedDeselectOutput(output) {
+                output =expectedSelectedArray;
+                $("#expected-deselect-output").text(output);
+            }
+            function displayExpectedSelectedOutput(output) {
+                output =JSON.stringify(output, null, 2);;
+                $("#expected-select-output").text(output);
+            }
+            function loadSettings() {
+                return {
+                    output: 
+                    {
+                       onSelect: function(value) 
+                       {
+                            selectArray.push(value);
+                            console.log(value);
+                       },
+                       onDeselect: function(value) {
+                           console.log(value);
+                           deselectArray.push(value);
+                       }
+                    },
+                }
+                }
+            
+            // a test function
+            function loadData() {
+                var array = [
+                    { // a header
+                        "name": "Item 1",
+                        "searchable": "search me",
+                        "selected": false,
+                        "image": "./quagga.jpg",
+                        "icon": "fa fa-chrome",
+                        "items": [
+                            { // list of items 
+                                "name": "Item 1.8",
+                                "searchable": "search me",
+                                "selected": false,
+                                "value" : "1.1",
+                                "icon": "fa fa-chrome"
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item 1.2",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item 1.2.1",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item 1.4",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item 1.2.1",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item 1.7 a",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item 1.2.1",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "a Item 2",
+                        "searchable": "search me",
+                        "selected": true,  
+                        "value" : "2" 
+                    },
+                    {
+                        "name": "z Item a",
+                        "searchable": "search me",
+                        "selected": true,  
+                        "value" : "5" 
+                    }
+                ];
+               
+                return array;
+            }
+        JSMultiselect.onload.addCallback(function() {
+            // autoselect/deselect
+            var count = 0;
+            $(".JSM-checkbox").each(function() {
+                if(count%3 != 0) {
+                    $(this).prop('checked', !$(this).prop('checked'));
+                    $(this).change();
+                }
+                
+                count += 1;
+            });
+            // check
+            console.log(selectArray);
+            var success = false;
+            if(JSON.stringify(selectArray)==JSON.stringify(expectedSelectedArray))
+                success = true;
+            else
+                success = false;
+
+            if (success) {
+                    $("#success").removeClass('hidden');
+                } else {
+                    $("#failure").removeClass('hidden');
+                }
+        displaySelectedOutput(selectArray);
+        displayExpectedSelectedOutput(expectedSelectedArray);
+        });
+    </script>
+    </head>
+    <body>
+
+    
+
+    <div style="height: 60px; text-align: center;">
+        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+            <h3>Test Succeeded!</h3>
+        </div>
+        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+            <h3>Test Failed! Check Warnings</h3>
+        </div>
+    </div>
+    <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
+        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Selected-output:</h2>
+                <pre id="selected-output">
+        
+                </pre>
+            </div>
+                
+            <div class="col-md-6">
+                <h2 class="text-center">Expected Output:</h2>
+                <pre id="expected-select-output">
+
+                </pre>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+

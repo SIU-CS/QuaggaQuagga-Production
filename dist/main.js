@@ -1047,8 +1047,9 @@ function(require, $) {
         <input type="checkbox" class='checkbox JSM-checkbox' ` +
         "value=\"" + (value != null ? value: "") + "\"" +
         // returns "on" if no value and a name
-        "name=\""+ (name != null && value != null ?  name : "")+"\"" +
-        (checked ? "checked=\"checked\"" : "") + `>`;
+        "name=\""+ (name != null && value != null ?  name : "") +"\"" +
+        (checked ? "checked=\"checked\"" : "") + 
+        "data-name=\"" + name + "\"" + `>`;
         
     }
 
@@ -2671,9 +2672,72 @@ define('utility/showHideItems',['require',
 
 define('searching/searchHelper',['require', 'jquery', 'data_store/get', 'utility/showHideItems'],
     function (require, $, getData, showHideItems) {
+<<<<<<< HEAD
+=======
     'use strict';
 
     var jquery = $;
+
+    var searchByFunction = function(determineSearch, data, isCaseSensitive, filterInterval) {
+        var returnVisible = false;
+        for (var i = 0; i < data.length; i += 1) {
+            var item = data[i];
+
+            var name = item['@name'];
+            var searchable = item['@searchable'];
+            if (!isCaseSensitive) {
+                name = name.toLowerCase();
+                searchable = searchable.toLowerCase();
+            }
+            if (filterInterval == null || filterInterval == '') {
+                filterInterval = 0;
+            }
+
+            // if input is not empty, and the input matches an entry in the 
+            // multiselect, show the item and its children
+            if (determineSearch(name, searchable)) {
+                showHideItems.showItem(item);
+                showHideItems.showAllChildren(item);
+                returnVisible = true;
+            } else {
+                if (item['@isHeader']) {
+                    // recursively performs the plain text search on the child items 
+                    // to check if they are visible
+                    var isAnyVisible = searchByFunction(
+                        determineSearch, 
+                        item['@children'], 
+                        isCaseSensitive,
+                        filterInterval
+                    );
+                    if (isAnyVisible) {
+                        showHideItems.showItem(item);
+                        returnVisible = true;
+                    } else {
+                        showHideItems.hideItem(item);
+                    }
+                } else {
+                    showHideItems.hideItem(item);
+                }
+            }
+        }
+        return returnVisible;
+    };
+    return {
+        searchByFunction: searchByFunction,
+        clearSearch: function($multi) {
+            var $searchBar = $multi.find(".JSM-head .JSM-search .JSM-searchbar");
+            $searchBar.val("");
+            $searchBar.trigger("keyup");
+        }
+    };
+});
+define('style/popover',['require', 'jquery', 'data_store/get', 'data_store/set', 'style/body/spaceIndent', 'searching/searchHelper'], 
+function(require, $, getData, setData, spaceIndent, searchHelper) {
+>>>>>>> dev
+    'use strict';
+
+    var jquery = $;
+<<<<<<< HEAD
 
     var searchByFunction = function(determineSearch, data, isCaseSensitive, filterInterval) {
         var returnVisible = false;
@@ -2737,6 +2801,32 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
 
     // Function to Display popovers after selection
     function Popup(item, $multiselect){
+=======
+    var itemNum = 0;
+
+    function showHideHandler($multiselect, $popDisplay, onClose) {
+        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar");
+        $searchBar.on("focus", function() {
+            $popDisplay.empty();
+            $popDisplay.collapse("hide");
+        // Display list when search bar is on focus 
+            $multiselect.find(".JSM-list.collapse").collapse("show");
+            spaceIndent.refresh($multiselect);
+        });
+        var $close = $multiselect.find(".JSM-head .JSM-closePopList");
+        $close.on("click", function() {
+        // Hide list when ClosePoplist is clicked and show the selected items as popovers
+            $multiselect.find(".JSM-list.collapse").collapse("hide");
+            $popDisplay.empty();
+            $popDisplay.collapse("show");
+            searchHelper.clearSearch($multiselect);
+            if (onClose != null) onClose();
+        });
+    }
+        // Function to Display popovers after selection
+    function Popup(item, $popDisplay){
+        $popDisplay.append(
+>>>>>>> dev
         // Popover Basic style
         var poppedItem = $(            
             '<span class="JSM-popover">'+
@@ -3110,95 +3200,6 @@ function(require, getData, $, fuzzySearch, textSearch) {
 
     return handler;
 });
-define('utility/verifySettings',['require', 'jquery'], function (require, $) {
-    'use strict';
-    
-    var jquery = $;
-
-    /**
-     * This function ensures we are getting proper settings for the multiselect
-     * @param {Function} settingsFunction A function that returns the settings for the multiselect
-     */
-    function verifySettingsFunction(settingsFunction) {
-        if (!$.isFunction(window[settingsFunction])) return null;
-        var settings = window[settingsFunction]();
-        return settings;
-    }
-
-    return verifySettingsFunction;
-});
-define('init',['require', 
-        'jquery',  
-        'data_input/load',
-        'sort/sort.config',
-        'display/display.config', 
-        'style/style.config',
-        'searching/searching.config',
-        'consts',
-        'data_store/new',
-        'utility/verifySettings'
-    ], function(require, $, loadData, sortConfig,
-        displayConfig, styleConfig, searchConfig) {
-    'use strict';
-    var jquery = $;
-    var CONSTS = require("consts");
-    var dataStoreNew = require('data_store/new');
-    var verifySettings = require('utility/verifySettings');
-    // for each multiselect on the screen
-    $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
-        var $this = $(this);
-        // get the data items from the list
-        var loadType = $this.data('load-type'); // the type of data the developer is giving
-        var loadFunction = $this.data('load'); // the function to call to get the data
-        var settings = verifySettings($this.data('settings')); // the type of data the developer is giving
-        var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
-        // parse the data from the above function
-        var data = loadData.load(loadFunction, loadType);
-        // set new data store for multiselect
-        var name = dataStoreNew.newMultiselect(this, data, settings, title);
-        // adds the output functions for ths multiselect
-        //outputConfig($this, name);
-        // sorting the data in the multiselect
-        sortConfig(name);
-        // if we couldn't set a new data store, error here
-        if (name == null) return;
-        // display list and title
-        displayConfig(name);
-        // configure the searching
-        searchConfig(name);
-        // check those selected in the list
-        styleConfig($this, name);
-    });
-});
-define('data_input/interface',['require', 'jquery', 'data_store/new', "consts", 'data_input/load'],
-    function (require, $, newData, CONSTS, loadData) {
-    'use strict';
-
-    var rootObject = CONSTS.GET_ROOT_OBJECT_REF();
-
-    rootObject['AddData'] = {};
-    var loadTypes = loadData.loadTypes();
-    $.each(loadTypes, function(i, Type) {
-        rootObject['AddData'][Type] = (function() {
-            var type = Type;
-            return function(multiname, unprocessed) {
-                var data;
-                if ($.isFunction(unprocessed)) {
-                    data = loadData.load(unprocessed, type);
-                } else {
-                    data = loadData.load(function() {
-                        return unprocessed;
-                    }, type);
-                }
-                if (data == null) {
-                    console.warn("Error loading new data.");
-                } else {
-                    newData.addNewData(multiname, data);
-                }
-            };
-        }());
-    });
-});
 define('data_output/flatArray',['require', 'jquery', 'data_store/get'], function(require, $, getData) { 
     'use strict';
 
@@ -3294,6 +3295,158 @@ function(require, CONSTS, flatArray, JSONoutput) {
         flatArray: flatArray,
         JSON: JSONoutput
     };
+});
+define('data_output/selectionOutput',['require', 'jquery', 'data_store/get'], function (require) {
+    'use strict';
+    
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var get = require('data_store/get');
+
+
+    function handler($multiselect, onSelect, onDeselect) 
+    {
+        if(onSelect != null || onDeselect != null)
+        {
+            $multiselect.on("change", ".JSM-list .JSM-checkbox", function() 
+            {
+                var $this = $(this);
+                var name = $this.data("name");
+                var value = $this.attr("value");
+                if (name != null && value != null) {
+                    var rv = { name: name, value: value }
+                    if (this.checked) 
+                    {
+                        onSelect(rv);
+                    } else 
+                    {
+                        onDeselect(rv);
+                    }
+                }
+            });
+        }
+        else
+        {
+            console.warn("The notification function which you defined is null.");
+        }
+    }
+    return handler;
+
+});
+define('data_output/data_output.config',['require',
+        'data_store/get',
+        'jquery', 
+        'data_output/interface', 
+        'data_output/selectionOutput', 
+    ], 
+function(require, getData, $, outInterface, selectionOut) {
+    'use strict';
+    var jquery = $;
+
+    /**
+     * Handles the style part of the multiselect, selecting the apprpriate styles
+     * For each based upon optons/multiselect type
+     * @param {jquery element} $multiselect the targeted multiselect
+     */
+    function handler($multiselect, name) {
+        var outputSettings = getData.getSettingByName("output", name);
+
+        if (outputSettings != null) {
+            selectionOut($multiselect, outputSettings.onSelect, outputSettings.onDeselect);
+        }
+    }
+
+    return handler;
+});
+define('utility/verifySettings',['require', 'jquery'], function (require, $) {
+    'use strict';
+    
+    var jquery = $;
+
+    /**
+     * This function ensures we are getting proper settings for the multiselect
+     * @param {Function} settingsFunction A function that returns the settings for the multiselect
+     */
+    function verifySettingsFunction(settingsFunction) {
+        if (!$.isFunction(window[settingsFunction])) return null;
+        var settings = window[settingsFunction]();
+        return settings;
+    }
+
+    return verifySettingsFunction;
+});
+define('init',['require', 
+        'jquery',  
+        'data_input/load',
+        'sort/sort.config',
+        'display/display.config', 
+        'style/style.config',
+        'searching/searching.config',
+        'data_output/data_output.config',
+        'consts',
+        'data_store/new',
+        'utility/verifySettings'
+    ], function(require, $, loadData, sortConfig,
+        displayConfig, styleConfig, searchConfig, outputConfig) {
+    'use strict';
+    var jquery = $;
+    var CONSTS = require("consts");
+    var dataStoreNew = require('data_store/new');
+    var verifySettings = require('utility/verifySettings');
+    // for each multiselect on the screen
+    $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
+        var $this = $(this);
+        // get the data items from the list
+        var loadType = $this.data('load-type'); // the type of data the developer is giving
+        var loadFunction = $this.data('load'); // the function to call to get the data
+        var settings = verifySettings($this.data('settings')); // the type of data the developer is giving
+        var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
+        // parse the data from the above function
+        var data = loadData.load(loadFunction, loadType);
+        // set new data store for multiselect
+        var name = dataStoreNew.newMultiselect(this, data, settings, title);
+        // adds the output functions for ths multiselect
+        outputConfig($this, name);
+        // sorting the data in the multiselect
+        sortConfig(name);
+        // if we couldn't set a new data store, error here
+        if (name == null) return;
+        // display list and title
+        displayConfig(name);
+        // configure the searching
+        searchConfig(name);
+        // check those selected in the list
+        styleConfig($this, name);
+    });
+});
+define('data_input/interface',['require', 'jquery', 'data_store/new', "consts", 'data_input/load'],
+    function (require, $, newData, CONSTS, loadData) {
+    'use strict';
+
+    var rootObject = CONSTS.GET_ROOT_OBJECT_REF();
+
+    rootObject['AddData'] = {};
+    var loadTypes = loadData.loadTypes();
+    $.each(loadTypes, function(i, Type) {
+        rootObject['AddData'][Type] = (function() {
+            var type = Type;
+            return function(multiname, unprocessed) {
+                var data;
+                if ($.isFunction(unprocessed)) {
+                    data = loadData.load(unprocessed, type);
+                } else {
+                    data = loadData.load(function() {
+                        return unprocessed;
+                    }, type);
+                }
+                if (data == null) {
+                    console.warn("Error loading new data.");
+                } else {
+                    newData.addNewData(multiname, data);
+                }
+            };
+        }());
+    });
 });
 (function() {
     'use strict';

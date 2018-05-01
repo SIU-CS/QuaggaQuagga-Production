@@ -1,7 +1,9 @@
 (function() {
     'use strict';
     const hound = require("./lib/node-hound");
-    const { spawn, exec } = require('child_process');
+    const childProcess = require('child_process');
+    const spawn = childProcess.spawn;
+    const exec = childProcess.exec;
 
     /*
      * Watch JavaScript files
