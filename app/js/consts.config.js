@@ -48,7 +48,7 @@ define(['require', 'jquery'],function (require) {
                 <div class="JSM-popoverDisplay collapse in">
                 </div>
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-                <div class="JSM-list list-group-root collapse">
+                <div class="JSM-list list-group-root">
                     
                 </div>
             </div>

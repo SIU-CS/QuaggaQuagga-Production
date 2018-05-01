@@ -3,79 +3,80 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
     'use strict';
     
     var jquery = $;
-    var itemNum = 0;
+    var isPopped = [];
 
-    function showHideHandler($multiselect, $popDisplay, onClose) {
-        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar");
-        $searchBar.on("focus", function() {
-            $popDisplay.empty();
-            $popDisplay.collapse("hide");
-        // Display list when search bar is on focus 
-            $multiselect.find(".JSM-list.collapse").collapse("show");
-            spaceIndent.refresh($multiselect);
-        });
-        var $close = $multiselect.find(".JSM-head .JSM-closePopList");
-        $close.on("click", function() {
-        // Hide list when ClosePoplist is clicked and show the selected items as popovers
-            $multiselect.find(".JSM-list.collapse").collapse("hide");
-            $popDisplay.empty();
-            $popDisplay.collapse("show");
-            searchHelper.clearSearch($multiselect);
-            if (onClose != null) onClose();
-        });
-    }
-        // Function to Display popovers after selection
-    function Popup(item, $popDisplay){
-        $popDisplay.append(
+    // Function to Display popovers after selection
+    function Popup(item, $multiselect){
         // Popover Basic style
+        var poppedItem = $(            
             '<span class="JSM-popover">'+
                 item["@name"] +
-                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
+                '<span class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
             '</span>'
         );
-    
+        $multiselect.find(".JSM-popoverDisplay").append(poppedItem);
 
-        (function() {
-            var Item = item;
-            var selector = '#JSM-closePopover-'+itemNum;
-            $(".JSM-body " + selector).on("click", function() {
-                setData.setSelectedForItem(Item, false, true);
-                $(this).parent().remove();
-            });
-        }());
+        isPopped.push({
+            remove: (function() {
+                var Item = item;
+                var Index = isPopped.length;
+                var ItemCheckbox = item['@element'].find(".JSM-checkbox");
+                var PoppedItem = poppedItem;
 
-        itemNum += 1;
+                var remove = function() {
+                    if (PoppedItem != null) {
+                        PoppedItem.remove();
+                        setData.setSelectedForItem(Item, false);
+                        isPopped.splice(Index, 1);
+                    }
+                }
+                PoppedItem.find(".JSM-closePopover").on("click", remove);
+                return remove;
+            }()),
+            item: item
+        });
     }
 
-    // Display selected items as Popovers
-    function displaySelectedInPopover(data, popup) {
-        for(var i in data){
-            var item = data[i];
-            if (item["@selected"]) { 
-                if (popup != null)
-                    popup(item);
-            } 
-    // Display only the selected children items if it's parent is not selected
-            else if (item["@isHeader"]){
-                displaySelectedInPopover(item["@children"], popup);
-            }
-        }
-    }
     //Handler function to retrieve data
     function handler(multiName, $multiselect, settings) {
-        var data = getData.getDataByName(multiName);
-        var $popDisplay = $multiselect.find(".JSM-body .JSM-popoverDisplay").first();
+        var onCheckboxChange = function() {
+            var data = getData.getDataByName(multiName);
+            var shouldBePopped = [];
+            var recurseChildren = function(data) {
+                if (data == null) return [];
+                var rv = [];
+                for (var i in data) {
+                    if (data[i] == null) continue;
+                    if (data[i]['@selected']) {
+                        rv.push(data[i]);
+                    } else if (data[i]['@isHeader']) {
+                        rv = rv.concat(recurseChildren(data[i]['@children']));
+                    }
+                }
+                return rv;
+            };
+            shouldBePopped = recurseChildren(data);
 
-        showHideHandler($multiselect, $popDisplay, function() {
-            data = getData.getDataByName(multiName);
-            displaySelectedInPopover(data, function(item) {
-                Popup(item, $popDisplay);
+            var shouldElements = shouldBePopped.map(function(item) {
+                return item['@element'];
             });
-        });
-
-        displaySelectedInPopover(data, function(item) {
-            Popup(item, $popDisplay);
-        });        
+            var isElements = isPopped.map(function(item) {
+                return item['item']['@element'];
+            });
+            for (var i = 0 ; i < isElements.length; i += 1) {
+                var index = shouldElements.indexOf(isElements[i]);
+                if (index >= 0) {
+                    shouldBePopped.splice(index, 1);
+                } else {
+                    isPopped[i].remove();
+                }
+            }
+            for (var i = 0; i < shouldBePopped.length; i += 1) {
+                Popup(shouldBePopped[i], $multiselect);
+            }
+        }
+        $multiselect.on("change", ".JSM-list .JSM-checkbox", onCheckboxChange);
+        onCheckboxChange();
     }
 
     return handler;

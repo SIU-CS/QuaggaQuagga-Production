@@ -93,10 +93,32 @@ function (require) {
         setSelectedListenerForItem(item);
     }
 
+    /**
+     * sets the selected value for the ckeckboxs
+     * @param {JSON item} item the item find the checkbox for
+     * @param {BOOL} checked the vaue to set the checkbox tos
+     */
+    function setSelectedForItem(item, checked) {
+        console.log(item);
+        checked = checked === true;
+        if (item['@selected'] === checked) return;
+        var $focused = null;
+        if (item['@isHeader'])
+            $focused = $(':focus');
+        var ItemCheckbox = item['@element'].find(".JSM-checkbox");
+        if (item['@isHeader'])
+            ItemCheckbox.focus();
+        ItemCheckbox.prop("checked", checked);
+        ItemCheckbox.change();
+        if (item['@isHeader'] && $focused != null)
+            $focused.focus();
+    }
+
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
         setSettingsByName: setSettingsByName,
-        setElementForItem: setElementForItem
+        setElementForItem: setElementForItem,
+        setSelectedForItem: setSelectedForItem
     };
 });
