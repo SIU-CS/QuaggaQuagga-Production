@@ -99,19 +99,16 @@ function (require) {
      * @param {BOOL} checked the vaue to set the checkbox tos
      */
     function setSelectedForItem(item, checked) {
-        console.log(item);
         checked = checked === true;
         if (item['@selected'] === checked) return;
-        var $focused = null;
-        if (item['@isHeader'])
-            $focused = $(':focus');
         var ItemCheckbox = item['@element'].find(".JSM-checkbox");
-        if (item['@isHeader'])
-            ItemCheckbox.focus();
-        ItemCheckbox.prop("checked", checked);
-        ItemCheckbox.change();
-        if (item['@isHeader'] && $focused != null)
-            $focused.focus();
+
+        if (item['@isHeader']) {
+            ItemCheckbox.trigger("click");
+        } else {
+            ItemCheckbox.prop("checked", checked);
+            ItemCheckbox.change();
+        }
     }
 
     return {

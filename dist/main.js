@@ -1004,19 +1004,16 @@ function (require) {
      * @param {BOOL} checked the vaue to set the checkbox tos
      */
     function setSelectedForItem(item, checked) {
-        console.log(item);
         checked = checked === true;
         if (item['@selected'] === checked) return;
-        var $focused = null;
-        if (item['@isHeader'])
-            $focused = $(':focus');
         var ItemCheckbox = item['@element'].find(".JSM-checkbox");
-        if (item['@isHeader'])
-            ItemCheckbox.focus();
-        ItemCheckbox.prop("checked", checked);
-        ItemCheckbox.change();
-        if (item['@isHeader'] && $focused != null)
-            $focused.focus();
+
+        if (item['@isHeader']) {
+            ItemCheckbox.trigger("click");
+        } else {
+            ItemCheckbox.prop("checked", checked);
+            ItemCheckbox.change();
+        }
     }
 
     return {
@@ -1046,8 +1043,9 @@ function(require, $) {
         <input type="checkbox" class='checkbox JSM-checkbox' ` +
         "value=\"" + (value != null ? value: "") + "\"" +
         // returns "on" if no value and a name
-        "name=\""+ (name != null && value != null ?  name : "")+"\"" +
-        (checked ? "checked=\"checked\"" : "") + `>`;
+        "name=\""+ (name != null && value != null ?  name : "") +"\"" +
+        (checked ? "checked=\"checked\"" : "") + 
+        "data-name=\"" + name + "\"" + `>`;
         
     }
 
@@ -2748,17 +2746,21 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
         isPopped.push({
             remove: (function() {
                 var Item = item;
-                var Index = isPopped.length;
                 var ItemCheckbox = item['@element'].find(".JSM-checkbox");
                 var PoppedItem = poppedItem;
 
-                var remove = function() {
-                    if (PoppedItem != null) {
+                var remove = function(event) {
+                    if (PoppedItem != null && Item != null) {
                         PoppedItem.remove();
-                        setData.setSelectedForItem(Item, false);
-                        isPopped.splice(Index, 1);
+                        if (Item['@isHeader'] || event != null)
+                            setData.setSelectedForItem(Item, false);
+
+                        var items = isPopped.map(function(p) { return p.item; });
+                        var itemIndex = items.indexOf(Item);
+                        if (itemIndex >= 0)
+                            isPopped.splice(itemIndex, 1);
                     }
-                }
+                };
                 PoppedItem.find(".JSM-closePopover").on("click", remove);
                 return remove;
             }()),
@@ -2794,8 +2796,7 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
                 if (data == null) return [];
                 var rv = [];
                 for (var i in data) {
-                    if (data[i] == null) continue;
-                    if (data[i]['@selected']) {
+                    if (data[i] != null && data[i]['@selected']) {
                         rv.push(data[i]);
                     } else if (data[i]['@isHeader']) {
                         rv = rv.concat(recurseChildren(data[i]['@children']));
@@ -2805,21 +2806,25 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
             };
             shouldBePopped = recurseChildren(data);
 
-            var shouldElements = shouldBePopped.map(function(item) {
-                return item['@element'];
-            });
-            var isElements = isPopped.map(function(item) {
-                return item['item']['@element'];
-            });
-            for (var i = 0 ; i < isElements.length; i += 1) {
-                var index = shouldElements.indexOf(isElements[i]);
+            var i;
+            for (i = 0 ; i < isPopped.length; i += 1) {
+                var index = -1;
+                // finds the index for those that should be popped
+                for (var should = 0; should < shouldBePopped.length; should += 1) {
+                    if (shouldBePopped[should]['@element'] == isPopped[i]['item']['@element']) {
+                        index = should;
+                    }
+                }
+                // if already popped, don't pop again
                 if (index >= 0) {
                     shouldBePopped.splice(index, 1);
-                } else {
+                } else { // if isPopped should not be, remove it
                     isPopped[i].remove();
+                    i -= 1; // adjusts the index
                 }
             }
-            for (var i = 0; i < shouldBePopped.length; i += 1) {
+            // all those that should be popped but are not need to be displayed
+            for (i = 0; i < shouldBePopped.length; i += 1) {
                 Popup(shouldBePopped[i], $multiselect);
             }
         }
@@ -2892,22 +2897,28 @@ define('style/body/cascadingSelect',['require',
             });
         });
 
-        $multiselect.on("change", keyHeaders + " " + keyCheckbox, function() {
+        var selectHeader = function(event) {
             var $this = $(this);
-            if ($this.is(":focus")) {
-                var isChecked = $(this).is(':checked');
-                var item = $this.parent();
-                var listId = item.data("target");
-                var list = $(listId);
-                var setItems = null;
-                if (isChecked) {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
-                } else {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
-                }
-                if (setItems != null) setItems.prop('checked', isChecked).change();
+            var isChecked = $this.is(':checked');
+            var item = $this.parent();
+            var listId = item.data("target");
+            var list = $(listId);
+            var setItems = null;
+            if (isChecked) {
+                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
+            } else {
+                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
             }
+            if (setItems != null) setItems.prop('checked', isChecked).change();
+        };
+
+
+        $multiselect.on("click", keyHeaders + " " + keyCheckbox, selectHeader);
+        $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
+            if (event.keyCode == 13)
+                selectHeader(event);
         });
+
         var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
         HeaderItems.each(function() {
             $($(this).data("target")).find(keyNonheaders + " " + keyCheckbox).prop('checked', true);
@@ -3128,95 +3139,6 @@ function(require, getData, $, fuzzySearch, textSearch) {
 
     return handler;
 });
-define('utility/verifySettings',['require', 'jquery'], function (require, $) {
-    'use strict';
-    
-    var jquery = $;
-
-    /**
-     * This function ensures we are getting proper settings for the multiselect
-     * @param {Function} settingsFunction A function that returns the settings for the multiselect
-     */
-    function verifySettingsFunction(settingsFunction) {
-        if (!$.isFunction(window[settingsFunction])) return null;
-        var settings = window[settingsFunction]();
-        return settings;
-    }
-
-    return verifySettingsFunction;
-});
-define('init',['require', 
-        'jquery',  
-        'data_input/load',
-        'sort/sort.config',
-        'display/display.config', 
-        'style/style.config',
-        'searching/searching.config',
-        'consts',
-        'data_store/new',
-        'utility/verifySettings'
-    ], function(require, $, loadData, sortConfig,
-        displayConfig, styleConfig, searchConfig) {
-    'use strict';
-    var jquery = $;
-    var CONSTS = require("consts");
-    var dataStoreNew = require('data_store/new');
-    var verifySettings = require('utility/verifySettings');
-    // for each multiselect on the screen
-    $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
-        var $this = $(this);
-        // get the data items from the list
-        var loadType = $this.data('load-type'); // the type of data the developer is giving
-        var loadFunction = $this.data('load'); // the function to call to get the data
-        var settings = verifySettings($this.data('settings')); // the type of data the developer is giving
-        var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
-        // parse the data from the above function
-        var data = loadData.load(loadFunction, loadType);
-        // set new data store for multiselect
-        var name = dataStoreNew.newMultiselect(this, data, settings, title);
-        // adds the output functions for ths multiselect
-        //outputConfig($this, name);
-        // sorting the data in the multiselect
-        sortConfig(name);
-        // if we couldn't set a new data store, error here
-        if (name == null) return;
-        // display list and title
-        displayConfig(name);
-        // configure the searching
-        searchConfig(name);
-        // check those selected in the list
-        styleConfig($this, name);
-    });
-});
-define('data_input/interface',['require', 'jquery', 'data_store/new', "consts", 'data_input/load'],
-    function (require, $, newData, CONSTS, loadData) {
-    'use strict';
-
-    var rootObject = CONSTS.GET_ROOT_OBJECT_REF();
-
-    rootObject['AddData'] = {};
-    var loadTypes = loadData.loadTypes();
-    $.each(loadTypes, function(i, Type) {
-        rootObject['AddData'][Type] = (function() {
-            var type = Type;
-            return function(multiname, unprocessed) {
-                var data;
-                if ($.isFunction(unprocessed)) {
-                    data = loadData.load(unprocessed, type);
-                } else {
-                    data = loadData.load(function() {
-                        return unprocessed;
-                    }, type);
-                }
-                if (data == null) {
-                    console.warn("Error loading new data.");
-                } else {
-                    newData.addNewData(multiname, data);
-                }
-            };
-        }());
-    });
-});
 define('data_output/flatArray',['require', 'jquery', 'data_store/get'], function(require, $, getData) { 
     'use strict';
 
@@ -3312,6 +3234,158 @@ function(require, CONSTS, flatArray, JSONoutput) {
         flatArray: flatArray,
         JSON: JSONoutput
     };
+});
+define('data_output/selectionOutput',['require', 'jquery', 'data_store/get'], function (require) {
+    'use strict';
+    
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var get = require('data_store/get');
+
+
+    function handler($multiselect, onSelect, onDeselect) 
+    {
+        if(onSelect != null || onDeselect != null)
+        {
+            $multiselect.on("change", ".JSM-list .JSM-checkbox", function() 
+            {
+                var $this = $(this);
+                var name = $this.data("name");
+                var value = $this.attr("value");
+                if (name != null && value != null) {
+                    var rv = { name: name, value: value }
+                    if (this.checked) 
+                    {
+                        onSelect(rv);
+                    } else 
+                    {
+                        onDeselect(rv);
+                    }
+                }
+            });
+        }
+        else
+        {
+            console.warn("The notification function which you defined is null.");
+        }
+    }
+    return handler;
+
+});
+define('data_output/data_output.config',['require',
+        'data_store/get',
+        'jquery', 
+        'data_output/interface', 
+        'data_output/selectionOutput', 
+    ], 
+function(require, getData, $, outInterface, selectionOut) {
+    'use strict';
+    var jquery = $;
+
+    /**
+     * Handles the style part of the multiselect, selecting the apprpriate styles
+     * For each based upon optons/multiselect type
+     * @param {jquery element} $multiselect the targeted multiselect
+     */
+    function handler($multiselect, name) {
+        var outputSettings = getData.getSettingByName("output", name);
+
+        if (outputSettings != null) {
+            selectionOut($multiselect, outputSettings.onSelect, outputSettings.onDeselect);
+        }
+    }
+
+    return handler;
+});
+define('utility/verifySettings',['require', 'jquery'], function (require, $) {
+    'use strict';
+    
+    var jquery = $;
+
+    /**
+     * This function ensures we are getting proper settings for the multiselect
+     * @param {Function} settingsFunction A function that returns the settings for the multiselect
+     */
+    function verifySettingsFunction(settingsFunction) {
+        if (!$.isFunction(window[settingsFunction])) return null;
+        var settings = window[settingsFunction]();
+        return settings;
+    }
+
+    return verifySettingsFunction;
+});
+define('init',['require', 
+        'jquery',  
+        'data_input/load',
+        'sort/sort.config',
+        'display/display.config', 
+        'style/style.config',
+        'searching/searching.config',
+        'data_output/data_output.config',
+        'consts',
+        'data_store/new',
+        'utility/verifySettings'
+    ], function(require, $, loadData, sortConfig,
+        displayConfig, styleConfig, searchConfig, outputConfig) {
+    'use strict';
+    var jquery = $;
+    var CONSTS = require("consts");
+    var dataStoreNew = require('data_store/new');
+    var verifySettings = require('utility/verifySettings');
+    // for each multiselect on the screen
+    $("." + CONSTS.MULTISELECTOR_ROOT_NAME()).each(function() {
+        var $this = $(this);
+        // get the data items from the list
+        var loadType = $this.data('load-type'); // the type of data the developer is giving
+        var loadFunction = $this.data('load'); // the function to call to get the data
+        var settings = verifySettings($this.data('settings')); // the type of data the developer is giving
+        var title = $this.data('title'); // the title of the multiselect, defaults to name if not set
+        // parse the data from the above function
+        var data = loadData.load(loadFunction, loadType);
+        // set new data store for multiselect
+        var name = dataStoreNew.newMultiselect(this, data, settings, title);
+        // adds the output functions for ths multiselect
+        outputConfig($this, name);
+        // sorting the data in the multiselect
+        sortConfig(name);
+        // if we couldn't set a new data store, error here
+        if (name == null) return;
+        // display list and title
+        displayConfig(name);
+        // configure the searching
+        searchConfig(name);
+        // check those selected in the list
+        styleConfig($this, name);
+    });
+});
+define('data_input/interface',['require', 'jquery', 'data_store/new', "consts", 'data_input/load'],
+    function (require, $, newData, CONSTS, loadData) {
+    'use strict';
+
+    var rootObject = CONSTS.GET_ROOT_OBJECT_REF();
+
+    rootObject['AddData'] = {};
+    var loadTypes = loadData.loadTypes();
+    $.each(loadTypes, function(i, Type) {
+        rootObject['AddData'][Type] = (function() {
+            var type = Type;
+            return function(multiname, unprocessed) {
+                var data;
+                if ($.isFunction(unprocessed)) {
+                    data = loadData.load(unprocessed, type);
+                } else {
+                    data = loadData.load(function() {
+                        return unprocessed;
+                    }, type);
+                }
+                if (data == null) {
+                    console.warn("Error loading new data.");
+                } else {
+                    newData.addNewData(multiname, data);
+                }
+            };
+        }());
+    });
 });
 (function() {
     'use strict';
