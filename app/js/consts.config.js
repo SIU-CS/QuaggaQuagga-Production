@@ -43,11 +43,11 @@ define(['require', 'jquery'],function (require) {
                 </span>
             </div>
             <!-- MULTISELECT BODY -->
+            <div class="JSM-popoverDisplay">
+            </div>
             <div class="JSM-body">
-                <div class="JSM-popoverDisplay collapse in">
-                </div>
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
-                <div class="JSM-list list-group-root">
+                <div class="JSM-list list-group-root collapse">
                     
                 </div>
             </div>

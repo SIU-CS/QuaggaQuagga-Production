@@ -44,21 +44,24 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
     //Handler function to retrieve data
     function handler(multiName, $multiselect, settings) {
 
-        var timeoutVar= null;
+        var timeoutVar = null;
 
-        //Display the list of items only when the focus is ON
-        $multiselect.on("focus", "*", function(){
-            $multiselect.find(".JSM-list").show();
-            if (timeoutVar != null)
+        var showList = function(event) {
+            $multiselect.find(".JSM-list").collapse("show");
+            if (timeoutVar != null) {
                 clearTimeout(timeoutVar);
                 timeoutVar = null;
-        });
-        //Hide the list when the focus goes off the multiselect
-        $multiselect.on("blur", "*", function(){
-            timeoutVar = setTimeout(function() {
-                $multiselect.find(".JSM-list").hide();
+            }
+        };
 
-            }, 200);
+        //Display the list of items only when the focus is ON
+        $multiselect.on("mouseenter", "*", showList);
+        $multiselect.on("mouseenter", showList);
+        //Hide the list when the focus goes off the multiselect
+        $multiselect.on("mouseleave", function(){
+            timeoutVar = setTimeout(function() {
+                $multiselect.find(".JSM-list").collapse("hide");
+            }, 500);
 
         });
 
