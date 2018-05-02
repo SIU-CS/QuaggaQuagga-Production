@@ -7,10 +7,13 @@ define(['require',
         'style/body/checkSelected', 
         'style/body/colorIndent', 
         'style/body/spaceIndent',
+        'style/body/textColor',
+        'style/body/borderSettings',
+        'style/body/backgroundColor',
         'style/colorSelect',
         'data_store/get'], 
 function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, 
-    checkSelected, colorIndent, spaceIndent, colorSelect, getData) {
+    checkSelected, colorIndent, spaceIndent, textColor, borderSettings,backgroundColor, colorSelect, getData) {
     'use strict';
     var jquery = $;
 
@@ -39,7 +42,37 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
             displaySettings.displayFadeColor === "true") {
             colorIndent($multiselect, displaySettings.fadeColor);
         }
-        spaceIndent.setInit($multiselect);
+
+        if ((typeof displaySettings.indentPercent != "undefined" || displaySettings.indentPercent != "") && (displaySettings.displayFadeColor === true))
+            spaceIndent.setInit($multiselect, displaySettings.indentPercent);
+        else
+            spaceIndent.setInit($multiselect, 1 / 6);
+
+        if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor === true)) {
+            textColor($multiselect, displaySettings.textColor);
+        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.darkDisplay === true)) {
+            textColor($multiselect, "#a29fa8");
+        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.lightDisplay === true)) {
+            textColor($multiselect, "#0d0916");
+        } else {
+            textColor($multiselect, "#000000");
+        }
+
+        if ((typeof displaySettings.borderColor != "undefined" || displaySettings.borderColor != "") && (displaySettings.displayFadeColor === true)) {
+            borderSettings.setBorderColor($multiselect, displaySettings.borderColor);
+        }
+
+        if ((typeof displaySettings.borderWidth != "undefined" || displaySettings.borderWidth != "") && (displaySettings.displayFadeColor === true)) {
+            borderSettings.setBorderWidth($multiselect, displaySettings.borderWidth);
+        }
+
+        if ((typeof displaySettings.backgroundColor != "undefined" || displaySettings.backgroundColor != "") && (displaySettings.displayFadeColor === true)) {
+            backgroundColor($multiselect, displaySettings.backgroundColor);
+        } else if ((displaySettings.displayFadeColor !== true) && (displaySettings.darkDisplay === true)) {
+            backgroundColor($multiselect, "#000000");
+        } else if ((displaySettings.displayFadeColor !== true) && (displaySettings.lightDisplay === true)) {
+            backgroundColor($multiselect, "#cccccc");
+        }
 
         colorSelect(name, $multiselect, displaySettings);
         

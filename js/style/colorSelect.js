@@ -1,16 +1,18 @@
-define(['require', 'jquery', 'data_store/get'], function(require) {
+define(['require', 'jquery', 'data_store/get', 'style/body/colorIndent'], function(require, $, dataStoreGet, colorIndent) {
     'use strict';
 
-    function lightDisplay(){
-        setColorRecursively($ele, colorArray, hsl(261, 44, 6));
+    function lightDisplay($multiselect) {
+        var color = "#a29fa8";
+        colorIndent($multiselect, color);
     }
 
-    function darkDisplay(){
-        setColorRecursively($ele, colorArray, hsl(261, 5, 64));
+    function darkDisplay($multiselect) {
+        var color = "#0d0916";
+        colorIndent($multiselect, color);
     }
 
     function customFadeDisplay(ccolor){
-        setColorRecursively($ele, colorArray, ccolor);
+        colorIndent.setColorRecursively($ele, colorArray, ccolor);
     }
     
     var $, jquery;
@@ -18,8 +20,8 @@ define(['require', 'jquery', 'data_store/get'], function(require) {
     var getData = require('data_store/get');
     function handler(multiName, $multiselect, displaySettings) {
 
-        if (displaySettings.lightDisplay == true) lightDisplay();
-        if (displaySettings.darkDisplay == true) darkDisplay();
+        if (displaySettings.lightDisplay == true) lightDisplay($multiselect);
+        if (displaySettings.darkDisplay == true) darkDisplay($multiselect);
         if (displaySettings.customFadeDisplay == true) customFadeDisplay(color);
     }
     return handler;

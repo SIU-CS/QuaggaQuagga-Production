@@ -12,7 +12,7 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
      * Sets the sapce indentor for the specified multiselect
      * @param {Jquery element} $multiselect the multiselect 
      */
-    function refresh($multiselect) {
+    function refresh($multiselect, indentPercent) {
         $multiselect.find(".list-group-root").children(".list-group").each(function(i, e) {
             var $ele = $(e);
             var maxDepth = nestedDepth($ele, ".list-group");
@@ -21,12 +21,13 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
         }); 
     } 
     return {
-        setInit: function($multiselect) {
-            refresh($multiselect);
+        setInit: function($multiselect, indentPercent) {
+            refresh($multiselect, indentPercent);
             (function() {
                 var $m = $multiselect;
+                var iP = indentPercent;
                 $(window).resize(function(){
-                    refresh($m);
+                    refresh($m, iP);
                 });
             }());
         },
