@@ -141,6 +141,7 @@
 }
 .JSMultiselect.popoverSelect .JSM-popoverDisplay {
   font-weight: bold;
+  margin-bottom: 10px;
 }
 .JSMultiselect.popoverSelect .JSM-popoverDisplay .JSM-popover {
   background-color: #d2f080;
