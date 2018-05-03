@@ -12,7 +12,7 @@ define(['require',
         'style/colorSelect',
         'data_store/get'], 
 function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, 
-    checkSelected, colorIndent, spaceIndent, textColor, borderSettings,backgroundColor, colorSelect, getData) {
+    colorIndent, spaceIndent, textColor, borderSettings,backgroundColor, colorSelect, getData) {
     'use strict';
     var jquery = $;
 
@@ -34,8 +34,7 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
 
         setDefaultMultiselectType($multiselect);
         
-        cascadingSelect($multiselect);
-        checkSelected(name);
+        cascadingSelect(name, $multiselect);
         if (typeof displaySettings.displayFadeColor === "undefined" || 
             displaySettings.displayFadeColor === true || 
             displaySettings.displayFadeColor === "true") {
