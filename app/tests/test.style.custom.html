@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
     <head>
         <!-- Required meta tags -->
@@ -25,11 +25,12 @@
                         type: "text"
                     },
                     display: {
-                        type: "multiColumn",
-                        numColumns: 3,
-                        dynamicColumns: true,
+                        type: "singleColumn",
                         displayFadeColor: true,
-                        fadeColor: "#000000"
+                        fadeColor: "#f0b010",
+                        indentPercent: 0.1,
+                        textColor: "#000000",
+                        borderColor: "#000000",
                     }
                 }
             }
@@ -63,34 +64,6 @@
                                     },
                                     
                                 ]
-                            },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.4",
-                                "searchable": "search me",
-                                "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
-                            },
-                            { // item 1.2 is also a header 
-                                "name": "Item 1.7",
-                                "searchable": "search me",
-                                "selected": false,
-                                "items" : [            
-                                    {  // list of items for 1.2
-                                        "name": "Item 1.2.1",
-                                        "searchable": "search me",
-                                        "selected": false,
-                                        "value" : "1.2.1"
-                                    },
-                                    
-                                ]
                             }
                         ]
                     },
@@ -101,14 +74,59 @@
                         "value" : "2" 
                     }
                 ];
-               
+                displayInput(array);
                 return array;
             }
+            function displayInput(input) {
+                if ($.isPlainObject(input) || $.isArray(input))
+                    input = JSON.stringify(input, null, 2);
+                $("#input").text(input);
+            }
+
+            $(document).ready(function(){
+                var check = function() {
+                    var success = true;
+
+                    if ($('.list-item-group').css('background-color') === "#a29fa8") success = false;
+                    else if ($('.list-item-group').css('color') === "#ffffff") success = false;
+
+
+                    if (success) {
+                        $("#success").removeClass('hidden');
+                    } else {
+                        $("#failure").removeClass('hidden');
+                    }
+                };
+                // wait for the info to load
+                setTimeout(check, 200);
+            });
     </script>
     </head>
     <body>
-
-    <div class="JSMultiselect multiColumn" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Contry">
+    <div style="height: 60px; text-align: center;">
+        <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+            <h3>Test Succeeded!</h3>
+        </div>
+        <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+            <h3>Test Failed! Check Warnings</h3>
+        </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Input:</h2>
+                <pre id="input">
+        
+                </pre>
+            </div>
+            
+        <div class="col-md-6 container-fluid">
+            <h2 class="text-center">Output:</h2>
+            <!-- START MULTISELECT -->
+            <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Country"></div>
+        </div>
+        </div>
+    </div>
+
     </body>
 </html>

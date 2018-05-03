@@ -1508,7 +1508,7 @@ define('style/body/colorIndent',['require', 'jquery', 'utility/color', 'utility/
     var nestedDepth = require('utility/nestedDepth');
 
     // sets the color for all list groups
-    function setColorRecursivly($ele, colorArray, colorI) {
+    function setColorRecursively($ele, colorArray, colorI) {
         // for each child element
         $ele.children(".list-group").each(function (i, e) {
             var $e = $(e);
@@ -1522,22 +1522,27 @@ define('style/body/colorIndent',['require', 'jquery', 'utility/color', 'utility/
                 $e.addClass("textColorDarker");
             }
             // finds children
-            setColorRecursivly($e, colorArray, colorI + 1);
+            setColorRecursively($e, colorArray, colorI + 1);
         });
     }
+
     /**
      * sets the color fade for the multiselect
      * @param {jquery element} $multiselect the multiselect targeted  
      */
-    function setColor($multiselect) {
+    function setColor($multiselect, color) {
         $multiselect.find(".list-group-root > .list-group").each(function(i, e) {
             var $ele = $(e);
-            var color = $ele.css("background-color");
+            if (color != null) {
+                $ele.css("background-color", color);
+            }
+            color = $ele.css("background-color");
             var rgbA = colorUtil.RgbStringToArray(color);
             var maxDepth = nestedDepth($ele, ".list-group");
             var fadeArray = colorUtil.fadeRgbToWhite(rgbA[0], rgbA[1], rgbA[2], maxDepth);
+
             $ele.css("background-color", colorUtil.RgbArrayToString(fadeArray[0]));
-            setColorRecursivly($ele, fadeArray, 1);
+            setColorRecursively($ele, fadeArray, 1);
         });
     }
     return setColor;
@@ -1550,14 +1555,14 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
     jquery = $ = require('jquery');
     var nestedDepth = require('utility/nestedDepth');
 
-    var indentPercent = 1/6;
+    var initIndentPercent = 1/6;
 
 
     /**
      * Sets the sapce indentor for the specified multiselect
      * @param {Jquery element} $multiselect the multiselect 
      */
-    function refresh($multiselect) {
+    function refresh($multiselect, indentPercent) {
         $multiselect.find(".list-group-root > .list-group").each(function() {
             var $ele = $(this);
             var bodyWidth = $multiselect.find(".JSM-body").width();
@@ -1567,12 +1572,14 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
         }); 
     } 
     return {
-        setInit: function($multiselect) {
-            refresh($multiselect);
+        setInit: function($multiselect, localIndentPercent) {
+            if(localIndentPercent == null) localIndentPercent = initIndentPercent;
+            refresh($multiselect, localIndentPercent);
             (function() {
                 var $m = $multiselect;
+                var iP =  localIndentPercent;
                 $(window).resize(function(){
-                    refresh($m);
+                    refresh($m, iP);
                 });
             }());
         },
@@ -2944,6 +2951,108 @@ define('style/body/cascadingSelect',['require',
 
     return registerCheckboxClick;
 });
+define('style/body/textColor',['require', 'jquery', 'utility/color'], function (require) {
+    'use strict';
+
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var colorUtil = require('utility/color');
+
+    /**
+     * sets the color fade for the multiselect
+     * @param {jquery element} $multiselect the multiselect targeted  
+     */
+    function setTextColor($multiselect, color) {
+        $multiselect.find(".list-group-item").each(function (i, e) {
+            var $ele = $(e);
+            if (color != null) {
+                $ele.css("color", color);
+            }
+            color = $ele.css("color");
+        });
+    }
+    return setTextColor;
+});
+
+define('style/body/borderSettings',['require', 'jquery', 'utility/color'], function (require) {
+    'use strict';
+
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var colorUtil = require('utility/color');
+
+    //can also use this to just set the borders to all one color
+    function setBorderColor($multiselect, color) {
+        $multiselect.find(".list-group-item").each(function (i, e) {
+            var $ele = $(e);
+            if (color != null) {
+                $ele.css("border-color", color);
+            }
+            color = $ele.css("border-color");
+        });
+    }
+
+    function setBorderWidth($multiselect, widthInPixels) {
+        $multiselect.find(".list-group-item").each(function (i, e) {
+            var $ele = $(e);
+            if (widthInPixels != null) {
+                $ele.css("border-width", widthInPixels)
+            }
+            widthInPixels = $ele.css("border-width");
+        });
+    }
+
+    return {
+        setBorderColor: setBorderColor,
+        setBorderWidth: setBorderWidth
+    };
+});
+
+define('style/body/backgroundColor',['require', 'jquery', 'utility/color'], function (require) {
+    'use strict';
+
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var colorUtil = require('utility/color');
+
+    /**
+     * sets the color fade for the multiselect
+     * @param {jquery element} $multiselect the multiselect targeted  
+     */
+    function setBGColor($multiselect, color) {
+        $multiselect.css("background-color", color);
+    }
+    return setBGColor;
+});
+
+define('style/colorSelect',['require', 'jquery', 'data_store/get', 'style/body/colorIndent'], function(require, $, dataStoreGet, colorIndent) {
+    'use strict';
+
+    function lightDisplay($multiselect) {
+        var color = "#a29fa8";
+        colorIndent($multiselect, color);
+    }
+
+    function darkDisplay($multiselect) {
+        var color = "#0d0916";
+        colorIndent($multiselect, color);
+    }
+
+    function customFadeDisplay(ccolor){
+        colorIndent.setColorRecursively($ele, colorArray, ccolor);
+    }
+    
+    var $, jquery;
+    jquery = $ = require('jquery');
+    var getData = require('data_store/get');
+    function handler(multiName, $multiselect, displaySettings) {
+
+        if (displaySettings.lightDisplay == true) lightDisplay($multiselect);
+        if (displaySettings.darkDisplay == true) darkDisplay($multiselect);
+        if (displaySettings.customFadeDisplay == true) customFadeDisplay(color);
+    }
+    return handler;
+});
 define('style/style.config',['require',
         'consts',
         'jquery',
@@ -2952,9 +3061,13 @@ define('style/style.config',['require',
         'style/body/cascadingSelect', 
         'style/body/colorIndent', 
         'style/body/spaceIndent',
+        'style/body/textColor',
+        'style/body/borderSettings',
+        'style/body/backgroundColor',
+        'style/colorSelect',
         'data_store/get'], 
 function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect, 
-    colorIndent, spaceIndent, getData) {
+    colorIndent, spaceIndent, textColor, borderSettings,backgroundColor, colorSelect, getData) {
     'use strict';
     var jquery = $;
 
@@ -2972,12 +3085,50 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
      * @param {jquery element} name the targeted multiselect
      */
     function handler($multiselect, name) {
-        setDefaultMultiselectType($multiselect);
-        cascadingSelect(name, $multiselect);
-        colorIndent($multiselect);
-        spaceIndent.setInit($multiselect);
-
         var displaySettings = getData.getSettingByName("display", name);
+
+        setDefaultMultiselectType($multiselect);
+        
+        cascadingSelect(name, $multiselect);
+        if (typeof displaySettings.displayFadeColor === "undefined" || 
+            displaySettings.displayFadeColor === true || 
+            displaySettings.displayFadeColor === "true") {
+            colorIndent($multiselect, displaySettings.fadeColor);
+        }
+
+        if ((typeof displaySettings.indentPercent != "undefined" || displaySettings.indentPercent != "") && (displaySettings.displayFadeColor === true))
+            spaceIndent.setInit($multiselect, displaySettings.indentPercent);
+        else
+            spaceIndent.setInit($multiselect, 1 / 6);
+
+        if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor === true)) {
+            textColor($multiselect, displaySettings.textColor);
+        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.darkDisplay === true)) {
+            textColor($multiselect, "#a29fa8");
+        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.lightDisplay === true)) {
+            textColor($multiselect, "#0d0916");
+        } else {
+            textColor($multiselect, "#000000");
+        }
+
+        if ((typeof displaySettings.borderColor != "undefined" || displaySettings.borderColor != "") && (displaySettings.displayFadeColor === true)) {
+            borderSettings.setBorderColor($multiselect, displaySettings.borderColor);
+        }
+
+        if ((typeof displaySettings.borderWidth != "undefined" || displaySettings.borderWidth != "") && (displaySettings.displayFadeColor === true)) {
+            borderSettings.setBorderWidth($multiselect, displaySettings.borderWidth);
+        }
+
+        if ((typeof displaySettings.backgroundColor != "undefined" || displaySettings.backgroundColor != "") && (displaySettings.displayFadeColor === true)) {
+            backgroundColor($multiselect, displaySettings.backgroundColor);
+        } else if ((displaySettings.displayFadeColor !== true) && (displaySettings.darkDisplay === true)) {
+            backgroundColor($multiselect, "#000000");
+        } else if ((displaySettings.displayFadeColor !== true) && (displaySettings.lightDisplay === true)) {
+            backgroundColor($multiselect, "#cccccc");
+        }
+
+        colorSelect(name, $multiselect, displaySettings);
+        
         if (displaySettings.type === "multiColumn") {
             multicolumnStyle($multiselect, displaySettings);
         } else if (displaySettings.type === "popover") {
