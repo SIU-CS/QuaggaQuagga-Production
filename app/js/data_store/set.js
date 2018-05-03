@@ -93,10 +93,23 @@ function (require) {
         setSelectedListenerForItem(item);
     }
 
+    /**
+     * sets the selected value for the ckeckboxs
+     * @param {JSON item} item the item find the checkbox for
+     * @param {BOOL} checked the vaue to set the checkbox tos
+     */
+    function setSelectedForItem(item, checked) {
+        checked = checked === true;
+        if (item['@selected'] === checked) return;
+        var ItemCheckbox = item['@element'].find(".JSM-checkbox");
+        ItemCheckbox.click();
+    }
+
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
         setSettingsByName: setSettingsByName,
-        setElementForItem: setElementForItem
+        setElementForItem: setElementForItem,
+        setSelectedForItem: setSelectedForItem
     };
 });

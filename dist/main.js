@@ -487,13 +487,12 @@ define('consts',['require', 'jquery'],function (require) {
                 <span class="JSM-title navbar-brand"></span>
                 <span class="JSM-search">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
-                    <span class="fa fa-times JSM-closePopList" aria-hidden="true"></span>
                 </span>
             </div>
             <!-- MULTISELECT BODY -->
+            <div class="JSM-popoverDisplay">
+            </div>
             <div class="JSM-body">
-                <div class="JSM-popoverDisplay collapse in">
-                </div>
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
                 <div class="JSM-list list-group-root collapse">
                     
@@ -999,11 +998,24 @@ function (require) {
         setSelectedListenerForItem(item);
     }
 
+    /**
+     * sets the selected value for the ckeckboxs
+     * @param {JSON item} item the item find the checkbox for
+     * @param {BOOL} checked the vaue to set the checkbox tos
+     */
+    function setSelectedForItem(item, checked) {
+        checked = checked === true;
+        if (item['@selected'] === checked) return;
+        var ItemCheckbox = item['@element'].find(".JSM-checkbox");
+        ItemCheckbox.click();
+    }
+
     return {
         replaceDataByName: replaceDataByName,
         extendDataItemsByName: extendDataItemsByName,
         setSettingsByName: setSettingsByName,
-        setElementForItem: setElementForItem
+        setElementForItem: setElementForItem,
+        setSelectedForItem: setSelectedForItem
     };
 });
 
@@ -1548,8 +1560,9 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
     function refresh($multiselect) {
         $multiselect.find(".list-group-root > .list-group").each(function() {
             var $ele = $(this);
+            var bodyWidth = $multiselect.find(".JSM-body").width();
             var maxDepth = nestedDepth($ele, ".list-group");
-            var indentLength = Math.ceil($ele.width()/maxDepth*indentPercent);
+            var indentLength = Math.ceil(bodyWidth/maxDepth*indentPercent);
             $ele.find(".list-group").css("margin-left", indentLength);
         }); 
     } 
@@ -2711,79 +2724,109 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
     'use strict';
     
     var jquery = $;
-    var itemNum = 0;
+    var isPopped = [];
 
-    function showHideHandler($multiselect, $popDisplay, onClose) {
-        var $searchBar = $multiselect.find(".JSM-head .JSM-search .JSM-searchbar");
-        $searchBar.on("focus", function() {
-            $popDisplay.empty();
-            $popDisplay.collapse("hide");
-        // Display list when search bar is on focus 
-            $multiselect.find(".JSM-list.collapse").collapse("show");
-            spaceIndent.refresh($multiselect);
-        });
-        var $close = $multiselect.find(".JSM-head .JSM-closePopList");
-        $close.on("click", function() {
-        // Hide list when ClosePoplist is clicked and show the selected items as popovers
-            $multiselect.find(".JSM-list.collapse").collapse("hide");
-            $popDisplay.empty();
-            $popDisplay.collapse("show");
-            searchHelper.clearSearch($multiselect);
-            if (onClose != null) onClose();
-        });
-    }
-        // Function to Display popovers after selection
-    function Popup(item, $popDisplay){
-        $popDisplay.append(
+    // Function to Display popovers after selection
+    function Popup(item, $multiselect){
         // Popover Basic style
+        var poppedItem = $(            
             '<span class="JSM-popover">'+
                 item["@name"] +
-                '<span id="JSM-closePopover-'+itemNum+'" class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
+                '<span class="fa fa-times JSM-closePopover" style="margin-left: 10px"aria-hidden="true"></span>' +
             '</span>'
         );
-    
+        $multiselect.find(".JSM-popoverDisplay").append(poppedItem);
 
-        (function() {
-            var Item = item;
-            var selector = '#JSM-closePopover-'+itemNum;
-            $(".JSM-body " + selector).on("click", function() {
-                setData.setSelectedForItem(Item, false, true);
-                $(this).parent().remove();
-            });
-        }());
+        isPopped.push({
+            remove: (function() {
+                var Item = item;
+                var ItemCheckbox = item['@element'].find(".JSM-checkbox");
+                var PoppedItem = poppedItem;
 
-        itemNum += 1;
+                var remove = function(userInit) {
+                    if (PoppedItem != null && Item != null) {
+                        PoppedItem.remove();
+                        if (userInit == true)
+                            setData.setSelectedForItem(Item, false);
+
+                        var items = isPopped.map(function(p) { return p.item; });
+                        var itemIndex = items.indexOf(Item);
+                        if (itemIndex >= 0)
+                            isPopped.splice(itemIndex, 1);
+                    }
+                };
+                PoppedItem.find(".JSM-closePopover").on("click", function() { remove(true); });
+                return remove;
+            }()),
+            item: item
+        });
     }
 
-    // Display selected items as Popovers
-    function displaySelectedInPopover(data, popup) {
-        for(var i in data){
-            var item = data[i];
-            if (item["@selected"]) { 
-                if (popup != null)
-                    popup(item);
-            } 
-    // Display only the selected children items if it's parent is not selected
-            else if (item["@isHeader"]){
-                displaySelectedInPopover(item["@children"], popup);
-            }
-        }
-    }
     //Handler function to retrieve data
     function handler(multiName, $multiselect, settings) {
-        var data = getData.getDataByName(multiName);
-        var $popDisplay = $multiselect.find(".JSM-body .JSM-popoverDisplay").first();
 
-        showHideHandler($multiselect, $popDisplay, function() {
-            data = getData.getDataByName(multiName);
-            displaySelectedInPopover(data, function(item) {
-                Popup(item, $popDisplay);
-            });
+        var timeoutVar = null;
+
+        var showList = function(event) {
+            $multiselect.find(".JSM-list").collapse("show");
+            if (timeoutVar != null) {
+                clearTimeout(timeoutVar);
+                timeoutVar = null;
+            }
+        };
+
+        //Display the list of items only when the focus is ON
+        $multiselect.on("mouseenter", "*", showList);
+        $multiselect.on("mouseenter", showList);
+        //Hide the list when the focus goes off the multiselect
+        $multiselect.on("mouseleave", function(){
+            timeoutVar = setTimeout(function() {
+                $multiselect.find(".JSM-list").collapse("hide");
+            }, 500);
+
         });
 
-        displaySelectedInPopover(data, function(item) {
-            Popup(item, $popDisplay);
-        });        
+        var onCheckboxChange = function() {
+            var data = getData.getDataByName(multiName);
+            var shouldBePopped = [];
+            var recurseChildren = function(data) {
+                if (data == null) return [];
+                var rv = [];
+                for (var i in data) {
+                    if (data[i] != null && data[i]['@selected']) {
+                        rv.push(data[i]);
+                    } else if (data[i]['@isHeader']) {
+                        rv = rv.concat(recurseChildren(data[i]['@children']));
+                    }
+                }
+                return rv;
+            };
+            shouldBePopped = recurseChildren(data);
+
+            var i;
+            for (i = 0 ; i < isPopped.length; i += 1) {
+                var index = -1;
+                // finds the index for those that should be popped
+                for (var should = 0; should < shouldBePopped.length; should += 1) {
+                    if (shouldBePopped[should]['@element'] == isPopped[i]['item']['@element']) {
+                        index = should;
+                    }
+                }
+                // if already popped, don't pop again
+                if (index >= 0) {
+                    shouldBePopped.splice(index, 1);
+                } else { // if isPopped should not be, remove it
+                    isPopped[i].remove();
+                    i -= 1; // adjusts the index
+                }
+            }
+            // all those that should be popped but are not need to be displayed
+            for (i = 0; i < shouldBePopped.length; i += 1) {
+                Popup(shouldBePopped[i], $multiselect);
+            }
+        }
+        $multiselect.on("change", ".JSM-list .JSM-checkbox", onCheckboxChange);
+        onCheckboxChange();
     }
 
     return handler;
@@ -2830,12 +2873,8 @@ define('style/body/cascadingSelect',['require',
     function registerCheckboxClick(name, $multiselect) {
         if (name == null) return;
 
-        $multiselect.on('click', keyCheckbox, function() {
-            event.stopPropagation(); // keep the drop down from expanding
-        });
-
-        $multiselect.on("change", keyNonheaders + " " + keyCheckbox, function() {
-            $(this).parents(".list-group").each(function() {
+        var selectItem = function(that, event) {
+            $(that).parents(".list-group").each(function() {
                 var $this = $(this);
                 var id = $this.prop("id");
                 var header = $this.siblings('[data-target="#'+id+'"]');
@@ -2849,29 +2888,58 @@ define('style/body/cascadingSelect',['require',
                         headerCheckbox.prop('checked', false).change();
                 }
             });
+        };
+
+        var selectHeader = function(that, event) {
+            var $this = $(that);
+            var isChecked = $this.is(':checked') === true;
+            var item = $this.parent();
+            var listId = item.data("target");
+            var list = $(listId);
+            var setItems = null;
+            if (isChecked) {
+                setItems = list.find(keyItem + " " + keyCheckbox + ":not(:checked)");
+            } else {
+                setItems = list.find(keyItem + " " + keyCheckbox + ":checked"); 
+            }
+            if (setItems != null)
+                setItems.prop('checked', isChecked).change();
+            selectItem(that, event);
+        };
+
+        $multiselect.on("click", keyHeaders + " " + keyCheckbox, function(event) {
+            
+            selectHeader(this, event);
+            // keep the drop down from expanding
+            event.stopPropagation();
+        });
+        $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
+            if (event.keyCode == 13)
+                selectHeader(this, event);
         });
 
-        $multiselect.on("change", keyHeaders + " " + keyCheckbox, function() {
-            var $this = $(this);
-            if ($this.is(":focus")) {
-                var isChecked = $(this).is(':checked');
-                var item = $this.parent();
-                var listId = item.data("target");
-                var list = $(listId);
-                var setItems = null;
-                if (isChecked) {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
-                } else {
-                    setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
-                }
-                if (setItems != null) setItems.prop('checked', isChecked).change();
-            }
+        
+        $multiselect.on("click", keyNonheaders + " " + keyCheckbox, function(event) {
+            selectItem(this, event);
         });
+
+        $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
+            if (event.keyCode == 13)
+                selectItem(this, event);
+        });
+
+        // trigger on change for selected
+        $multiselect.find(keyNonheaders + " " + keyCheckbox + ":checked").each(function() {
+            selectItem(this);
+        });
+        // find headers with unselected children and select them
         var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
+
         HeaderItems.each(function() {
-            $($(this).data("target")).find(keyNonheaders + " " + keyCheckbox).prop('checked', true);
+            $($(this).data("target")).find(keyCheckbox + ":not(:checked)").prop('checked', true).change();
         });
-        $multiselect.find(keyItem).find(keyCheckbox + ":checked").change();
+
+
     }
 
     return registerCheckboxClick;

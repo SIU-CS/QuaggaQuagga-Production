@@ -40,13 +40,12 @@ define(['require', 'jquery'],function (require) {
                 <span class="JSM-title navbar-brand"></span>
                 <span class="JSM-search">
                     <input class="JSM-searchbar form-control" type="text" placeholder="Search">
-                    <span class="fa fa-times JSM-closePopList" aria-hidden="true"></span>
                 </span>
             </div>
             <!-- MULTISELECT BODY -->
+            <div class="JSM-popoverDisplay">
+            </div>
             <div class="JSM-body">
-                <div class="JSM-popoverDisplay collapse in">
-                </div>
             <!-- List structure and base style Via, Marcos from stackoverflow at "https://jsfiddle.net/ann7tctp/" -->
                 <div class="JSM-list list-group-root collapse">
                     

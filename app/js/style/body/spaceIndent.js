@@ -15,8 +15,9 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
     function refresh($multiselect) {
         $multiselect.find(".list-group-root > .list-group").each(function() {
             var $ele = $(this);
+            var bodyWidth = $multiselect.find(".JSM-body").width();
             var maxDepth = nestedDepth($ele, ".list-group");
-            var indentLength = Math.ceil($ele.width()/maxDepth*indentPercent);
+            var indentLength = Math.ceil(bodyWidth/maxDepth*indentPercent);
             $ele.find(".list-group").css("margin-left", indentLength);
         }); 
     } 

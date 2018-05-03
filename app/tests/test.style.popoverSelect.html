@@ -139,7 +139,7 @@
                     console.warn('Too few/many items')
                 }
                 //warn if more than one/no checkbox is auto selected
-                if($('.JSM-list .JSM-checkbox:checked').length != 1) {
+                if($('.JSM-list .JSM-checkbox:checked').length < 1) {
                     success = false;
                     console.warn('Auto selected not working')
                 }
