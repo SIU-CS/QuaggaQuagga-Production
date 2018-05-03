@@ -980,7 +980,6 @@ function (require) {
         (function() {
             var Item = item;
             Item['@element'].find(".JSM-checkbox").on('change', function() {
-                console.log("a");
                 if (Item != null)
                     Item['@selected'] = this.checked;
             });
@@ -2929,11 +2928,18 @@ define('style/body/cascadingSelect',['require',
                 selectItem(this, event);
         });
 
-        var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
-        HeaderItems.each(function() {
-            $($(this).data("target")).find(keyCheckbox + ":not(:checked)").trigger("click");
+        // trigger on change for selected
+        $multiselect.find(keyNonheaders + " " + keyCheckbox + ":checked").each(function() {
+            selectItem(this);
         });
-        $multiselect.find(keyItem + " " + keyCheckbox + ":checked").change();
+        // find headers with unselected children and select them
+        var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
+
+        HeaderItems.each(function() {
+            $($(this).data("target")).find(keyCheckbox + ":not(:checked)").prop('checked', true).change();
+        });
+
+
     }
 
     return registerCheckboxClick;

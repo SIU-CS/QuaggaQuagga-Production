@@ -75,7 +75,6 @@ function (require) {
         (function() {
             var Item = item;
             Item['@element'].find(".JSM-checkbox").on('change', function() {
-                console.log("a");
                 if (Item != null)
                     Item['@selected'] = this.checked;
             });
