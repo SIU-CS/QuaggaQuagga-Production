@@ -75,6 +75,7 @@ function (require) {
         (function() {
             var Item = item;
             Item['@element'].find(".JSM-checkbox").on('change', function() {
+                console.log("a");
                 if (Item != null)
                     Item['@selected'] = this.checked;
             });
@@ -102,13 +103,7 @@ function (require) {
         checked = checked === true;
         if (item['@selected'] === checked) return;
         var ItemCheckbox = item['@element'].find(".JSM-checkbox");
-
-        if (item['@isHeader']) {
-            ItemCheckbox.trigger("click");
-        } else {
-            ItemCheckbox.prop("checked", checked);
-            ItemCheckbox.change();
-        }
+        ItemCheckbox.click();
     }
 
     return {

@@ -23,12 +23,8 @@ define(['require',
     function registerCheckboxClick(name, $multiselect) {
         if (name == null) return;
 
-        $multiselect.on('click', keyCheckbox, function() {
-            event.stopPropagation(); // keep the drop down from expanding
-        });
-
-        $multiselect.on("change", keyNonheaders + " " + keyCheckbox, function() {
-            $(this).parents(".list-group").each(function() {
+        var selectItem = function(that, event) {
+            $(that).parents(".list-group").each(function() {
                 var $this = $(this);
                 var id = $this.prop("id");
                 var header = $this.siblings('[data-target="#'+id+'"]');
@@ -42,35 +38,51 @@ define(['require',
                         headerCheckbox.prop('checked', false).change();
                 }
             });
-        });
+        };
 
-        var selectHeader = function(event) {
-            var $this = $(this);
-            var isChecked = $this.is(':checked');
+        var selectHeader = function(that, event) {
+            var $this = $(that);
+            var isChecked = $this.is(':checked') === true;
             var item = $this.parent();
             var listId = item.data("target");
             var list = $(listId);
             var setItems = null;
             if (isChecked) {
-                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":not(checked)");
+                setItems = list.find(keyItem + " " + keyCheckbox + ":not(:checked)");
             } else {
-                setItems = list.find(keyNonheaders + " " + keyCheckbox + ":checked");
+                setItems = list.find(keyItem + " " + keyCheckbox + ":checked"); 
             }
-            if (setItems != null) setItems.prop('checked', isChecked).change();
+            if (setItems != null)
+                setItems.prop('checked', isChecked).change();
+            selectItem(that, event);
         };
 
-
-        $multiselect.on("click", keyHeaders + " " + keyCheckbox, selectHeader);
+        $multiselect.on("click", keyHeaders + " " + keyCheckbox, function(event) {
+            
+            selectHeader(this, event);
+            // keep the drop down from expanding
+            event.stopPropagation();
+        });
         $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
             if (event.keyCode == 13)
-                selectHeader(event);
+                selectHeader(this, event);
+        });
+
+        
+        $multiselect.on("click", keyNonheaders + " " + keyCheckbox, function(event) {
+            selectItem(this, event);
+        });
+
+        $multiselect.on("keypress", keyHeaders + " " + keyCheckbox, function(event) {
+            if (event.keyCode == 13)
+                selectItem(this, event);
         });
 
         var HeaderItems = $multiselect.find(keyHeaders).has(keyCheckbox + ":checked");
         HeaderItems.each(function() {
-            $($(this).data("target")).find(keyNonheaders + " " + keyCheckbox).prop('checked', true);
+            $($(this).data("target")).find(keyCheckbox + ":not(:checked)").trigger("click");
         });
-        $multiselect.find(keyItem).find(keyCheckbox + ":checked").change();
+        $multiselect.find(keyItem + " " + keyCheckbox + ":checked").change();
     }
 
     return registerCheckboxClick;

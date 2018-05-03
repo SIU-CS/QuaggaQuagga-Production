@@ -22,10 +22,10 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
                 var ItemCheckbox = item['@element'].find(".JSM-checkbox");
                 var PoppedItem = poppedItem;
 
-                var remove = function(event) {
+                var remove = function(userInit) {
                     if (PoppedItem != null && Item != null) {
                         PoppedItem.remove();
-                        if (Item['@isHeader'] || event != null)
+                        if (userInit == true)
                             setData.setSelectedForItem(Item, false);
 
                         var items = isPopped.map(function(p) { return p.item; });
@@ -34,7 +34,7 @@ function(require, $, getData, setData, spaceIndent, searchHelper) {
                             isPopped.splice(itemIndex, 1);
                     }
                 };
-                PoppedItem.find(".JSM-closePopover").on("click", remove);
+                PoppedItem.find(".JSM-closePopover").on("click", function() { remove(true); });
                 return remove;
             }()),
             item: item
