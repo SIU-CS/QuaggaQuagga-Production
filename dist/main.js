@@ -3101,14 +3101,12 @@ function(require, CONSTS, $, multicolumnStyle, popoverStyle, cascadingSelect,
         else
             spaceIndent.setInit($multiselect, 1 / 6);
 
-        if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor === true)) {
+        if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor == true)) {
             textColor($multiselect, displaySettings.textColor);
-        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.darkDisplay === true)) {
+        } else if ((displaySettings.displayFadeColor != true || displaySettings.textColor != "") && (displaySettings.darkDisplay === true)) {
             textColor($multiselect, "#a29fa8");
-        } else if ((typeof displaySettings.textColor != "undefined" || displaySettings.textColor != "") && (displaySettings.displayFadeColor !== true) && (displaySettings.lightDisplay === true)) {
+        } else if ((displaySettings.displayFadeColor != true || displaySettings.textColor != "") && (displaySettings.lightDisplay === true)) {
             textColor($multiselect, "#0d0916");
-        } else {
-            textColor($multiselect, "#000000");
         }
 
         if ((typeof displaySettings.borderColor != "undefined" || displaySettings.borderColor != "") && (displaySettings.displayFadeColor === true)) {
