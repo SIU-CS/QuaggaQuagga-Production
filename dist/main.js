@@ -1562,7 +1562,8 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
      * Sets the sapce indentor for the specified multiselect
      * @param {Jquery element} $multiselect the multiselect 
      */
-    function refresh($multiselect, indentPercent) {
+    function refreshIndent($multiselect, indentPercent) {
+        if(indentPercent == null) indentPercent = initIndentPercent;
         $multiselect.find(".list-group-root > .list-group").each(function() {
             var $ele = $(this);
             var bodyWidth = $multiselect.find(".JSM-body").width();
@@ -1573,17 +1574,19 @@ define('style/body/spaceIndent',['require', 'jquery', 'utility/nestedDepth'], fu
     } 
     return {
         setInit: function($multiselect, localIndentPercent) {
-            if(localIndentPercent == null) localIndentPercent = initIndentPercent;
-            refresh($multiselect, localIndentPercent);
+            
+            refreshIndent($multiselect, localIndentPercent);
             (function() {
                 var $m = $multiselect;
                 var iP =  localIndentPercent;
                 $(window).resize(function(){
-                    refresh($m, iP);
+                    refreshIndent($m, iP);
                 });
             }());
         },
-        refresh: refresh
+        refresh: function() {
+            $(window).trigger('resize');
+        }
     };
 });
 define('sort/sortByAlpha',['require', 'jquery', 'data_store/get'], function (require) {
@@ -3287,7 +3290,7 @@ function(require, getData, $, fuzzySearch, textSearch) {
 
         // if there is no filterInterval defined in the search settings, default it to 0 for the purposes of the function
         if (searchSettings.filterInterval == null || searchSettings.filterInterval == '') {
-            searchSettings.filterInterval = 0;
+            searchSettings.filterInterval = 0.5;
         } else if (searchSettings.filterInterval > 1) {
             searchSettings.filterInterval /= 100;
         }

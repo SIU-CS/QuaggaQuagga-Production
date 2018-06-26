@@ -12,7 +12,8 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
      * Sets the sapce indentor for the specified multiselect
      * @param {Jquery element} $multiselect the multiselect 
      */
-    function refresh($multiselect, indentPercent) {
+    function refreshIndent($multiselect, indentPercent) {
+        if(indentPercent == null) indentPercent = initIndentPercent;
         $multiselect.find(".list-group-root > .list-group").each(function() {
             var $ele = $(this);
             var bodyWidth = $multiselect.find(".JSM-body").width();
@@ -23,16 +24,18 @@ define(['require', 'jquery', 'utility/nestedDepth'], function(require) {
     } 
     return {
         setInit: function($multiselect, localIndentPercent) {
-            if(localIndentPercent == null) localIndentPercent = initIndentPercent;
-            refresh($multiselect, localIndentPercent);
+            
+            refreshIndent($multiselect, localIndentPercent);
             (function() {
                 var $m = $multiselect;
                 var iP =  localIndentPercent;
                 $(window).resize(function(){
-                    refresh($m, iP);
+                    refreshIndent($m, iP);
                 });
             }());
         },
-        refresh: refresh
+        refresh: function() {
+            $(window).trigger('resize');
+        }
     };
 });

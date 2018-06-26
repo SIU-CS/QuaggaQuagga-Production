@@ -24,7 +24,7 @@
                     search: {
                         type: "fuzzy",
                         caseSensitive: true,
-                        filterInterval: 0.5
+                        filterInterval: 50
                     },
                     display: {
                         type: "singleColumn",
@@ -151,7 +151,7 @@
 
 
                 index += 1;
-                doSearch();
+                doSearch();               
             };
             function doSearch() {
                 if (index >= checkSearchValues.length) return showHideSuccess();

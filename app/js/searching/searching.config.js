@@ -20,7 +20,7 @@ function(require, getData, $, fuzzySearch, textSearch) {
 
         // if there is no filterInterval defined in the search settings, default it to 0 for the purposes of the function
         if (searchSettings.filterInterval == null || searchSettings.filterInterval == '') {
-            searchSettings.filterInterval = 0;
+            searchSettings.filterInterval = 0.5;
         } else if (searchSettings.filterInterval > 1) {
             searchSettings.filterInterval /= 100;
         }
