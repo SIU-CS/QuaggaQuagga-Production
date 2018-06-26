@@ -14,25 +14,28 @@ The purpose is to develop a backwards compatible JavaScript multiselect tool wit
 
 **Scrum Master:** Swathi Kaluvakuri  
 Student Email: swathi.kaluvakuri@siu.edu       
-Personal Email: kaluvakuri.swathi@gmail.com  <br/>
- 
-**Members:**<br/>
+Personal Email: kaluvakuri.swathi@gmail.com  
+  
+**Members:**  
 
 * Username: james-wasson   
 Email: jameswasson1@gmail.com   
-Student Email: james.wasson@siu.edu <br/>
-
+Student Email: james.wasson@siu.edu  
+  
 * Username: N3rdizm   
 Email: legograham23@gmail.com   
-Student Email: geturner@siu.edu  <br/>
-
+Student Email: geturner@siu.edu  
+  
 * Username: IndranilRoy80133   
 Email: iroy366@gmail.com   
-Student Email:indranil.roy@siu.edu  <br/>
-
+Student Email:indranil.roy@siu.edu  
+  
 * Username: adlevsky   
 Email: adlevsky@gmail.com   
-Student Email: alevsky@siu.edu  
+Student Email: alevsky@siu.edu 
+  
+**JS Fiddle:**  
+A JSFiddle for the project can be found [here](https://jsfiddle.net/james_wasson/jgmh1ozy/)  
 
 **This is a Quagga**<br/>
 ![A QUAGGA](https://github.com/SIU-CS/QuaggaQuagga-Production/blob/master/git-wiki/Quagga.jpg)

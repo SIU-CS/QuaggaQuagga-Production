@@ -1,0 +1,111 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <!-- data-main attribute tells require.js to load
+        scripts/main.js after require.js loads. -->
+        <script src="../../dist/main.js"></script>
+        <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "text",
+                        caseSensitive: true
+                    },
+                    display: {
+                        type: "singleColumn",
+                    }
+                }
+            }
+            // a test function
+            function loadData() {
+                var array = [
+                    { // a header
+                        "name": "Item A",
+                        "searchable": "search me",
+                        "selected": false,
+                        "image": "./quagga.jpg",
+                        "icon": "fa fa-chrome",
+                        "items": [
+                            { // list of items 
+                                "name": "Item B",
+                                "searchable": "search me",
+                                "selected": false,
+                                "value" : "1.1",
+                                "icon": "fa fa-chrome"
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item C",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item D",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item E",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item F",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            },
+                            { // item 1.2 is also a header 
+                                "name": "Item G",
+                                "searchable": "search me",
+                                "selected": false,
+                                "items" : [            
+                                    {  // list of items for 1.2
+                                        "name": "Item H",
+                                        "searchable": "search me",
+                                        "selected": false,
+                                        "value" : "1.2.1"
+                                    },
+                                    
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Item 2",
+                        "searchable": "search me",
+                        "selected": true,  
+                        "value" : "2" 
+                    }
+                ];
+               
+                return array;
+            }
+    </script>
+    </head>
+    <body>
+
+    <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData" data-settings="loadSettings" data-title="Pick A Country">
+    </div>
+    </body>
+</html>

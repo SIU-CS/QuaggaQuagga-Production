@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <script src="./loadData.js"></script>
+    </head>
+    <body>
+        <hr/>
+        <script>
+            function getDisplayData(data, type) {
+                if ($.isPlainObject(data) || $.isArray(data)) {
+                    if (type != "liveHTML") {
+                        return JSON.stringify(data, null, 2);
+                    } else {
+                        return $("<div/>").append($(data)).html();
+                    }
+                }
+                return data;
+            }
+            var template = function(loadFunction, loadFunctionPath, loadType) {
+                return `
+                <div class="inputContainer container fluid" data-loadtype="` + loadType + `">
+                    <div class="row">
+                        <h2 class="col-md-12">`+loadType+`</h2>    
+                    </div>
+                    <div class="row" style="height: 60px; text-align: center;">
+                        <div class="alert alert-success hidden success col-md-12" role="alert" style="height: 100%; padding: 0;">
+                            <h3>Test Succeeded!</h3>
+                        </div>
+                        <div class="alert alert-danger hidden failure col-md-12" role="alert" style="height: 100%; padding: 0;">
+                            <h3>Test Failed! Check Warnings</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="text-center">Input:</h3>
+                            <pre class="input">`
+                                + $('<div/>').text(getDisplayData(loadFunction(), loadType)).html() +
+                            `</pre>
+                        </div>
+                        
+                        <div class="col-md-6 ">
+                            <h3 class="text-center">Output:</h3>
+                            <!-- START MULTISELECT -->
+                            <div class="JSMultiselect" name="`+loadType+`" data-load-type="`+loadType+`" data-load="`+loadFunctionPath+`" data-title="` + loadType + ` Data"></div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>`
+            };
+            notTestedInputs = ['newData'];
+            for(var input in loadData) {
+                if (notTestedInputs.indexOf(input) < 0)
+                    document.write(template(loadData[input], "loadData." + input, input));
+            }
+        </script>
+        <script src="../../dist/main.js"></script>
+        <script>
+            JSMultiselect.onload.addCallback(function() {
+                $(".inputContainer").each(function(i, ele) {
+                    var $ele = $(ele);
+                    var success = true;
+                    //
+                    console.log("start data check of type: " + $ele.data("loadtype"));
+                    // few static test conditions 
+                    //warn if the no. of list groups is less than or greater than 3
+                    if($ele.find('.JSM-list .list-group').length != 3) {
+                        success = false;
+                        console.warn('Too few/many groups')
+                    }
+                    //warn if the no. of list group items is less than or greater than 5
+                    if($ele.find('.JSM-list .list-group-item').length != 5) {
+                        success = false;
+                        console.warn('Too few/many items')
+                    }
+                    //warn if more than one/no checkbox is auto selected
+                    if($ele.find('.JSM-list .JSM-checkbox:checked').length != 2) {
+                        success = false;
+                        console.warn('Auto selected not working')
+                    }
+                    if (success) {
+                        console.log("/************** No Warnings *****************/");
+                        $ele.find(".success").removeClass('hidden');
+                    } else {
+                        $ele.find(".failure").removeClass('hidden');
+                    }
+                    console.log(" ");
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="../lib/bootstrap-3.3.7/css/bootstrap-theme.min.css"/>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <!-- LESS -->
+        <link rel="stylesheet" href="../../dist/main.css">
+        <!-- JQuery -->
+        <script src="../lib/jquery-3.3.1.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="../lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+        <!-- data-main attribute tells require.js to load
+        scripts/main.js after require.js loads. -->
+        <script src="../../dist/main.js"></script>
+        <script src="./loadData.js"></script>
+        <script>
+            function loadSettings() {
+                return {
+                    search: {
+                        type: "text"
+                    },
+                    display: {
+                        type: "singleColumn"
+                    }
+                }
+            }
+    </script>
+    </head>
+    <body>
+        <div style="height: 60px; text-align: center;">
+            <div id="success" class="alert alert-success hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Succeeded!</h3>
+            </div>
+            <div id="failure" class="alert alert-danger hidden" role="alert" style="height: 100%; padding: 0;">
+                <h3>Test Failed! Check Warnings</h3>
+            </div>
+        </div>
+        <div class="container">
+            <div class="JSMultiselect" name="towns" data-load-type="array" data-load="loadData.array"  data-settings="loadSettings" data-title="Pick A Contry">
+        </div>
+        <script>
+            
+            JSMultiselect.onload.addCallback(function() {
+                $.ajax({
+                    url: 'https://raw.githubusercontent.com/SIU-CS/QuaggaQuagga-Production/dev/app/tests/loadData.js',
+                    type: 'GET',
+                    success: function(data) {
+                        eval(data);
+                        JSMultiselect.AddData.JSON("towns", loadData.newData);
+                        // check success or failure
+                        $(".list-group").collapse("show");
+                        if($(".list-group-item:visible").length != 7) {
+                            console.warn("Merge unsuccessful.");
+                            $("#failure").removeClass('hidden');
+                        } else {
+                            $("#success").removeClass('hidden');
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    </body>
+</html>
